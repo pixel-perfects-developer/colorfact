@@ -71,18 +71,27 @@ const UploadAnImage = () => {
   return (
     <>
     <div className="bg-[#faf5e7] min-h-screen ">
+      {/* Upload Box */}
+
       <div className="container-global  lg:w-[70%] mx-auto">
         {/* Upload Box */}
+        
+
+ {/* Color Picker */}
+             <ImageColorPicker/>
+               <br/>
+               
         <div
           className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[5%] cursor-pointer"
           onClick={() => fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
+               
           <div className="flex justify-center ">
             {imagePreview ? (
               <Image
-                src={imagePreview}
+                src={imagePreview||"/shirt.png"}
                 alt="uploaded-garment"
                 width={400}
                 height={400}
@@ -94,7 +103,7 @@ const UploadAnImage = () => {
                 alt="drag-drop-upload"
                 width={400}
                 height={400}
-                className="w-[80%] lg:w-[20%]"
+                className="w-[60%] lg:w-[20%]"
               />
             )}
           </div>
@@ -148,11 +157,12 @@ const UploadAnImage = () => {
           garments.
         </p>
       </div>
+      {/* Garment Analyzation Detail */}
     <div className="container-global ">
       <div className="container-global  lg:w-[70%] mx-auto">
         <div className="flex justify-center">
             <Image
-                src={imagePreview}
+                src={imagePreview || "/shirt.png" }
                 alt="uploaded-garment"
                 width={400}
                 height={400}
@@ -160,8 +170,8 @@ const UploadAnImage = () => {
               />
         </div>
         <div className="text-center mt-[2%]">
-        <h2>{selectedGarment}</h2>
-<p class="my-[1%]">
+        <h2>{selectedGarment|| "Baseball Tee Buisness Therapy"}</h2>
+<p className="my-[1%]">
  <data value="59.99">€40.00</data>
 </p>
 <p>100% cotton / Screen print logo</p>
@@ -171,10 +181,12 @@ const UploadAnImage = () => {
 
       </div>
     </div>
+
+    {/* Filteration Parts of Products By Color */}
       <OutfitFilterUI/>
-      <PrductPage/>
-      <ImageColorPicker/>
+      {/* Product Section with color and sizes  */}
     </div>
+      <PrductPage/>
 
     </>
 

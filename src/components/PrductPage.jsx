@@ -25,9 +25,9 @@ const [selectedIndex, setSelectedIndex] = useState(0);
   const [liked, setLiked] = useState(false);
 
   return (
-    <div className="container-global flex flex-col md:flex-row justify-center gap-x-[10%] bg-white">
+    <div className="container-global flex flex-col md:flex-row justify-center  md:gap-x-[4%] lg:gap-x-[10%]  bg-white">
       {/* 🖼️ Left Section: Main Image + Thumbnails */}
-      <div className="flex gap-6 w-[40%] ">
+      <div className="flex gap-6 w-full lg:w-[40%] p-[1rem] lg:p-0">
         {/* Thumbnails */}
 
            {/* Main Image */}
@@ -61,7 +61,7 @@ const [selectedIndex, setSelectedIndex] = useState(0);
       </div>
 
       {/* 📋 Right Section: Product Details */}
-      <div className="flex flex-col w-full md:w-[25%] border border-[#D9D9D9] rounded-md p-[2%] relative">
+      <div className="flex flex-col mt-[1rem] lg:mt-0 w-full lg:w-[25%] border border-[#D9D9D9] rounded-md p-[1rem] lg:p-[2%] relative">
      <button
         onClick={() => setLiked(!liked)}
         className="absolute top-0 right-3  rounded-full  transition mt-[2%]"

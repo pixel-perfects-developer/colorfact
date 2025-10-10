@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { SlidersHorizontal } from "lucide-react";
 
-// 🔹 Dummy Data
 const DummyData = {
   baseColors: [
     { name: "Blue", hex: "#2D5BFF" },
@@ -21,14 +21,42 @@ const DummyData = {
 
 // 🔹 Dummy Product List
 const allProducts = [
-  { id: 1, name: "Blue Casual Shirt", color: "Blue", brand: "Gucci", style: "Casual", price: 60, image: "/suit.png" },
-  { id: 2, name: "Gray Formal Pants", color: "Gray", brand: "Adidas", style: "Formal", price: 90, image: "/suit.png" },
-  { id: 3, name: "White Casual Tee", color: "White", brand: "Nike", style: "Casual", price: 40, image: "/suit.png" },
-  { id: 4, name: "Blue Sportswear Shorts", color: "Blue", brand: "Balenciaga", style: "Sportswear", price: 110,image: "/suit.png"},
-    { id: 5, name: "Blue Casual Shirt", color: "Blue", brand: "Gucci", style: "Casual", price: 60, image: "/suit.png" },
-  { id: 6, name: "Gray Formal Pants", color: "Gray", brand: "Adidas", style: "Formal", price: 90, image: "/suit.png" },
-  { id: 7, name: "White Casual Tee", color: "White", brand: "Nike", style: "Casual", price: 40, image: "/suit.png" },
-  { id: 8, name: "Blue Sportswear Shorts", color: "Blue", brand: "Balenciaga", style: "Sportswear", price: 110,image: "/suit.png"},
+  {
+    id: 1,
+    name: "Blue Casual Shirt",
+    color: "Blue",
+    brand: "Gucci",
+    style: "Casual",
+    price: 60,
+    image: "/suit.png",
+  },
+  {
+    id: 2,
+    name: "Gray Formal Pants",
+    color: "Gray",
+    brand: "Adidas",
+    style: "Formal",
+    price: 90,
+    image: "/suit.png",
+  },
+  {
+    id: 3,
+    name: "White Casual Tee",
+    color: "White",
+    brand: "Nike",
+    style: "Casual",
+    price: 40,
+    image: "/suit.png",
+  },
+  {
+    id: 4,
+    name: "Blue Sportswear Shorts",
+    color: "Blue",
+    brand: "Balenciaga",
+    style: "Sportswear",
+    price: 110,
+    image: "/suit.png",
+  },
 ];
 
 // 🎨 Color Adjust Helper
@@ -47,8 +75,8 @@ const OutfitFilterPage = () => {
   const [colorIntensity, setColorIntensity] = useState(
     DummyData.baseColors.map(() => 50)
   );
+  const [showFilters, setShowFilters] = useState(false);
 
-  // 🟡 Temporary filters (change instantly while user selects)
   const [tempFilters, setTempFilters] = useState({
     colors: [],
     brands: [],
@@ -56,14 +84,14 @@ const OutfitFilterPage = () => {
     style: [],
     price: [],
   });
-  const [appliedFilters, setAppliedFilters] = useState(tempFilters);
   const [filteredProducts, setFilteredProducts] = useState(allProducts);
-  const toggleSection = (id) =>
-    setOpenSection(openSection === id ? null : id);
+
+  const toggleSection = (id) => setOpenSection(openSection === id ? null : id);
+
   const handleCheckbox = (type, name, checked, extra = null) => {
     setTempFilters((prev) => {
       let updated = [...prev[type]];
-      if (extra && typeof extra === "object" && "min" in extra && "max" in extra) {
+      if (extra && "min" in extra && "max" in extra) {
         if (checked) updated.push(extra);
         else updated = updated.filter((item) => item.min !== extra.min);
       } else {
@@ -73,45 +101,30 @@ const OutfitFilterPage = () => {
       return { ...prev, [type]: updated };
     });
   };
+
   const applyFilters = () => {
-    setAppliedFilters(tempFilters);
     const filtered = allProducts.filter((p) => {
       const colorMatch =
-        tempFilters.colors.length === 0 ||
-        tempFilters.colors.includes(p.color);
-
+        tempFilters.colors.length === 0 || tempFilters.colors.includes(p.color);
       const brandMatch =
-        tempFilters.brands.length === 0 ||
-        tempFilters.brands.includes(p.brand);
-
+        tempFilters.brands.length === 0 || tempFilters.brands.includes(p.brand);
       const avoidMatch =
-        tempFilters.avoid.length === 0 ||
-        !tempFilters.avoid.includes(p.brand);
-
+        tempFilters.avoid.length === 0 || !tempFilters.avoid.includes(p.brand);
       const styleMatch =
-        tempFilters.style.length === 0 ||
-        tempFilters.style.includes(p.style);
-
+        tempFilters.style.length === 0 || tempFilters.style.includes(p.style);
       const priceMatch =
         tempFilters.price.length === 0 ||
         tempFilters.price.some(
-          (range) =>
-            range &&
-            typeof range === "object" &&
-            p.price >= range.min &&
-            p.price <= range.max
+          (range) => p.price >= range.min && p.price <= range.max
         );
       return colorMatch && brandMatch && avoidMatch && styleMatch && priceMatch;
     });
     setFilteredProducts(filtered);
+    setShowFilters(false); // close drawer after applying on mobile
   };
 
-  return (
-    <div className="container-global flex gap-x-[4%]">
-      {/* Sidebar */}
-      <aside className="w-[20%]">
-        <h3 className="mb-[2%]">Filters</h3>
-        {[
+  const renderFilterSections = () => (
+    <> {[
           { id: "color", title: "Color", data: DummyData.baseColors },
           { id: "brands", title: "Brands", data: DummyData.brands },
           { id: "avoid", title: "Brands to Avoid", data: DummyData.brandstoavoid },
@@ -285,30 +298,79 @@ const OutfitFilterPage = () => {
   SEARCH
 </button>
 
+    </>
+  );
+
+  return (
+    <div className="container-global flex flex-col md:flex-row gap-x-[4%] relative">
+      {/* 🟢 Mobile Filter Button */}
+      <button
+        className=" md:hidden flex justify-end"
+        onClick={() => setShowFilters(true)}
+      >
+        <SlidersHorizontal size={30}  />
+      </button>
+
+      {/* 🔹 Mobile Filter Drawer */}
+{showFilters && (
+  <div
+  className={`fixed inset-0 z-4000 lg:hidden bg-black/50 backdrop-blur-sm transition-opacity duration-500 ease-out ${
+    showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+  }`}
+  onClick={() => setShowFilters(false)}
+>
+  {/* Drawer */}
+  <div
+    className={`fixed top-0 right-0 md:hidden h-full w-[80%] bg-white shadow-2xl rounded-tl-2xl transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      showFilters
+        ? "translate-x-0 translate-y-0"
+        : "translate-x-full translate-y-2"
+    } overflow-y-auto p-4`}
+    onClick={(e) => e.stopPropagation()} // prevent backdrop close on inside click
+  >
+    {/* Header */}
+    <div className="flex justify-between items-center mb-4">
+      <h3 className="text-lg font-semibold">Filters</h3>
+      <button
+        className="text-gray-600 font-semibold"
+        onClick={() => setShowFilters(false)}
+      >
+        ✕
+      </button>
+    </div>
+
+    {/* Filter content */}
+    {renderFilterSections()}
+  </div>
+</div>
+
+)}
+
+
+      {/* 🔹 Desktop Sidebar */}
+      <aside className="hidden md:block md:w-[30%] lg:w-[20%] ">
+        <h3 className="mb-[2%] text-lg font-semibold">Filters</h3>
+        {renderFilterSections()}
       </aside>
 
-      {/* Product Grid */}
-      <main className="flex-1  grid grid-cols-4 gap-8">
+      {/* 🔹 Product Grid */}
+      <main className="flex-1 grid grid-cols-3 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-0 lg:gap-8 p-4 lg:p-0">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
-            <div
-              key={p.id}
-              className="  flex flex-col items-center "
-            >
-             <div className="bg-[#f2ede4] rounded-lg p-[2%] shadow-sm relative w-full aspect-[1/1]">
-  <Image
-    src={p.image}
-    alt={p.name}
-    fill       // 👈 replaces width/height, fully responsive inside parent
-    className="object-contain rounded-lg"
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-  />
-</div>
-              <h4 className="font-medium mt-[4%] ">{p.name}</h4>
+            <div key={p.id} className="flex flex-col items-center mt-[2rem] lg:mt-0">
+              <div className="bg-[#f2ede4] rounded-lg p-[2%] shadow-sm relative w-full h-[20rem] md:h-auto md:aspect-[1/1]">
+                <Image
+                  src={p.image}
+                  alt={p.name}
+                  fill
+                  className="object-contain rounded-lg"
+                />
+              </div>
+              <h4 className="font-bold mt-[1rem] lg:mt-[4%]">{p.name}</h4>
             </div>
           ))
         ) : (
-          <p className="text-gray-500 col-span-3 text-center">
+          <p className="text-gray-500 col-span-full text-center">
             No products found.
           </p>
         )}

@@ -61,7 +61,7 @@ const ImageColorPicker = () => {
   const handleMouseUp = () => setIsDragging(false);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F9F3E9] select-none">
+    <div className="flex flex-col items-center justify-center  bg-[#F9F3E9] select-none">
       <h3 className="text-sm font-semibold tracking-wide mb-5 uppercase text-gray-800">
         Pick Color by Click or Drag
       </h3>
@@ -80,6 +80,7 @@ const ImageColorPicker = () => {
         ></canvas>
 
         {/* Underlying image */}
+        <div className="flex justify-between gap-x-2" >
         <img
           ref={imgRef}
           src="/palette.png"
@@ -87,6 +88,21 @@ const ImageColorPicker = () => {
           className="w-full h-full object-contain rounded-md border border-gray-300"
           draggable="false"
         />
+
+      {/* Selected color preview */}
+      {/* {selectedColor && (
+        <div className="mt-6 text-center">
+          <div
+            className="w-12 h-12 mx-auto border-2 border-black rounded-sm"
+            style={{ backgroundColor: selectedColor }}
+          ></div>
+          <p className="text-gray-700 text-sm mt-2">
+            Selected Color:{" "}
+            <span className="font-semibold">{selectedColor}</span>
+          </p>
+        </div>
+      )} */}
+        </div>
 
         {/* Marker */}
         {selectedPos && (
@@ -101,19 +117,6 @@ const ImageColorPicker = () => {
         )}
       </div>
 
-      {/* Selected color preview */}
-      {selectedColor && (
-        <div className="mt-6 text-center">
-          <div
-            className="w-12 h-12 mx-auto border-2 border-black rounded-sm"
-            style={{ backgroundColor: selectedColor }}
-          ></div>
-          <p className="text-gray-700 text-sm mt-2">
-            Selected Color:{" "}
-            <span className="font-semibold">{selectedColor}</span>
-          </p>
-        </div>
-      )}
     </div>
   );
 };
