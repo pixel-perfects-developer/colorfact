@@ -24,7 +24,7 @@ const FormSelect = forwardRef(
  } bg-white
                        transition-all duration-200 focus:outline-none flex items-center justify-between`}
           >
-            <span>{selectedLabel || "Select Category"}</span>
+            <span>{selectedCategory || "Select Category"}</span>
 
             {/* Arrow Icon */}
             <svg
@@ -57,7 +57,7 @@ const FormSelect = forwardRef(
               <div
                 key={item.id}
                 onClick={() => {
-                  handleSelectChange(item.id);
+                  handleSelectChange(item.name);
                   setOpen(false);
                 }}
                 className={`p-[1rem] text-sm text-white cursor-pointer transition-colors duration-150 ${

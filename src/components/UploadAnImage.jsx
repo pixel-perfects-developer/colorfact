@@ -2,6 +2,9 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import FormSelect from "./FormSelect";
+import OutfitFilterUI from "./OutfitFilterUI";
+import PrductPage from "./PrductPage";
+import ImageColorPicker from "./ColorPicker";
 
 const UploadAnImage = () => {
   // Garment Dropdown States
@@ -33,7 +36,6 @@ const UploadAnImage = () => {
     { id: 3, name: "Mixed" },
   ];
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handler = (e) => {
       if (garmentRef.current && !garmentRef.current.contains(e.target)) {
@@ -65,8 +67,9 @@ const UploadAnImage = () => {
   };
 
   const handleDragOver = (e) => e.preventDefault();
-
+ console.log("selectedGarment",selectedGarment);
   return (
+    <>
     <div className="bg-[#faf5e7] min-h-screen ">
       <div className="container-global  lg:w-[70%] mx-auto">
         {/* Upload Box */}
@@ -83,7 +86,7 @@ const UploadAnImage = () => {
                 alt="uploaded-garment"
                 width={400}
                 height={400}
-                className="w-[80%] lg:w-[40%]"
+                className="w-[80%] lg:w-[30%]"
               />
             ) : (
               <Image
@@ -91,14 +94,12 @@ const UploadAnImage = () => {
                 alt="drag-drop-upload"
                 width={400}
                 height={400}
-                className="w-[80%] lg:w-[40%]"
+                className="w-[80%] lg:w-[20%]"
               />
             )}
           </div>
           <p className="text-center mt-[2rem] lg:mt-[2%] w-[80%] lg:w-[40%] mx-auto text-gray-700">
-            {imagePreview
-              ? "Your garment image has been uploaded locally."
-              : "Drag-and-drop a photo of your favorite garment and discover what to pair it with!"}
+            {!imagePreview && "Drag-and-drop a photo of your favorite garment and discover what to pair it with!"}
           </p>
 
           {/* Hidden input for upload */}
@@ -147,7 +148,36 @@ const UploadAnImage = () => {
           garments.
         </p>
       </div>
+    <div className="container-global ">
+      <div className="container-global  lg:w-[70%] mx-auto">
+        <div className="flex justify-center">
+            <Image
+                src={imagePreview}
+                alt="uploaded-garment"
+                width={400}
+                height={400}
+                className="w-[80%] lg:w-[30%]"
+              />
+        </div>
+        <div className="text-center mt-[2%]">
+        <h2>{selectedGarment}</h2>
+<p class="my-[1%]">
+ <data value="59.99">€40.00</data>
+</p>
+<p>100% cotton / Screen print logo</p>
+<p className="my-[1%]">FINESSE MENTALITY</p>
+<button className="btn-purple mt-[1%]">Product Link</button>
+        </div>
+
+      </div>
     </div>
+      <OutfitFilterUI/>
+      <PrductPage/>
+      <ImageColorPicker/>
+    </div>
+
+    </>
+
   );
 };
 
