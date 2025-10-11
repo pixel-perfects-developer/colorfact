@@ -45,7 +45,7 @@ const FormSelect = forwardRef(
             </svg>
           </button>
           <div
-            className={`absolute left-0 w-full bg-[#00cfaa] rounded-bl-[0.45rem] rounded-br-[0.45rem]
+            className={`absolute left-0 w-full bg-[#008cff] rounded-bl-[0.45rem] rounded-br-[0.45rem]
                         shadow-md overflow-hidden z-[50]
                         transition-all duration-300 origin-top ${
                           open
@@ -60,10 +60,10 @@ const FormSelect = forwardRef(
                   handleSelectChange(item.name);
                   setOpen(false);
                 }}
-                className={`p-[1rem] text-sm text-white cursor-pointer transition-colors duration-150 ${
-                  selectedCategory === item.id
-                    ? "bg-[#292a76] font-medium"
-                    : "bg-[#00cfaa]"
+                className={`p-[1rem] text-sm  cursor-pointer transition-colors duration-150 ${
+selectedCategory?.trim().toLowerCase() === item.name.toLowerCase()
+                    ? "bg-[#F16935] font-medium text-white"
+                    : "bg-[#fff] text-black"
                 }`}
               >
                 {item.name}

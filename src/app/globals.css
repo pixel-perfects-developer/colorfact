@@ -13,22 +13,18 @@
   /* ✅ This must be linked to Next.js font variable directly (from layout) */
   --font-inter: 'Inter', sans-serif;
 
-  /* Custom Colors */
-  --color-black: #000000;
-  --color-primary-green: #00cfaa;
 }
 
 /* ----------------------------- */
 /* ✅ Tailwind Theme Extension */
 /* ----------------------------- */
-@theme inline {
-  /* Colors */
+/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primaryBlue: var(--color-black);
   --color-primaryGreen: var(--color-primary-green);
   --font-sans: var(--font-inter);
-}
+} */
 
 html {
   scroll-behavior: smooth !important;
@@ -124,7 +120,9 @@ body {
 }
 }
 
-
+button{
+  cursor: pointer;
+}
 @media (max-width: 900px) {
   h1 {
     font-size: 1.5rem;
