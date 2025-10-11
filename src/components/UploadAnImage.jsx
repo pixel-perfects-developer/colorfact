@@ -2,26 +2,22 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import FormSelect from "./FormSelect";
-import OutfitFilterUI from "./OutfitFilterUI";
-import PrductPage from "./PrductPage";
-import ImageColorPicker from "./ColorPicker";
 
 const UploadAnImage = () => {
-  // Garment Dropdown States
+  // Dropdown open states
   const [openGarment, setOpenGarment] = useState(false);
   const [selectedGarment, setSelectedGarment] = useState(null);
   const garmentRef = useRef();
 
-  // Gender Dropdown States
   const [openGender, setOpenGender] = useState(false);
   const [selectedGender, setSelectedGender] = useState(null);
   const genderRef = useRef();
 
-  // 🔹 Local image preview
+  // Image preview state
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Dummy Data
+  // Options data
   const Garments = [
     { id: 1, name: "T-shirts" },
     { id: 2, name: "Jackets" },
@@ -36,6 +32,7 @@ const UploadAnImage = () => {
     { id: 3, name: "Mixed" },
   ];
 
+  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
       if (garmentRef.current && !garmentRef.current.contains(e.target)) {
@@ -49,53 +46,45 @@ const UploadAnImage = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Handle file upload
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setImagePreview(url);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
+  // Handle drag and drop
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setImagePreview(url);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
-
   const handleDragOver = (e) => e.preventDefault();
- console.log("selectedGarment",selectedGarment);
+
+  // Debug selected garment
+  console.log("selectedGarment", selectedGarment);
+
   return (
-    <>
-    <div className="bg-[#faf5e7] min-h-screen ">
-      {/* Upload Box */}
-
-      <div className="container-global  lg:w-[70%] mx-auto">
-        {/* Upload Box */}
-        
-
- {/* Color Picker */}
-             <ImageColorPicker/>
-               <br/>
-               
+    <div className="bg-[#faf5e7] min-h-screen">
+      <div className="container-global lg:w-[70%] mx-auto">
+        {/* Upload area */}
         <div
           className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[5%] cursor-pointer"
           onClick={() => fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
-               
-          <div className="flex justify-center ">
+          <div className="flex justify-center">
             {imagePreview ? (
               <Image
-                src={imagePreview||"/shirt.png"}
+                src={imagePreview}
                 alt="uploaded-garment"
                 width={400}
                 height={400}
-                className="w-[80%] lg:w-[30%]"
+                className="w-[80%] md:w-[30%]"
               />
             ) : (
               <Image
@@ -103,15 +92,14 @@ const UploadAnImage = () => {
                 alt="drag-drop-upload"
                 width={400}
                 height={400}
-                className="w-[60%] lg:w-[20%]"
+                className="w-[80%] md:w-[30%]"
               />
             )}
           </div>
           <p className="text-center mt-[2rem] lg:mt-[2%] w-[80%] lg:w-[40%] mx-auto text-gray-700">
-            {!imagePreview && "Drag-and-drop a photo of your favorite garment and discover what to pair it with!"}
+            {!imagePreview &&
+              "Drag-and-drop a photo of your favorite garment and discover what to pair it with!"}
           </p>
-
-          {/* Hidden input for upload */}
           <input
             type="file"
             accept="image/*"
@@ -121,7 +109,7 @@ const UploadAnImage = () => {
           />
         </div>
 
-        {/* Garment Type Dropdown */}
+        {/* Garment dropdown */}
         <div className="mt-[2rem] lg:mt-[2%]">
           <FormSelect
             ref={garmentRef}
@@ -134,7 +122,7 @@ const UploadAnImage = () => {
           />
         </div>
 
-        {/* Gender Dropdown */}
+        {/* Gender dropdown */}
         <div className="mt-[2rem] lg:mt-[2%]">
           <FormSelect
             ref={genderRef}
@@ -147,49 +135,16 @@ const UploadAnImage = () => {
           />
         </div>
 
-        {/* Button */}
+        {/* Submit button */}
         <div className="flex justify-center mt-[2rem] lg:mt-[4%]">
           <button className="btn-slider lg:py-[1%]">Analyze My Garment</button>
         </div>
 
         <p className="text-center mt-[2rem] lg:mt-[2%]">
-          We analyze the colors and style of your item to suggest matching
-          garments.
+          We analyze the colors and style of your item to suggest matching garments.
         </p>
       </div>
-      {/* Garment Analyzation Detail */}
-    <div className="container-global ">
-      <div className="container-global  lg:w-[70%] mx-auto">
-        <div className="flex justify-center">
-            <Image
-                src={imagePreview || "/shirt.png" }
-                alt="uploaded-garment"
-                width={400}
-                height={400}
-                className="w-[80%] lg:w-[30%]"
-              />
-        </div>
-        <div className="text-center mt-[2%]">
-        <h2>{selectedGarment|| "Baseball Tee Buisness Therapy"}</h2>
-<p className="my-[1%]">
- <data value="59.99">€40.00</data>
-</p>
-<p>100% cotton / Screen print logo</p>
-<p className="my-[1%]">FINESSE MENTALITY</p>
-<button className="btn-purple mt-[1%]">Product Link</button>
-        </div>
-
-      </div>
     </div>
-
-    {/* Filteration Parts of Products By Color */}
-      <OutfitFilterUI/>
-      {/* Product Section with color and sizes  */}
-    </div>
-      <PrductPage/>
-
-    </>
-
   );
 };
 
