@@ -138,8 +138,8 @@ const UploadAnImage = () => {
 
         {/* Submit button */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
-                    <Link href={"/product-analyzation"}>
-          <button className="btn-slider xl:w-[10vw] lg:w-[15vw] ">Analyze My Garment</button></Link>
+           <Link href={"/product-analyzation"}>
+          <button className="btn-orange xl:w-[10vw] lg:w-[15vw] ">Analyze My Garment</button></Link>
         </div>
 
         <p className="text-center mt-[2rem] lg:mt-[2%]">
