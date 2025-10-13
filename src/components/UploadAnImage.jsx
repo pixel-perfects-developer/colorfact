@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import FormSelect from "./FormSelect";
+import Link from "next/link";
 
 const UploadAnImage = () => {
   // Dropdown open states
@@ -72,7 +73,7 @@ const UploadAnImage = () => {
       <div className="container-global lg:w-[70%] mx-auto">
         {/* Upload area */}
         <div
-          className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[5%] cursor-pointer"
+          className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[5%]  mb-[2%] cursor-pointer"
           onClick={() => fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -110,7 +111,7 @@ const UploadAnImage = () => {
         </div>
 
         {/* Garment dropdown */}
-        <div className="mt-[2rem] lg:mt-[2%]">
+        <div className="mt-[2rem] lg:mt-[1%] w-full">
           <FormSelect
             ref={garmentRef}
             open={openGarment}
@@ -122,8 +123,8 @@ const UploadAnImage = () => {
           />
         </div>
 
-        {/* Gender dropdown */}
-        <div className="mt-[2rem] lg:mt-[2%]">
+        {/* Gender Dropdown */}
+        <div className="mt-[2rem] lg:mt-[1%] w-full">
           <FormSelect
             ref={genderRef}
             open={openGender}
@@ -136,8 +137,9 @@ const UploadAnImage = () => {
         </div>
 
         {/* Submit button */}
-        <div className="flex justify-center mt-[2rem] lg:mt-[4%]">
-          <button className="btn-slider lg:py-[1%]">Analyze My Garment</button>
+        <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
+           <Link href={"/product-analyzation"}>
+          <button className="btn-orange xl:w-[10vw] lg:w-[15vw] ">Analyze My Garment</button></Link>
         </div>
 
         <p className="text-center mt-[2rem] lg:mt-[2%]">

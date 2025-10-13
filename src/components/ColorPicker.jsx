@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import FormSelect from "./FormSelect";
+import Link from "next/link";
 
 const ImageColorPicker = () => {
   const canvasRef = useRef(null);
@@ -112,12 +113,13 @@ const ImageColorPicker = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-[#F9F3E9] py-10 select-none">
+    <div className="bg-[#F9F3E9] ">
+    <div className="flex flex-col items-center container-global justify-center   select-none">
       <h3 className="text-sm font-semibold tracking-wide mb-5 uppercase text-gray-800">
         Pick Color by Click or Drag
       </h3>
 
-      <div className="relative w-[400px] h-[250px]">
+      <div className="relative w-[400px] h-[250px] mb-[2%]">
         {/* Canvas overlay */}
         <canvas
           ref={canvasRef}
@@ -143,7 +145,7 @@ const ImageColorPicker = () => {
           <div
             className="absolute w-4 h-4 border-2 border-white rounded-full pointer-events-none shadow-md"
             style={{
-              backgroundColor: selectedColor,
+              // backgroundColor: selectedColor,
               left: selectedPos.x - 8,
               top: selectedPos.y - 8,
             }}
@@ -165,7 +167,7 @@ const ImageColorPicker = () => {
       )} */}
       
         {/* Garment Type Dropdown */}
-        <div className="mt-[2rem] lg:mt-[2%]">
+        <div className="mt-[2rem] lg:mt-[1%] w-full">
           <FormSelect
             ref={garmentRef}
             open={openGarment}
@@ -178,7 +180,7 @@ const ImageColorPicker = () => {
         </div>
 
         {/* Gender Dropdown */}
-        <div className="mt-[2rem] lg:mt-[2%]">
+        <div className="mt-[2rem] lg:mt-[1%] w-full">
           <FormSelect
             ref={genderRef}
             open={openGender}
@@ -191,10 +193,15 @@ const ImageColorPicker = () => {
         </div>
 
         {/* Button */}
-        <div className="flex justify-center mt-[2rem] lg:mt-[4%]">
-          <button className="btn-slider lg:py-[1%]">Analyze My Garment</button>
+        <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
+          <Link href={"/product-analyzation"}>
+          <button className="btn-orange xl:w-[10vw] lg:w-[15vw]">Analyze My Garment</button>
+          </Link>
+
         </div>
     </div>
+    </div>
+
   );
 };
 
