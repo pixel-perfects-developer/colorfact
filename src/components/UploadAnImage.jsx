@@ -18,21 +18,19 @@ const UploadAnImage = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Options data
-  const Garments = [
+ const Garments = [
     { id: 1, name: "T-shirts" },
-    { id: 2, name: "Jackets" },
-    { id: 3, name: "Pants" },
-    { id: 4, name: "Dresses" },
-    { id: 5, name: "Sweaters" },
+    { id: 2, name: "Vestes" },
+    { id: 3, name: "Pantalons" },
+    { id: 4, name: "Robes" },
+    { id: 5, name: "Pulls" },
   ];
 
   const Gender = [
-    { id: 1, name: "Men" },
-    { id: 2, name: "Women" },
-    { id: 3, name: "Mixed" },
+    { id: 1, name: "Homme" },
+    { id: 2, name: "Femme" },
+    { id: 3, name: "Mixte" },
   ];
-
   // Close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
@@ -73,7 +71,7 @@ const UploadAnImage = () => {
       <div className="container-global lg:w-[70%] mx-auto">
         {/* Upload area */}
         <div
-          className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[5%]  mb-[2%] cursor-pointer"
+          className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[3%]  mb-[2%] cursor-pointer"
           onClick={() => fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -85,7 +83,7 @@ const UploadAnImage = () => {
                 alt="uploaded-garment"
                 width={400}
                 height={400}
-                className="w-[80%] md:w-[30%]"
+                className="w-[80%] md:w-[30%] lg:w-[20%]"
               />
             ) : (
               <Image
@@ -93,7 +91,7 @@ const UploadAnImage = () => {
                 alt="drag-drop-upload"
                 width={400}
                 height={400}
-                className="w-[80%] md:w-[30%]"
+                className="w-[80%] md:w-[30%] lg:w-[20%]"
               />
             )}
           </div>
@@ -116,20 +114,20 @@ const UploadAnImage = () => {
             ref={garmentRef}
             open={openGarment}
             setOpen={setOpenGarment}
-            selectedLabel={"Select Garment"}
+            selectedLabel={"Sélectionner un vêtement"}
             MainService={Garments}
             handleSelectChange={setSelectedGarment}
             selectedCategory={selectedGarment}
           />
         </div>
 
-        {/* Gender Dropdown */}
+        {/* Sélecteur de genre */}
         <div className="mt-[2rem] lg:mt-[1%] w-full">
           <FormSelect
             ref={genderRef}
             open={openGender}
             setOpen={setOpenGender}
-            selectedLabel={"Select Gender"}
+            selectedLabel={"Sélectionner un genre"}
             MainService={Gender}
             handleSelectChange={setSelectedGender}
             selectedCategory={selectedGender}
@@ -139,11 +137,11 @@ const UploadAnImage = () => {
         {/* Submit button */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
            <Link href={"/product-analyzation"}>
-          <button className="btn-orange xl:w-[10vw] lg:w-[15vw] ">Analyze My Garment</button></Link>
+          <button className="btn-orange  ">Analyser mon vêtement</button></Link>
         </div>
 
         <p className="text-center mt-[2rem] lg:mt-[2%]">
-          We analyze the colors and style of your item to suggest matching garments.
+          Nous analysons les couleurs et le style de votre article afin de vous suggérer des vêtements assortis.
         </p>
       </div>
     </div>

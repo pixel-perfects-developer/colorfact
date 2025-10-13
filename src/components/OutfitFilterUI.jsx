@@ -6,61 +6,61 @@ import { useRouter } from "next/navigation";
 
 const DummyData = {
   baseColors: [
-    { name: "Blue", hex: "#2D5BFF" },
-    { name: "Gray", hex: "#8A8A8A" },
-    { name: "White", hex: "#F4F4F4" },
+    { name: "Bleu", hex: "#2D5BFF" },
+    { name: "Gris", hex: "#8A8A8A" },
+    { name: "Blanc", hex: "#F4F4F4" },
   ],
   brands: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
   brandstoavoid: [{ name: "Gucci" }, { name: "Balenciaga" }],
   price: [
-    { label: "$0 - $50", min: 0, max: 50 },
-    { label: "$50 - $100", min: 50, max: 100 },
-    { label: "$100 - $200", min: 100, max: 200 },
+    { label: "€0 - €50", min: 0, max: 50 },
+    { label: "€50 - €100", min: 50, max: 100 },
+    { label: "€100 - €200", min: 100, max: 200 },
   ],
-  style: [{ name: "Casual" }, { name: "Formal" }, { name: "Sportswear" }],
+  style: [{ name: "Décontracté" }, { name: "Formel" }, { name: "Sportif" }],
 };
 
-// 🔹 Dummy Product List
+// 🔹 Liste de produits factices
 const allProducts = [
   {
     id: 1,
-    name: "Blue Casual Shirt",
-    color: "Blue",
+    name: "Chemise Bleue Décontractée",
+    color: "Bleu",
     brand: "Gucci",
-    style: "Casual",
+    style: "Décontracté",
     price: 60,
     image: "/suit.png",
   },
   {
     id: 2,
-    name: "Gray Formal Pants",
-    color: "Gray",
+    name: "Pantalon Gris Formel",
+    color: "Gris",
     brand: "Adidas",
-    style: "Formal",
+    style: "Formel",
     price: 90,
     image: "/suit.png",
   },
   {
     id: 3,
-    name: "White Casual Tee",
-    color: "White",
+    name: "T-shirt Blanc Décontracté",
+    color: "Blanc",
     brand: "Nike",
-    style: "Casual",
+    style: "Décontracté",
     price: 40,
     image: "/suit.png",
   },
   {
     id: 4,
-    name: "Blue Sportswear Shorts",
-    color: "Blue",
+    name: "Short Bleu de Sport",
+    color: "Bleu",
     brand: "Balenciaga",
-    style: "Sportswear",
+    style: "Sportif",
     price: 110,
     image: "/suit.png",
   },
 ];
 
-// 🎨 Color Adjust Helper
+// 🎨 Fonction d’ajustement des couleurs
 const adjustColor = (hex, percent) => {
   let r = parseInt(hex.substring(1, 3), 16);
   let g = parseInt(hex.substring(3, 5), 16);
@@ -128,14 +128,14 @@ const OutfitFilterPage = () => {
   const renderFilterSections = () => (
     <>
       {[
-        { id: "color", title: "Color", data: DummyData.baseColors },
-        { id: "brands", title: "Brands", data: DummyData.brands },
-        { id: "avoid", title: "Brands to Avoid", data: DummyData.brandstoavoid },
-        { id: "price", title: "Price", data: DummyData.price },
+        { id: "color", title: "Couleur", data: DummyData.baseColors },
+        { id: "brands", title: "Marques", data: DummyData.brands },
+        { id: "avoid", title: "Marques à éviter", data: DummyData.brandstoavoid },
+        { id: "price", title: "Prix", data: DummyData.price },
         { id: "style", title: "Style", data: DummyData.style },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%]">
-          {/* Header */}
+          {/* En-tête */}
           <div
             onClick={() => toggleSection(section.id)}
             className="flex items-center justify-between cursor-pointer mb-[2%]"
@@ -159,7 +159,7 @@ const OutfitFilterPage = () => {
             </svg>
           </div>
 
-          {/* Collapsible Section */}
+          {/* Section déroulante */}
           <div
             className={`transition-all duration-500 ease-in-out overflow-hidden ${
               openSection === section.id
@@ -167,7 +167,7 @@ const OutfitFilterPage = () => {
                 : "max-h-0 opacity-0"
             }`}
           >
-            {/* Color */}
+            {/* Couleur */}
             {section.id === "color" && openSection === "color" && (
               <div className="mt-[2%]">
                 {section.data.map((c, i) => {
@@ -208,7 +208,7 @@ const OutfitFilterPage = () => {
               </div>
             )}
 
-            {/* Brands */}
+            {/* Marques */}
             {section.id === "brands" &&
               openSection === "brands" &&
               section.data.map((b, i) => (
@@ -225,7 +225,7 @@ const OutfitFilterPage = () => {
                 </label>
               ))}
 
-            {/* Avoid */}
+            {/* Marques à éviter */}
             {section.id === "avoid" &&
               openSection === "avoid" &&
               section.data.map((b, i) => (
@@ -242,7 +242,7 @@ const OutfitFilterPage = () => {
                 </label>
               ))}
 
-            {/* Price */}
+            {/* Prix */}
             {section.id === "price" &&
               openSection === "price" &&
               section.data.map((p, i) => (
@@ -278,7 +278,7 @@ const OutfitFilterPage = () => {
         </div>
       ))}
 
-      {/* Search Button */}
+      {/* Bouton de recherche */}
       <button
         disabled={
           tempFilters.price.length === 0 &&
@@ -298,7 +298,7 @@ const OutfitFilterPage = () => {
             : "bg-[#2D3F8F]"
         } text-white font-medium py-2 rounded-md mt-6`}
       >
-        SEARCH
+        RECHERCHER
       </button>
     </>
   );
@@ -306,7 +306,7 @@ const OutfitFilterPage = () => {
   return (
     <div className="bg-[#faf5e7] min-h-screen">
       <div className="container-global flex flex-col md:flex-row gap-x-[4%] relative">
-        {/* 🟢 Mobile Filter Button */}
+        {/* 🟢 Bouton filtres mobile */}
         <button
           className="md:hidden flex justify-end mb-4"
           onClick={() => setShowFilters(true)}
@@ -314,13 +314,13 @@ const OutfitFilterPage = () => {
           <SlidersHorizontal size={30} />
         </button>
 
-        {/* 🔹 Mobile Filter Drawer */}
+        {/* 🔹 Panneau filtres mobile */}
         <div
           className={`fixed inset-0 z-[4000] lg:hidden transition-opacity duration-300 ease-in-out ${
             showFilters ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         >
-          {/* Backdrop */}
+          {/* Fond assombri */}
           <div
             className={`absolute inset-0 bg-black/30 transition-opacity duration-300 ease-in-out ${
               showFilters ? "opacity-100" : "opacity-0"
@@ -328,7 +328,7 @@ const OutfitFilterPage = () => {
             onClick={() => setShowFilters(false)}
           ></div>
 
-          {/* Drawer Panel */}
+          {/* Panneau latéral */}
           <div
             className={`absolute top-0 right-0 h-full w-[80%] sm:w-[70%] bg-white shadow-lg rounded-tl-2xl transform transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
               showFilters ? "translate-x-0" : "translate-x-full"
@@ -336,7 +336,7 @@ const OutfitFilterPage = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Filters</h3>
+              <h3 className="text-lg font-semibold">Filtres</h3>
               <button
                 className="text-gray-600 hover:text-gray-900 transition-colors"
                 onClick={() => setShowFilters(false)}
@@ -349,13 +349,13 @@ const OutfitFilterPage = () => {
           </div>
         </div>
 
-        {/* 🔹 Desktop Sidebar */}
+        {/* 🔹 Barre latérale desktop */}
         <aside className="hidden md:block md:w-[30%] lg:w-[20%]">
-          <h3 className="mb-[2%] text-lg font-semibold">Filters</h3>
+          <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
           {renderFilterSections()}
         </aside>
 
-        {/* 🔹 Product Grid */}
+        {/* 🔹 Grille des produits */}
         <main className="flex-1 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-8">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((p) => (
@@ -381,7 +381,7 @@ const OutfitFilterPage = () => {
             ))
           ) : (
             <p className="text-gray-500 col-span-full text-center">
-              No products found.
+              Aucun produit trouvé.
             </p>
           )}
         </main>
