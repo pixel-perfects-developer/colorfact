@@ -10,7 +10,7 @@ const Banner = () => {
       ref={sectionRef}
       className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
     >
-      {/* 🎥 Background Video */}
+      {/* 🎥 Vidéo d’arrière-plan */}
       <div className="absolute inset-0">
         <video
           className="hidden lg:block w-full h-full object-cover"
@@ -23,10 +23,10 @@ const Banner = () => {
         <div className="lg:hidden w-full h-full bg-[url('/banner-bg.png')] bg-cover bg-center"></div>
       </div>
 
-      {/* 🌫️ White gradient overlay */}
+      {/* 🌫️ Dégradé blanc superposé */}
 <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-transparent"></div>
 
-      {/* ✨ Centered Content */}
+      {/* ✨ Contenu centré */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 lg:px-12">
         {/* 🟢 Logo */}
         <Image
@@ -40,23 +40,23 @@ const Banner = () => {
 
         {/* 🖋️ Slogan */}
         <h1 className="text-[#333333] font-poppins font-semibold tracking-tight mb-[6%]">
-          Serving Harmony
+          Servir l’Harmonie
         </h1>
 
-        {/* 🧩 CTA Buttons */}
+        {/* 🧩 Boutons d’appel à l’action */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             className="btn-orange"
             onClick={() => handleNavigation("/upload-image")}
           >
-            Import an Article
+            Importer un Article
           </button>
 
           <button
             className="btn-orange-outline"
             onClick={() => handleNavigation("/palette")}
           >
-            Choose a Color
+            Choisir une Couleur
           </button>
         </div>
       </div>

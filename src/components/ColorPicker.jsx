@@ -22,16 +22,16 @@ const ImageColorPicker = () => {
   // Dummy Data
   const Garments = [
     { id: 1, name: "T-shirts" },
-    { id: 2, name: "Jackets" },
-    { id: 3, name: "Pants" },
-    { id: 4, name: "Dresses" },
-    { id: 5, name: "Sweaters" },
+    { id: 2, name: "Vestes" },
+    { id: 3, name: "Pantalons" },
+    { id: 4, name: "Robes" },
+    { id: 5, name: "Pulls" },
   ];
 
   const Gender = [
-    { id: 1, name: "Men" },
-    { id: 2, name: "Women" },
-    { id: 3, name: "Mixed" },
+    { id: 1, name: "Homme" },
+    { id: 2, name: "Femme" },
+    { id: 3, name: "Mixte" },
   ];
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const ImageColorPicker = () => {
     <div className="bg-[#F9F3E9] ">
     <div className="flex flex-col items-center container-global justify-center   select-none">
       <h3 className="text-sm font-semibold tracking-wide mb-5 uppercase text-gray-800">
-        Pick Color by Click or Drag
+          Sélectionnez une couleur en cliquant ou en glissant
       </h3>
 
       <div className="relative w-[400px] h-[250px] mb-[2%]">
@@ -172,7 +172,7 @@ const ImageColorPicker = () => {
             ref={garmentRef}
             open={openGarment}
             setOpen={setOpenGarment}
-            selectedLabel={"Select Garment"}
+            selectedLabel={"Sélectionner un vêtement"}
             MainService={Garments}
             handleSelectChange={setSelectedGarment}
             selectedCategory={selectedGarment}
@@ -185,7 +185,7 @@ const ImageColorPicker = () => {
             ref={genderRef}
             open={openGender}
             setOpen={setOpenGender}
-            selectedLabel={"Select Gender"}
+            selectedLabel={"Sélectionner un genre"}
             MainService={Gender}
             handleSelectChange={setSelectedGender}
             selectedCategory={selectedGender}
@@ -195,7 +195,7 @@ const ImageColorPicker = () => {
         {/* Button */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
           <Link href={"/product-analyzation"}>
-          <button className="btn-orange xl:w-[10vw] lg:w-[15vw]">Analyze My Garment</button>
+            <button className="btn-orange">Analyser mon vêtement</button>
           </Link>
 
         </div>

@@ -5,19 +5,20 @@ import { Heart } from "lucide-react";
 
 const ProductPage = () => {
   const product = {
-    title: "ABSTRACT PRINT SHIRT",
+    title: "CHEMISE À IMPRIMÉ ABSTRAIT",
     price: 99,
     description:
-      "Relaxed-fit shirt. Camp collar and short sleeves. Button-up front.",
+      "Chemise à coupe décontractée. Col camp et manches courtes. Fermeture boutonnée à l’avant.",
     colors: [
-      { name: "Blue", hex: "#2D5BFF" },
-      { name: "Gray", hex: "#555555" },
-      { name: "Mint", hex: "#B6E0D6" },
-      { name: "Light Blue", hex: "#C8D3FF" },
+      { name: "Bleu", hex: "#2D5BFF" },
+      { name: "Gris", hex: "#555555" },
+      { name: "Menthe", hex: "#B6E0D6" },
+      { name: "Bleu clair", hex: "#C8D3FF" },
     ],
     sizes: ["XS", "S", "M", "L", "XL", "2X"],
-    images: ["/shirt.png", "/suit.png", "/shirt.png", "/suit.png"], // replace with real images
+    images: ["/shirt.png", "/suit.png", "/shirt.png", "/suit.png"], // à remplacer par de vraies images
   };
+
 
 const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0].hex);
@@ -76,10 +77,8 @@ const [selectedIndex, setSelectedIndex] = useState(0);
         <h2>
           {product.title}
         </h2>
-        <h4 className="my-[2%] ">${product.price}</h4>
-        <p className="text-gray-400">
-          MRP incl. of all taxes
-        </p>
+        <h4 className="my-[2%] ">€{product.price}</h4>
+        <p className="text-gray-400">Prix TTC, toutes taxes comprises</p>
         <p className="text-sm my-[2%]" >{product.description}</p>
         <div className="mt-[2%]">
           <h4 className="font-medium mb-[2%]">Color</h4>
@@ -118,8 +117,8 @@ const [selectedIndex, setSelectedIndex] = useState(0);
             ))}
           </div>
           <div className="flex justify-between text-xs text-gray-500 mt-[6%]">
-            <button className="hover:underline">FIND YOUR SIZE</button>
-            <button className="hover:underline">MEASUREMENT GUIDE</button>
+            <p className="hover:underline">TROUVEZ VOTRE TAILLE</p>
+            <p className="hover:underline">GUIDE DES MESURES</p>
           </div>
         </div>
 
