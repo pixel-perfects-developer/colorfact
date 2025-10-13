@@ -8,9 +8,9 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 bg-[#FFF3F3] w-full z-[3000] py-[2%] lg:py-[0.5%]">
-      <div className="container-global flex justify-between items-center px-0">
+      <div className="container-global flex py-0 justify-between items-center px-0">
         {/* Logo */}
-        <Link href={"/"} className="w-[30%] md:w-[20%] lg:w-[10%]">
+        <Link href={"/"} className="w-[30%] md:w-[20%] lg:w-[8%]">
           <Image
             src="/colorfact logo.png"
             alt="header-logo"

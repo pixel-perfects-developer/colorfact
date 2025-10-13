@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const DummyData = {
   baseColors: [
@@ -76,7 +77,7 @@ const OutfitFilterPage = () => {
     DummyData.baseColors.map(() => 50)
   );
   const [showFilters, setShowFilters] = useState(false);
-
+const router=useRouter()
   const [tempFilters, setTempFilters] = useState({
     colors: [],
     brands: [],
@@ -302,7 +303,8 @@ const OutfitFilterPage = () => {
   );
 
   return (
-    <div className="container-global flex flex-col md:flex-row gap-x-[4%] relative">
+    <div className="bg-[#faf5e7]">
+    <div className="container-global  flex flex-col md:flex-row gap-x-[4%] relative min-h-screen">
       {/* 🟢 Mobile Filter Button */}
       <button
         className=" md:hidden flex justify-end"
@@ -357,7 +359,8 @@ const OutfitFilterPage = () => {
       <main className="flex-1 grid grid-cols-3 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-0 lg:gap-8 p-4 lg:p-0">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((p) => (
-            <div key={p.id} className="flex flex-col items-center mt-[2rem] lg:mt-0">
+            <div key={p.id} className="flex flex-col items-center mt-[2rem] lg:mt-0 cursor-pointer"   onClick={() => router.push(`/articles/${p.name.toLowerCase().replace(/\s+/g, '-')}`)}
+>
               <div className="bg-[#f2ede4] rounded-lg p-[2%] shadow-sm relative w-full h-[20rem] md:h-auto md:aspect-[1/1]">
                 <Image
                   src={p.image}
@@ -376,6 +379,8 @@ const OutfitFilterPage = () => {
         )}
       </main>
     </div>
+    </div>
+
   );
 };
 

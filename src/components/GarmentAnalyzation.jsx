@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const GarmentAnalyzation = ({selectedGarment}) => {
@@ -21,7 +22,13 @@ const GarmentAnalyzation = ({selectedGarment}) => {
 </p>
 <p>100% cotton / Screen print logo</p>
 <p className="my-[1%]">FINESSE MENTALITY</p>
-<button className="btn-purple mt-[1%]">Product Link</button>
+<div className='mt-[2%]'>
+<Link className='btn-purple ' href={"/articles"}>
+Product Link
+</Link>
+</div>
+
+
         </div>
 
       </div>
