@@ -27,7 +27,7 @@ const GarmentAnalyzation = ({ selectedGarment }) => {
           <p className="my-[1%]">MENTALITÉ FINESSE</p>
 
           <div className="mt-[2rem] lg:mt-[2%]">
-            <Link className="btn-purple" href={"/articles"}>
+            <Link className="btn-purple" href={"/articles/chemise-bleue-décontractée"}>
               Lien du produit
             </Link>
           </div>

@@ -364,9 +364,10 @@ const OutfitFilterPage = () => {
                 className="flex flex-col items-center mt-[2rem] lg:mt-0 cursor-pointer"
                 onClick={() =>
                   router.push(
-                    `/articles/${p.name.toLowerCase().replace(/\s+/g, "-")}`
+                    `/product-analyzation`
                   )
                 }
+                // href={"/product-analyzation"}  
               >
                 <div className="bg-[#f2ede4] rounded-lg p-[2%] shadow-sm relative w-full aspect-square">
                   <Image

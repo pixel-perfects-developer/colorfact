@@ -194,7 +194,7 @@ const ImageColorPicker = () => {
 
         {/* Button */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
-          <Link href={"/product-analyzation"}>
+          <Link href={"/articles"}>
             <button className="btn-orange">Analyser mon vêtement</button>
           </Link>
 
