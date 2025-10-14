@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import { Heart } from "lucide-react";
 
 const ProductPage = () => {
   const product = {
@@ -21,12 +20,9 @@ const ProductPage = () => {
 
 
 const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0].hex);
-  const [selectedSize, setSelectedSize] = useState("");
-  const [liked, setLiked] = useState(false);
-
   return (
-    <div className="container-global flex flex-col md:flex-row justify-center  md:gap-x-[4%] lg:gap-x-[10%]  bg-white">
+    <div className="bg-white">
+    <div className="container-global flex flex-col md:flex-row justify-center  md:gap-x-[4%] lg:gap-x-[10%]  ">
       {/* 🖼️ Left Section: Main Image + Thumbnails */}
       <div className="flex gap-6 w-full lg:w-[40%] p-[1rem] lg:p-0">
         {/* Thumbnails */}
@@ -63,71 +59,19 @@ const [selectedIndex, setSelectedIndex] = useState(0);
 
       {/* 📋 Right Section: Product Details */}
       <div className="flex flex-col mt-[1rem] lg:mt-0 w-full lg:w-[25%] border border-[#D9D9D9] rounded-md p-[1rem] lg:p-[2%] relative">
-     <button
-        onClick={() => setLiked(!liked)}
-        className="absolute top-0 right-3  rounded-full  transition mt-[2%]"
-      >
-        <Heart
-          size={20}
-          color={liked ? "red" : "#666"}
-          fill={liked ? "red" : "none"}
-          className="transition-transform duration-300 hover:scale-110 rotate-320"
-        />
-      </button>
         <h2>
           {product.title}
         </h2>
         <h4 className="my-[2%] ">€{product.price}</h4>
         <p className="text-gray-400">Prix TTC, toutes taxes comprises</p>
         <p className="text-sm my-[2%]" >{product.description}</p>
-        <div className="mt-[2%]">
-          <h4 className="font-medium mb-[2%]">Color</h4>
-          <div className="flex gap-2">
-            {product.colors.map((color, i) => (
-              <button
-                key={i}
-                onClick={() => setSelectedColor(color.hex)}
-                className={`w-8 h-8  border transition ${
-                  selectedColor === color.hex
-                    ? "ring-2 ring-offset-2 ring-[#2d5aff3b]"
-                    : "border-gray-300"
-                }`}
-                style={{ backgroundColor: color.hex }}
-              ></button>
-            ))}
-          </div>
-        </div>
-
-        {/* 📏 Size Section */}
-        <div className="mt-[6%]">
-          <h4 className="font-medium mb-[2%]">Size</h4>
-          <div className="flex flex-wrap gap-2">
-            {product.sizes.map((size, i) => (
-              <button
-                key={i}
-                onClick={() => setSelectedSize(size)}
-                className={`px-4 py-2 border rounded-md transition ${
-                  selectedSize === size
-                    ? "border-[#2D5BFF] bg-[#2D5BFF] text-white"
-                    : "border-gray-300 hover:border-gray-500"
-                }`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-          <div className="flex justify-between text-xs text-gray-500 mt-[6%]">
-            <p className="hover:underline">TROUVEZ VOTRE TAILLE</p>
-            <p className="hover:underline">GUIDE DES MESURES</p>
-          </div>
-        </div>
-
-        {/* 🛒 Buy Button */}
         <button className="w-full mt-[14%] bg-gray-900 text-white py-3 rounded-md font-medium hover:bg-gray-800 transition">
           Buy
         </button>
       </div>
     </div>
+    </div>
+
   );
 };
 

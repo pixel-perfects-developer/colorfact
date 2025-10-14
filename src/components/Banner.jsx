@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import { useFadeNavigation } from "@/lib/UseFadeNavigationHook";
 import Image from "next/image";
+import { Upload, Palette } from "lucide-react"; // 🆕 icons
 
 const Banner = () => {
   const { sectionRef, handleNavigation } = useFadeNavigation();
@@ -10,7 +11,7 @@ const Banner = () => {
       ref={sectionRef}
       className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
     >
-      {/* 🎥 Vidéo d’arrière-plan */}
+      {/* 🎥 Background Video or Image */}
       <div className="absolute inset-0">
         <video
           className="hidden lg:block w-full h-full object-cover"
@@ -23,10 +24,10 @@ const Banner = () => {
         <div className="lg:hidden w-full h-full bg-[url('/banner-bg.png')] bg-cover bg-center"></div>
       </div>
 
-      {/* 🌫️ Dégradé blanc superposé */}
-<div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-transparent"></div>
+      {/* 🌫️ White Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-transparent"></div>
 
-      {/* ✨ Contenu centré */}
+      {/* ✨ Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 lg:px-12">
         {/* 🟢 Logo */}
         <Image
@@ -38,24 +39,25 @@ const Banner = () => {
           className="object-contain w-[150px] md:w-[200px] lg:w-[220px] mb-6"
         />
 
-        {/* 🖋️ Slogan */}
-        <h1 className="text-[#333333] font-poppins font-semibold tracking-tight mb-[6%]">
-          Servir l’Harmonie
-        </h1>
+        {/* ❌ Removed “Servir l’Harmonie” (as per client) */}
+        {/* ✅ Keep same spacing below logo */}
+        <div className="mb-[6%]" />
 
-        {/* 🧩 Boutons d’appel à l’action */}
+        {/* 🧩 CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* 🔸 First button */}
           <button
-            className="btn-orange"
             onClick={() => handleNavigation("/upload-image")}
-          >
+className="btn-orange"          >
+            <Upload className="w-5 h-5" />
             Importer un Article
           </button>
 
+          {/* 🔸 Second button */}
           <button
-            className="btn-orange-outline"
             onClick={() => handleNavigation("/palette")}
-          >
+className="btn-orange"          >
+            <Palette className="w-5 h-5" />
             Choisir une Couleur
           </button>
         </div>
