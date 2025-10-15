@@ -67,11 +67,11 @@ const UploadAnImage = () => {
   console.log("selectedGarment", selectedGarment);
 
   return (
-    <div className="bg-[#faf5e7] min-h-screen">
-      <div className="container-global lg:w-[70%] mx-auto">
+    <div className="bg-[#faf5e7] ">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center ">
         {/* Upload area */}
         <div
-          className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[3%]  mb-[2%] cursor-pointer"
+          className="border-2 border-dashed border-gray-400 rounded-[1vw] py-[3%]  mb-[2%] w-full cursor-pointer"
           onClick={() => fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -83,7 +83,7 @@ const UploadAnImage = () => {
                 alt="uploaded-garment"
                 width={400}
                 height={400}
-                className="w-[80%] md:w-[30%] lg:w-[20%]"
+                className="w-[60%] md:w-[30%] lg:w-[20%]"
               />
             ) : (
               <Image
@@ -91,7 +91,7 @@ const UploadAnImage = () => {
                 alt="drag-drop-upload"
                 width={400}
                 height={400}
-                className="w-[80%] md:w-[30%] lg:w-[20%]"
+                className="w-[60%] md:w-[30%] lg:w-[20%]"
               />
             )}
           </div>

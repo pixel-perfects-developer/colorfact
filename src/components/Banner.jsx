@@ -9,7 +9,7 @@ const Banner = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
+      className="relative w-full min-h-[clamp(32rem,79vh,50rem)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
     >
       {/* 🎥 Background Video or Image */}
       <div className="absolute inset-0">

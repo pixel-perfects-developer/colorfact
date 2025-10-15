@@ -294,7 +294,7 @@ useEffect(() => {
    }, []);
   return (
     <div className="bg-[#F9F3E9] "> 
-      <div className="container-global min-h-[80vh] flex flex-col items-center  select-none">
+      <div className="container-global min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center  select-none">
       <div ref={colorPickerRef} />
 
       {/* <div style={{ marginTop: 20 }}>
