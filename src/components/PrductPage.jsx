@@ -21,8 +21,8 @@ const ProductPage = () => {
 
 const [selectedIndex, setSelectedIndex] = useState(0);
   return (
-    <div className="bg-white">
-    <div className="container-global flex flex-col md:flex-row justify-center  md:gap-x-[4%] lg:gap-x-[10%]  ">
+    <div className="bg-white min-h-[80vh]">
+    <div className="container-global flex flex-col md:flex-row justify-center items-stretch  md:gap-x-[4%] lg:gap-x-[10%]  ">
       {/* 🖼️ Left Section: Main Image + Thumbnails */}
       <div className="flex gap-6 w-full lg:w-[40%] p-[1rem] lg:p-0">
         {/* Thumbnails */}
@@ -65,7 +65,7 @@ const [selectedIndex, setSelectedIndex] = useState(0);
         <h4 className="my-[2%] ">€{product.price}</h4>
         <p className="text-gray-400">Prix TTC, toutes taxes comprises</p>
         <p className="text-sm my-[2%]" >{product.description}</p>
-        <button className="w-full mt-[14%] bg-gray-900 text-white py-3 rounded-md font-medium hover:bg-gray-800 transition">
+        <button className="w-full mt-[40%] bg-gray-900 text-white py-3 rounded-md font-medium hover:bg-gray-800 transition">
           Buy
         </button>
       </div>

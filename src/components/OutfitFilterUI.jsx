@@ -304,8 +304,8 @@ const OutfitFilterPage = () => {
   );
 
   return (
-    <div className="bg-[#faf5e7] min-h-screen">
-      <div className="container-global flex flex-col md:flex-row gap-x-[4%] relative">
+    <div className="bg-[#faf5e7] ">
+      <div className="container-global min-h-[80vh] flex flex-col md:flex-row gap-x-[4%] relative">
         {/* 🟢 Bouton filtres mobile */}
         <button
           className="md:hidden flex justify-end mb-4"
@@ -364,7 +364,7 @@ const OutfitFilterPage = () => {
                 className="flex flex-col items-center mt-[2rem] lg:mt-0 cursor-pointer"
                 onClick={() =>
                   router.push(
-                    `/product-analyzation`
+                    `/articles/chemise-bleue-décontractée`
                   )
                 }
                 // href={"/product-analyzation"}  
