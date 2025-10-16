@@ -213,6 +213,7 @@ import Color from "colorjs.io";
 import iro from "@jaames/iro";
 import FormSelect from "./FormSelect";
 import Link from "next/link";
+import DropDownMenu from "./DropDownMenu";
 
 const ColorPicker = () => {
   const colorPickerRef = useRef(null);
@@ -259,42 +260,9 @@ useEffect(() => {
     }
   };
 }, []); // 👈 keep dependency array empty
-
-  const [openGarment, setOpenGarment] = useState(false);
-   const [selectedGarment, setSelectedGarment] = useState(null);
-   const garmentRef = useRef();
-   // Gender Dropdown States
-   const [openGender, setOpenGender] = useState(false);
-   const [selectedGender, setSelectedGender] = useState(null);
-   const genderRef = useRef();
-   // Dummy Data
-   const Garments = [
-     { id: 1, name: "T-shirts" },
-     { id: 2, name: "Vestes" },
-     { id: 3, name: "Pantalons" },
-     { id: 4, name: "Robes" },
-     { id: 5, name: "Pulls" },
-   ];
-   const Gender = [
-     { id: 1, name: "Homme" },
-     { id: 2, name: "Femme" },
-     { id: 3, name: "Mixte" },
-   ];
-   useEffect(() => {
-     const handler = (e) => {
-       if (garmentRef.current && !garmentRef.current.contains(e.target)) {
-         setOpenGarment(false);
-       }
-       if (genderRef.current && !genderRef.current.contains(e.target)) {
-         setOpenGender(false);
-       }
-     };
-     document.addEventListener("mousedown", handler);
-     return () => document.removeEventListener("mousedown", handler);
-   }, []);
   return (
     <div className="bg-[#F9F3E9] "> 
-      <div className="container-global min-h-[80vh] flex flex-col items-center  select-none">
+      <div className="container-global min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center  select-none">
       <div ref={colorPickerRef} />
 
       {/* <div style={{ marginTop: 20 }}>
@@ -309,29 +277,8 @@ useEffect(() => {
       <p style={{ fontSize: 13, color: "#666" }}>
         The right square is a +10 L* (lighter) change in Lab space.
       </p> */}
-       <div className="mt-[2rem] lg:mt-[1%] w-full">
-           <FormSelect
-             ref={garmentRef}
-             open={openGarment}
-             setOpen={setOpenGarment}
-             selectedLabel={"Sélectionner un vêtement"}
-             MainService={Garments}
-             handleSelectChange={setSelectedGarment}
-             selectedCategory={selectedGarment}
-           />
-         </div>
-         {/* Gender Dropdown */}
-         <div className="mt-[2rem] lg:mt-[1%] w-full">
-           <FormSelect
-             ref={genderRef}
-             open={openGender}
-             setOpen={setOpenGender}
-             selectedLabel={"Sélectionner un genre"}
-             MainService={Gender}
-             handleSelectChange={setSelectedGender}
-             selectedCategory={selectedGender}
-           />
-         </div>
+       <DropDownMenu/>
+
          {/* Button */}
          <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
            <Link href={"/articles"}>

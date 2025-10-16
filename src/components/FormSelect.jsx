@@ -14,17 +14,17 @@ const FormSelect = forwardRef(
     ref
   ) => {
     return (
-      <div className="flex   justify-center mb-4">
+      <div className="flex w-full  justify-center mb-4">
         <div ref={ref} className="relative w-full">
           <button
             onClick={() => setOpen(!open)}
-            className={`w-full text-left border-2 border-[#A6A6A6] text-[black] py-[0.45rem] px-[1rem]
+            className={`w-full text-left border-2 border-[#A6A6A6] text-[black] px-[1rem] py-[0.8rem]
  ${
    open ? "rounded-tl-[0.45rem] rounded-tr-[0.45rem]" : "rounded-[0.45rem]"
  } bg-white
                        transition-all duration-200 focus:outline-none flex items-center justify-between`}
           >
-            <span>{selectedCategory || "Select Category"}</span>
+            <h6 className="text-sm font-medium ">{selectedCategory || selectedLabel}</h6>
 
             {/* Arrow Icon */}
             <svg
@@ -44,32 +44,31 @@ const FormSelect = forwardRef(
               />
             </svg>
           </button>
-          <div
-            className={`absolute left-0 w-full bg-[#008cff] rounded-bl-[0.45rem] rounded-br-[0.45rem]
-                        shadow-md overflow-hidden z-[50]
-                        transition-all duration-300 origin-top ${
-                          open
-                            ? "scale-y-100 opacity-100 visible"
-                            : "scale-y-0 opacity-0 invisible"
-                        }`}
-          >
-            {MainService?.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  handleSelectChange(item.name);
-                  setOpen(false);
-                }}
-                className={`p-[1rem] text-sm  cursor-pointer transition-colors duration-150 ${
-selectedCategory?.trim().toLowerCase() === item.name.toLowerCase()
-                    ? "bg-[#F16935] font-medium text-white"
-                    : "bg-[#fff] text-black"
-                }`}
-              >
-                {item.name}
-              </div>
-            ))}
-          </div>
+     <div
+  className={`absolute left-0 w-full bg-white rounded-bl-[0.45rem] rounded-br-[0.45rem]
+              shadow-md overflow-y-auto z-[50] transition-all duration-300 origin-top
+              ${open ? "scale-y-100 opacity-100 visible" : "scale-y-0 opacity-0 invisible"}
+              ${MainService?.length > 6 ? "max-h-[25vh]" : "max-h-fit"} [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
+>
+  {MainService?.map((item) => (
+    <div
+      key={item.id}
+      onClick={() => {
+        handleSelectChange(item.name);
+        setOpen(false);
+      }}
+      className={`px-[1rem] py-[0.8rem] text-sm cursor-pointer transition-all duration-150
+        ${
+          selectedCategory?.trim().toLowerCase() === item.name.toLowerCase()
+            ? "bg-[#F16935] text-white font-medium"
+            : "hover:bg-orange-50 text-black"
+        }`}
+    >
+      {item.name}
+    </div>
+  ))}
+</div>
+
         </div>
       </div>
     );
