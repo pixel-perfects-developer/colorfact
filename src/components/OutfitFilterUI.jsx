@@ -17,7 +17,6 @@ const DummyData = {
     { label: "€50 - €100", min: 50, max: 100 },
     { label: "€100 - €200", min: 100, max: 200 },
   ],
-  style: [{ name: "Décontracté" }, { name: "Formel" }, { name: "Sportif" }],
 };
 
 // 🔹 Liste de produits factices
@@ -27,7 +26,6 @@ const allProducts = [
     name: "Chemise Bleue Décontractée",
     color: "Bleu",
     brand: "Gucci",
-    style: "Décontracté",
     price: 60,
     image: "/suit.png",
   },
@@ -36,7 +34,6 @@ const allProducts = [
     name: "Pantalon Gris Formel",
     color: "Gris",
     brand: "Adidas",
-    style: "Formel",
     price: 90,
     image: "/suit.png",
   },
@@ -45,7 +42,6 @@ const allProducts = [
     name: "T-shirt Blanc Décontracté",
     color: "Blanc",
     brand: "Nike",
-    style: "Décontracté",
     price: 40,
     image: "/suit.png",
   },
@@ -54,7 +50,6 @@ const allProducts = [
     name: "Short Bleu de Sport",
     color: "Bleu",
     brand: "Balenciaga",
-    style: "Sportif",
     price: 110,
     image: "/suit.png",
   },
@@ -83,7 +78,6 @@ const OutfitFilterPage = () => {
     colors: [],
     brands: [],
     avoid: [],
-    style: [],
     price: [],
   });
   const [filteredProducts, setFilteredProducts] = useState(allProducts);
@@ -112,14 +106,12 @@ const OutfitFilterPage = () => {
         tempFilters.brands.length === 0 || tempFilters.brands.includes(p.brand);
       const avoidMatch =
         tempFilters.avoid.length === 0 || !tempFilters.avoid.includes(p.brand);
-      const styleMatch =
-        tempFilters.style.length === 0 || tempFilters.style.includes(p.style);
       const priceMatch =
         tempFilters.price.length === 0 ||
         tempFilters.price.some(
           (range) => p.price >= range.min && p.price <= range.max
         );
-      return colorMatch && brandMatch && avoidMatch && styleMatch && priceMatch;
+      return colorMatch && brandMatch && avoidMatch && priceMatch;
     });
     setFilteredProducts(filtered);
     setShowFilters(false);
@@ -132,7 +124,6 @@ const OutfitFilterPage = () => {
         { id: "brands", title: "Marques", data: DummyData.brands },
         { id: "avoid", title: "Marques à éviter", data: DummyData.brandstoavoid },
         { id: "price", title: "Prix", data: DummyData.price },
-        { id: "style", title: "Style", data: DummyData.style },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%]">
           {/* En-tête */}
@@ -257,23 +248,6 @@ const OutfitFilterPage = () => {
                   <h5>{p.label}</h5>
                 </label>
               ))}
-
-            {/* Style */}
-            {section.id === "style" &&
-              openSection === "style" &&
-              section.data.map((s, i) => (
-                <label key={i} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={tempFilters.style.includes(s.name)}
-                    onChange={(e) =>
-                      handleCheckbox("style", s.name, e.target.checked)
-                    }
-                    className="accent-[#F16935]"
-                  />
-                  <h5>{s.name}</h5>
-                </label>
-              ))}
           </div>
         </div>
       ))}
@@ -282,7 +256,6 @@ const OutfitFilterPage = () => {
       <button
         disabled={
           tempFilters.price.length === 0 &&
-          tempFilters.style.length === 0 &&
           tempFilters.avoid.length === 0 &&
           tempFilters.brands.length === 0 &&
           tempFilters.colors.length === 0
@@ -290,7 +263,6 @@ const OutfitFilterPage = () => {
         onClick={applyFilters}
         className={`w-full ${
           tempFilters.price.length === 0 &&
-          tempFilters.style.length === 0 &&
           tempFilters.avoid.length === 0 &&
           tempFilters.brands.length === 0 &&
           tempFilters.colors.length === 0
