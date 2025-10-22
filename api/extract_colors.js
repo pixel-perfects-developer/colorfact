@@ -1,18 +1,24 @@
-import { customAxios } from "./instance";
+// import { customAxios } from "./instance";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const { customAxios } = require("./instance");
 
-export const extractColors = async (file) => {
-  const formData = new FormData();
-  formData.append("file", file);
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  try {
-    const res = await customAxios.post(`${API_URL}/extract_colors/`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return res.data;
-  } catch (err) {
-    console.error("❌ Color extraction failed:", err);
-    throw err;
-  }
-};
+// export const extractColors = async (file) => {
+//   const formData = new FormData();
+//   formData.append("file", file);
+
+//   try {
+//     const res = await customAxios.post(`${API_URL}/extract_colors/`, formData);
+//     return res.data.colors?.[0] || null;
+//   } catch (err) {
+//     console.error("❌ Color extraction failed:", err.response?.data || err);
+//     throw err;
+//   }
+// };
+
+const formData = new FormData();
+formData.append("file", file);
+
+const res = await customAxios.post("/api/extract_colors", formData);
+console.log(res.data);

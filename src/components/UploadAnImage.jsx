@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import DropDownMenu from "./DropDownMenu";
 import { outfitByColor } from "../../api/outfit_by_color";
-import { extractColors } from "../../api/extract_colors";
+import { extractColors } from "@/api/extract_colors";
 
 const UploadAnImage = () => {
   const fileInputRef = useRef(null);
@@ -41,8 +41,8 @@ const UploadAnImage = () => {
             values.gender === "Homme"
               ? "H"
               : values.gender === "Femme"
-              ? "F"
-              : "H/F",
+                ? "F"
+                : "H/F",
         });
 
         console.log("Recommended outfits:", response);
@@ -64,10 +64,10 @@ const UploadAnImage = () => {
 
     try {
       setLoading(true);
-  const colorHex = await extractColors(file);
-const cleanColor = colorHex.replace("#", "");
-formik.setFieldValue("colorCode", cleanColor);
-console.log("✅ Extracted color:", cleanColor);
+      const colorHex = await extractColors(file);
+      const cleanColor = colorHex.replace("#", "");
+      formik.setFieldValue("colorCode", cleanColor);
+      console.log("✅ Extracted color:", cleanColor);
     } catch (err) {
       console.error("Color extraction failed:", err);
       alert("Failed to extract color from image");
@@ -109,11 +109,10 @@ console.log("✅ Extracted color:", cleanColor);
       <div className="container-global lg:w-[70%] mx-auto min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
-          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${
-            loading
+          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
               ? "border-orange-400 opacity-60"
               : "border-gray-400 hover:border-orange-400"
-          }`}
+            }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -171,9 +170,8 @@ console.log("✅ Extracted color:", cleanColor);
           <button
             type="submit"
             disabled={analyzeDisabled || loading}
-            className={`btn-orange ${
-              (analyzeDisabled || loading) && "opacity-50 cursor-not-allowed"
-            }`}
+            className={`btn-orange ${(analyzeDisabled || loading) && "opacity-50 cursor-not-allowed"
+              }`}
           >
             {loading ? "Analyzing..." : "Analyser mon vêtement"}
           </button>
