@@ -4,8 +4,8 @@ import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import DropDownMenu from "./DropDownMenu";
-import { outfitByColor } from "../../api/outfit_by_color";
 import { extractColors } from "@/api/extract_colors";
+import { getOutfitByImage } from "@/api/outfit_by_image";
 
 const UploadAnImage = () => {
   const fileInputRef = useRef(null);
@@ -16,37 +16,37 @@ const UploadAnImage = () => {
   const formik = useFormik({
     initialValues: {
       file: null,
-      colorCode: "",
+      colorCode: [],
       gender: "",
-      category: "",
       subcategory: "",
     },
     validationSchema: Yup.object({
       file: Yup.mixed().required("Please upload an image"),
       gender: Yup.string().required("Select a gender"),
-      category: Yup.string().required("Select a category"),
+      subcategory: Yup.string().required("Select a subcategory"),
     }),
     onSubmit: async (values) => {
-      if (!values.colorCode) {
+      if (!values.colorCode || values.colorCode.length === 0) {
         alert("No color extracted from image");
         return;
       }
 
       try {
         setLoading(true);
-        const response = await outfitByColor({
-          color: values.colorCode,
-          clothing_type: values.subcategory || values.category,
-          gender:
-            values.gender === "Homme"
-              ? "H"
-              : values.gender === "Femme"
-                ? "F"
-                : "H/F",
-        });
 
-        console.log("Recommended outfits:", response);
+        // ✅ Pass array of colors
+        const response = await getOutfitByImage(
+  values.file,
+  values.subcategory ,
+  values.gender === "Homme" ? "Homme" : values.gender === "Femme" ? "Femme" : "Mixte"
+);
+
+        console.log("🎨 Recommended outfits:", response);
         alert("Outfit analysis complete! Check console for results.");
+
+        // 🧹 Reset after success
+        formik.resetForm();
+        setImagePreview(null);
       } catch (err) {
         console.error("Error analyzing outfit:", err);
         alert("Failed to fetch outfit recommendations.");
@@ -64,10 +64,15 @@ const UploadAnImage = () => {
 
     try {
       setLoading(true);
-      const colorHex = await extractColors(file);
-      const cleanColor = colorHex.replace("#", "");
-      formik.setFieldValue("colorCode", cleanColor);
-      console.log("✅ Extracted color:", cleanColor);
+      const colors = await extractColors(file);
+
+      // ✅ Normalize to array
+      const cleanColors = Array.isArray(colors)
+        ? colors.map((c) => c.replace("#", ""))
+        : [colors.replace("#", "")];
+
+      formik.setFieldValue("colorCode", cleanColors);
+      console.log("✅ Extracted colors:", cleanColors);
     } catch (err) {
       console.error("Color extraction failed:", err);
       alert("Failed to extract color from image");
@@ -91,14 +96,16 @@ const UploadAnImage = () => {
   const handleDragOver = (e) => e.preventDefault();
 
   // 🔽 Dropdown updates
-  const handleDropdownSelect = ({ gender, category, subcategory }) => {
+  const handleDropdownSelect = ({ gender,  subcategory }) => {
     formik.setFieldValue("gender", gender);
-    formik.setFieldValue("category", category);
     formik.setFieldValue("subcategory", subcategory);
   };
 
   const analyzeDisabled =
-    !formik.values.file || !formik.values.gender || !formik.values.category;
+    !formik.values.file ||
+    !formik.values.gender ||
+    !formik.values.subcategory ||
+    loading;
 
   return (
     <form
@@ -109,10 +116,11 @@ const UploadAnImage = () => {
       <div className="container-global lg:w-[70%] mx-auto min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
-          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
+          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${
+            loading
               ? "border-orange-400 opacity-60"
               : "border-gray-400 hover:border-orange-400"
-            }`}
+          }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -161,17 +169,18 @@ const UploadAnImage = () => {
         {formik.touched.gender && formik.errors.gender && (
           <p className="text-red-500 text-sm mt-1">{formik.errors.gender}</p>
         )}
-        {formik.touched.category && formik.errors.category && (
-          <p className="text-red-500 text-sm mt-1">{formik.errors.category}</p>
+        {formik.touched.subcategory && formik.errors.subcategory && (
+          <p className="text-red-500 text-sm mt-1">{formik.errors.subcategory}</p>
         )}
 
         {/* 🔘 CTA */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
           <button
             type="submit"
-            disabled={analyzeDisabled || loading}
-            className={`btn-orange ${(analyzeDisabled || loading) && "opacity-50 cursor-not-allowed"
-              }`}
+            disabled={analyzeDisabled}
+            className={`btn-orange ${
+              analyzeDisabled && "opacity-50 cursor-not-allowed"
+            }`}
           >
             {loading ? "Analyzing..." : "Analyser mon vêtement"}
           </button>

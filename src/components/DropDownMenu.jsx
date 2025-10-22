@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import FormSelect from "./FormSelect";
 
-const DropDownMenu = ({ onSelect }) => {
+const DropDownMenu = ({ onSelect, }) => {
   const [dropdowns, setDropdowns] = useState({
     gender: { open: false, selected: null, ref: useRef(null) },
     category: { open: false, selected: null, ref: useRef(null) },
@@ -37,10 +37,6 @@ const DropDownMenu = ({ onSelect }) => {
         gender:
           dropdowns.gender.selected?.name ||
           dropdowns.gender.selected ||
-          null,
-        category:
-          dropdowns.category.selected?.name ||
-          dropdowns.category.selected ||
           null,
         subcategory:
           dropdowns.subcategory.selected?.name ||
