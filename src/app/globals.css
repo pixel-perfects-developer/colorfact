@@ -35,7 +35,7 @@ body {
   text-rendering: optimizeSpeed;
   background-color: var(--color-bg-main);
   color: var(--color-text-primary);
-  user-select: none;
+  /* user-select: none; */
 }
 
 /* ----------------------------- */
