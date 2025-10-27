@@ -59,7 +59,7 @@ const Header = () => {
           ref={searchRef}
         >
           {/* Search bar */}
-          <div className="relative flex items-center bg-white border border-gray-200 text-sm text-[#333]  rounded-[12px] shadow-sm outline-none transition-all duration-300">
+          {/* <div className="relative flex items-center bg-white border border-gray-200 text-sm text-[#333]  rounded-[12px] shadow-sm outline-none transition-all duration-300">
             <input
               type="text"
               placeholder="Rechercher..."
@@ -83,7 +83,7 @@ const Header = () => {
                 />
               </svg>
             </button>
-          </div>
+          </div> */}
 
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
