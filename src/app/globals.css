@@ -214,3 +214,45 @@ body {
 @media (min-width: 1600px) {
   .container-global { max-width: 1800px; }
 }
+/* Toast container tweaks */
+.Toastify__toast {
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  padding: 12px 16px;
+}
+
+/* Info (Blue) */
+.Toastify__toast--info {
+  background: #3498db;
+}
+
+/* Error (Red) */
+.Toastify__toast--error {
+  background: #e74c3c;
+}
+
+/* Warning (Yellow) */
+.Toastify__toast--warning {
+  background: #f1c40f;
+  color: #2d2d2d;
+}
+
+/* Success (Green) */
+.Toastify__toast--success {
+  background: #27ae60;
+}
+
+/* Progress bar color match */
+.Toastify__progress-bar--info {
+  background: #2980b9;
+}
+.Toastify__progress-bar--error {
+  background: #c0392b;
+}
+.Toastify__progress-bar--warning {
+  background: #d4ac0d;
+}
+.Toastify__progress-bar--success {
+  background: #229954;
+}

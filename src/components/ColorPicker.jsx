@@ -1,20 +1,25 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Color from "colorjs.io";
 import iro from "@jaames/iro";
 import DropDownMenu from "./DropDownMenu";
 import { getOutfitByColor } from "@/api/outfit_by_color";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setColors } from "@/redux/slices/colorSlice";
+import { setImageDetails } from "@/redux/slices/imageDetailsSlice";
+import { useRouter } from "next/navigation";
 
 const ColorPicker = () => {
   const colorPickerRef = useRef(null);
   const [hex, setHex] = useState("#00cfaa");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [dropdownValues, setDropdownValues] = useState({
     gender: "",
     subcategory: "",
   });
 
-  // 🧠 Setup Iro.js Color Picker
   useEffect(() => {
     if (!colorPickerRef.current) return;
     colorPickerRef.current.innerHTML = "";
@@ -26,41 +31,38 @@ const ColorPicker = () => {
       borderColor: "#ccc",
     });
 
-    picker.on("color:change", (color) => setHex(color.hexString));
-
+    picker.on("color:change", (color) => {
+      const selectedHex = color.hexString;
+      setHex(selectedHex);
+      dispatch(setColors(selectedHex)); // 🔹 store in Redux
+    });
     return () => {
       if (colorPickerRef.current) colorPickerRef.current.innerHTML = "";
     };
   }, []);
 
-  // 🧩 Dropdown selection handler
   const handleDropdownSelect = ({ gender, subcategory }) => {
     setDropdownValues({ gender, subcategory });
   };
 
-  // 🚀 Analyze outfit
   const handleAnalyze = async () => {
     const { gender, subcategory } = dropdownValues;
-
     if (!gender || !subcategory) {
       alert("Please select gender and clothing type first.");
       return;
     }
-
     setLoading(true);
     try {
-      const colorCode = hex.replace("#", "");
       const response = await getOutfitByColor({
-  color: "#00cfaa",
-  clothing_type: "T-shirt",
-  gender: "Homme"
-});
-
-      console.log("🧥 Outfit Suggestions:", response);
-      alert("Analysis complete! Check console for outfit results.");
+        color: hex,
+        clothing_type: subcategory,
+        gender: gender
+      });
+      dispatch(setImageDetails(response));
+      router.push('/articles')
+      toast.success("Analysis complete!.");
     } catch (err) {
-      console.error("❌ Outfit analysis failed:", err);
-      alert("Failed to fetch outfit recommendations.");
+      toast.error("Failed to fetch outfit recommendations.");
     } finally {
       setLoading(false);
     }
@@ -69,7 +71,7 @@ const ColorPicker = () => {
   return (
     <div className="bg-[#F9F3E9]">
       <div className="container-global min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center select-none">
-        <div ref={colorPickerRef} />
+        <div className="mb-2" ref={colorPickerRef} />
 
         <DropDownMenu onSelect={handleDropdownSelect} />
 
