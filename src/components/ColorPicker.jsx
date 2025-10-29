@@ -56,7 +56,7 @@ const ColorPicker = () => {
       const response = await getOutfitByColor({
         color: hex,
         clothing_type: subcategory,
-        gender: gender
+        gender: gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
       });
       dispatch(setImageDetails(response));
       router.push('/articles')

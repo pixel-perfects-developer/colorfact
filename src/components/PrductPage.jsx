@@ -1,79 +1,133 @@
 "use client";
+import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // ✅ Lucide icons
 
 const ProductPage = () => {
-  const product = {
-    title: "CHEMISE À IMPRIMÉ ABSTRAIT",
-    price: 99,
-    description:
-      "Chemise à coupe décontractée. Col camp et manches courtes. Fermeture boutonnée à l’avant.",
-    colors: [
-      { name: "Bleu", hex: "#2D5BFF" },
-      { name: "Gris", hex: "#555555" },
-      { name: "Menthe", hex: "#B6E0D6" },
-      { name: "Bleu clair", hex: "#C8D3FF" },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "2X"],
-    images: ["/shirt.png", "/suit.png", "/shirt.png", "/suit.png"],
-  };
+  const { id } = useParams();
+  const decodedSlug = decodeURIComponent(id);
+  const outfitData = useSelector((state) => state.imageDetails.details || {});
+  const outfitKeys = Object.keys(outfitData);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  // 🧩 Find current outfit
+  const outfitName = outfitKeys.find(
+    (key) =>
+      key.toLowerCase().replace(/\s+/g, "-") ===
+      decodedSlug.toLowerCase().replace(/\s+/g, "-")
+  );
+  const selectedOutfit = outfitData[outfitName] || {};
+
+  // 🎯 Only categories with products
+  const validCategories = Object.entries(selectedOutfit).filter(
+    ([_, items]) => Array.isArray(items) && items.length > 0
+  );
+
+  const [activeTab, setActiveTab] = useState(
+    validCategories.length > 0 ? validCategories[0][0] : ""
+  );
+
+  if (!outfitName) {
+    return (
+      <div className="flex justify-center items-center min-h-[70vh] bg-[#faf5e7]">
+        <p className="text-gray-500 text-lg">
+          Outfit not found. Please go back to recommendations.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white">
-      <div className="container-global min-h-[clamp(32rem,79vh,50rem)] flex flex-col md:flex-row justify-center items-stretch md:gap-x-[4%] lg:gap-x-[10%]">
-        {/* 🖼️ Left Section: Main Image + Thumbnails */}
-        <div className="flex gap-6 w-full lg:w-[40%] p-[1rem] lg:p-0">
-          <div className="relative flex-1 w-[60%] rounded-lg overflow-hidden shadow-sm">
-            <Image
-              src={product.images[selectedIndex]}
-              alt={product.title}
-              fill
-              className="object-contain p-[2%]"
-              priority
-            />
-          </div>
-          <div className="flex flex-col gap-4">
-            {product.images.map((img, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedIndex(index)}
-                className={`relative w-20 h-20 border rounded-md overflow-hidden cursor-pointer transition ${
-                  selectedIndex === index
-                    ? "border-[#2D5BFF]"
-                    : "border-gray-300"
-                }`}
-              >
-                <Image
-                  src={img}
-                  alt={`Thumbnail ${index}`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            ))}
-          </div>
+    <div className="bg-[#faf5e7] min-h-[80vh] py-10">
+      <div className="container-global">
+        {/* 🧢 Title */}
+        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+          {outfitName}
+        </h2>
+
+        {/* 🟠 Custom Tabs */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {validCategories.map(([category]) => (
+            <button
+              key={category}
+              onClick={() => setActiveTab(category)}
+              className={`px-6 py-2 text-sm md:text-base font-semibold rounded-full transition-all duration-300 ${
+                activeTab === category
+                  ? "bg-[#F16935] text-white shadow-md scale-105"
+                  : "bg-white text-gray-700 hover:bg-[#f2ede4]"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
 
-        {/* 📋 Right Section: Product Details */}
-        <div className="flex flex-col mt-[1rem] lg:mt-0 w-full lg:w-[25%] border border-[#D9D9D9] rounded-md p-[1rem] lg:p-[2%] relative">
-          <div className="flex flex-col h-full">
-            <div>
-              <h2 className="font-semibold text-lg">{product.title}</h2>
-              <h4 className="my-[2%] text-gray-800 font-medium">
-                €{product.price}
-              </h4>
-              <p className="text-gray-400 text-sm">
-                Prix TTC, toutes taxes comprises
-              </p>
-              <p className="text-sm my-[2%]">{product.description}</p>
-            </div>
+        {/* 🧭 Custom Swiper Navigation Buttons */}
+        <div className="flex justify-center items-center gap-x-[2%]">
+          <div
+            className="swiper-button-prev-custom cursor-pointer z-10 bg-[#F16935] text-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition"
+          >
+           <ChevronLeft/>
+          </div>
+        
 
-            {/* 🧲 Button pinned at bottom */}
-            <button className="w-full mt-[20%] lg:mt-auto bg-gray-900 text-white py-3 rounded-md font-medium hover:bg-gray-800 transition">
-              Buy
-            </button>
+          {/* 🧺 Swiper Content */}
+          <div className="w-[90%]">
+          {validCategories.map(([category, items]) => (
+            <div
+              key={category}
+              style={{ display: activeTab === category ? "block" : "none" }}
+            >
+              <Swiper
+                modules={[Navigation]}
+                navigation={{
+                  prevEl: ".swiper-button-prev-custom",
+                  nextEl: ".swiper-button-next-custom",
+                }}
+                spaceBetween={20}
+                slidesPerView={1}
+                breakpoints={{
+                  640: { slidesPerView: 2 },
+                  1024: { slidesPerView: 4 },
+                }}
+              >
+                {items.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all">
+                      {item.product_id && (
+                        <div className="relative w-full h-64 mb-3">
+                          <Image
+                            src={item.product_id || "/placeholder.jpg"}
+                            alt={item.name || "Product"}
+                            fill
+                            className="object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
+                      {/* <h4 className="font-medium text-gray-800 text-center">
+                        {item.name || "Unnamed Product"}
+                      </h4>
+                      {item.price && (
+                        <p className="text-gray-600 text-sm text-center">
+                          €{item.price}
+                        </p>
+                      )} */}
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          ))}
+          </div>
+  <div
+            className="swiper-button-next-custom cursor-pointer z-10 bg-[#F16935] text-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 transition"
+          >
+           <ChevronRight/>
           </div>
         </div>
       </div>
