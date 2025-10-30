@@ -1,84 +1,200 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
+  "use client";
+  import { useSelector } from "react-redux";
+  import { useParams } from "next/navigation";
+  import Image from "next/image";
+  import { useEffect, useState } from "react";
+  import { Swiper, SwiperSlide } from "swiper/react";
+  import "swiper/css";
+  import "swiper/css/navigation";
+  import { useSwiper } from "@/lib/SwiperStates";
+  import { CustomNextArrow, CustomPrevArrow } from "./CustomArrow";
 
-const ProductPage = () => {
-  const product = {
-    title: "CHEMISE À IMPRIMÉ ABSTRAIT",
-    price: 99,
-    description:
-      "Chemise à coupe décontractée. Col camp et manches courtes. Fermeture boutonnée à l’avant.",
-    colors: [
-      { name: "Bleu", hex: "#2D5BFF" },
-      { name: "Gris", hex: "#555555" },
-      { name: "Menthe", hex: "#B6E0D6" },
-      { name: "Bleu clair", hex: "#C8D3FF" },
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "2X"],
-    images: ["/shirt.png", "/suit.png", "/shirt.png", "/suit.png"],
-  };
+  const ProductPage = () => {
+    const { id } = useParams();
+    const decodedSlug = decodeURIComponent(id);
+    const outfitData = useSelector((state) => state.imageDetails.details || {});
+    const outfitKeys = Object.keys(outfitData);
+    const { swiperRef, handleSlideChange, swiperState } = useSwiper();
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+    // 🧩 Find current outfit
+    const outfitName = outfitKeys.find(
+      (key) =>
+        key.toLowerCase().replace(/\s+/g, "-") ===
+        decodedSlug.toLowerCase().replace(/\s+/g, "-")
+    );
+    const selectedOutfit = outfitData[outfitName] || {};
 
-  return (
-    <div className="bg-white">
-      <div className="container-global min-h-[clamp(32rem,79vh,50rem)] flex flex-col md:flex-row justify-center items-stretch md:gap-x-[4%] lg:gap-x-[10%]">
-        {/* 🖼️ Left Section: Main Image + Thumbnails */}
-        <div className="flex gap-6 w-full lg:w-[40%] p-[1rem] lg:p-0">
-          <div className="relative flex-1 w-[60%] rounded-lg overflow-hidden shadow-sm">
-            <Image
-              src={product.images[selectedIndex]}
-              alt={product.title}
-              fill
-              className="object-contain p-[2%]"
-              priority
-            />
-          </div>
-          <div className="flex flex-col gap-4">
-            {product.images.map((img, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedIndex(index)}
-                className={`relative w-20 h-20 border rounded-md overflow-hidden cursor-pointer transition ${
-                  selectedIndex === index
-                    ? "border-[#2D5BFF]"
-                    : "border-gray-300"
-                }`}
+    // 🎯 Only categories with products
+    const validCategories = Object.entries(selectedOutfit).filter(
+      ([_, items]) => Array.isArray(items) && items.length > 0
+    );
+
+  const [activeTab, setActiveTab] = useState("All");
+
+    const [arrowThreshold, setArrowThreshold] = useState(4); // default desktop
+
+    // 🔄 Reset Swiper when category changes
+    useEffect(() => {
+      if (swiperRef.current && swiperRef.current.slideTo) {
+        swiperRef.current.slideTo(0);
+      }
+
+    }, [activeTab]);
+
+    // 📏 Responsive arrow visibility threshold
+    useEffect(() => {
+      const handleResize = () => {
+        const width = window.innerWidth;
+        if (width < 640) setArrowThreshold(1); // Mobile
+        else if (width < 1024) setArrowThreshold(2); // Tablet
+        else setArrowThreshold(4); // Desktop
+      };
+      handleResize(); // run on mount
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    if (!outfitName) {
+      return (
+        <div className="flex justify-center items-center min-h-[70vh] bg-[#faf5e7]">
+          <p className="text-gray-500 text-lg">
+            Outfit not found. Please go back to recommendations.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-[#faf5e7] min-h-screen">
+        <div className="container-global">
+          {/* 🧢 Title */}
+          <h2 className="mb-8 text-center text-gray-800">{outfitName}</h2>
+
+          {/* 🟠 Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            <button
+              onClick={() => setActiveTab("All")}
+              className={`${
+                activeTab === "All" ? "btn-orange" : "btn-white"
+              } border-none translate-y-0 !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap`}
+            >
+              All
+            </button>
+
+            {validCategories.map(([category]) => (
+              <button
+                key={category}
+                onClick={() => setActiveTab(category)}
+                className={`${
+                  activeTab === category ? "btn-orange" : "btn-white"
+                } border-none translate-y-0 !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap`}
               >
-                <Image
-                  src={img}
-                  alt={`Thumbnail ${index}`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
+                {category}
+              </button>
             ))}
           </div>
-        </div>
 
-        {/* 📋 Right Section: Product Details */}
-        <div className="flex flex-col mt-[1rem] lg:mt-0 w-full lg:w-[25%] border border-[#D9D9D9] rounded-md p-[1rem] lg:p-[2%] relative">
-          <div className="flex flex-col h-full">
-            <div>
-              <h2 className="font-semibold text-lg">{product.title}</h2>
-              <h4 className="my-[2%] text-gray-800 font-medium">
-                €{product.price}
-              </h4>
-              <p className="text-gray-400 text-sm">
-                Prix TTC, toutes taxes comprises
-              </p>
-              <p className="text-sm my-[2%]">{product.description}</p>
-            </div>
+          {/* 🧭 Product Swiper */}
+          <div className="flex justify-center items-center gap-x-[2%] w-[90%] mx-auto md:w-full">
+            {(() => {
+              const allItems =
+                activeTab === "All"
+                  ? validCategories.flatMap(([_, items]) => items)
+                  : validCategories.find(([cat]) => cat === activeTab)?.[1] || [];
+              const totalItems = allItems.length;
 
-            {/* 🧲 Button pinned at bottom */}
-            <button className="w-full mt-[20%] lg:mt-auto bg-gray-900 text-white py-3 rounded-md font-medium hover:bg-gray-800 transition">
-              Buy
-            </button>
+              return (
+                <>
+                  {/* Show arrows based on device type */}
+                  {totalItems > arrowThreshold && (
+                    <CustomPrevArrow
+                      swiperRef={swiperRef}
+                      disabled={swiperState?.isBeginning}
+                    />
+                  )}
+
+                  <div className={`${totalItems > arrowThreshold ? "w-[90%]" : "w-full"}`}>
+                    <Swiper
+                      onSwiper={(swiper) => (swiperRef.current = swiper)}
+                      onSlideChange={handleSlideChange}
+                      spaceBetween={20}
+                      loop={false}    // ✅ only show grab cursor if items exceed threshold
+                      allowTouchMove={true}
+                      slidesPerView={1} // base case for mobile
+                      breakpoints={{
+                        640: { slidesPerView: 2 },
+                        1024: { slidesPerView: 4 },
+                      }}
+                    >
+                      {allItems.map((item, index) => (
+                        <SwiperSlide key={index}>
+<SwiperSlide key={index}>
+  <div
+    className={`${
+      totalItems > arrowThreshold ? "cursor-grab" : "cursor-default"
+    } bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all p-6 flex flex-col justify-between h-[420px] w-[90%] mx-auto md:w-full`}
+  >
+    {/* 🖼 Image */}
+    <div className="relative w-full h-[200px] rounded-md overflow-hidden bg-gray-100">
+      <Image
+        src={item.product_id || "/placeholder.jpg"}
+        alt={item.name || "Product"}
+        fill
+        className="object-cover transition-transform duration-500 hover:scale-105"
+      />
+    </div>
+
+    {/* 📄 Product Info */}
+    <div className="flex flex-col justify-between mt-4 flex-1">
+      <div>
+        <h4 className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1">
+          {item.name || "CHEMISE À IMPRIMÉ ABSTRAIT"}
+        </h4>
+
+        <p className="text-gray-900 font-semibold text-[1rem] mb-1">
+          €{item.price ? parseFloat(item.price).toFixed(2) : "99"}
+        </p>
+
+        <p className="text-gray-400 text-xs mb-2">
+          Prix TTC, toutes taxes comprises
+        </p>
+
+        <p className="text-gray-600 text-sm leading-snug line-clamp-2">
+          {item.description ||
+            "Chemise à coupe décontractée. Col camp et manches courtes. Fermeture boutonnée à l’avant."}
+        </p>
+      </div>
+
+      <button
+        className="mt-4 bg-[#0D1320] text-white text-sm font-medium py-2 rounded-md hover:bg-[#1c263b] transition-colors w-full"
+        onClick={() =>
+          alert(`Buying ${item.name || "this product"}!`)
+        }
+      >
+        Buy
+      </button>
+    </div>
+  </div>
+</SwiperSlide>
+
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </div>
+
+                  {totalItems > arrowThreshold && (
+                    <CustomNextArrow
+                      swiperRef={swiperRef}
+                      disabled={swiperState?.isEnd}
+                    />
+                  )}
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default ProductPage;
+  export default ProductPage;

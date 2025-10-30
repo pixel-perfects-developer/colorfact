@@ -2,6 +2,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ReduxProvider from "@/redux/Providers";
 
 /* 🧩 Font Configurations */
 const inter = Inter({
@@ -24,7 +25,6 @@ export const metadata = {
     "Discover minimalist design and harmony in fashion. Import articles, choose your color, and explore modern aesthetics with ColorFact.",
 };
 
-/* 🧱 Root Layout */
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
@@ -32,9 +32,12 @@ export default function RootLayout({ children }) {
         <meta name="google" content="notranslate" />
       </head>
       <body className="font-sans scroll-smooth bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
-        <Header />
-        {children}
-        <Footer />
+        {/* ✅ All client logic is wrapped inside ReduxProvider */}
+        <ReduxProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );
