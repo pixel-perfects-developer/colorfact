@@ -6,29 +6,79 @@ import { useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 
-const adjustColor = (hex, percent) => {
+const adjustColor = (hex, percent = 50) => {
   if (!hex?.startsWith("#")) return hex;
-  let r = parseInt(hex.substring(1, 3), 16);
-  let g = parseInt(hex.substring(3, 5), 16);
-  let b = parseInt(hex.substring(5, 7), 16);
-  r = Math.min(255, Math.max(0, r + (percent - 50) * 2));
-  g = Math.min(255, Math.max(0, g + (percent - 50) * 2));
-  b = Math.min(255, Math.max(0, b + (percent - 50) * 2));
-  return `rgb(${r}, ${g}, ${b})`;
+
+  let r = parseInt(hex.slice(1, 3), 16) / 255;
+  let g = parseInt(hex.slice(3, 5), 16) / 255;
+  let b = parseInt(hex.slice(5, 7), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0;
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+
+  // ✅ Adjust brightness based on slider value (0–100%)
+  l += (percent - 50) / 100;
+  l = Math.max(0, Math.min(1, l));
+
+  // Convert back to RGB
+  const hue2rgb = (p, q, t) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+
+  r = hue2rgb(p, q, h + 1 / 3);
+  g = hue2rgb(p, q, h);
+  b = hue2rgb(p, q, h - 1 / 3);
+
+  return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`;
 };
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
   const outfitKeys = Object.keys(outfitData);
 
-  if (!outfitKeys.length)
+// ✅ Check if outfitData is empty or all keys contain empty arrays/objects
+const isEmptyOutfitData =
+  !outfitKeys.length ||
+  outfitKeys.every((key) => {
+    const value = outfitData[key];
+    // handle object-of-arrays structure
     return (
-      <div className="flex justify-center items-center min-h-[70vh] bg-[#faf5e7]">
-        <p className="text-gray-500 text-lg">
-          No outfit recommendations available. Try searching by image or color.
-        </p>
-      </div>
+      !value ||
+      (typeof value === "object" &&
+        Object.values(value).flat().length === 0)
     );
+  });
+
+if (isEmptyOutfitData) {
+  return (
+    <div className="flex justify-center items-center min-h-[70vh] bg-[#faf5e7]">
+      <p className="text-gray-500 text-lg">
+        No outfit recommendations available. Try searching by image or color.
+      </p>
+    </div>
+  );
+}
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -104,6 +154,21 @@ const OutfitFilterPage = () => {
       setShowFilters(false);
     }
   };
+// ✅ Converts "rgb(r,g,b)" → "#rrggbb"
+const rgbToHex = (rgb) => {
+  const result = rgb.match(/\d+/g);
+  if (!result) return rgb;
+  return (
+    "#" +
+    result
+      .map((num) => {
+        const hex = parseInt(num).toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      })
+      .join("")
+      .toUpperCase()
+  );
+};
 
   const renderFilterSections = () => (
     <>
@@ -158,44 +223,54 @@ const OutfitFilterPage = () => {
               : "max-h-0 opacity-0"
               }`}
           >
-            {section.id === "color" &&
-              openSection === "color" &&
-              section.data.map((c, i) => {
-                const adjusted = adjustColor(c.hex, colorIntensity[i]);
-                return (
-                  <div key={i} className="flex items-center gap-3 mb-[4%]">
-                    <div
-                      className="w-4 h-4 rounded-full border border-gray-400"
-                      style={{ backgroundColor: adjusted }}
-                    ></div>
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={colorIntensity[i]}
-                      onChange={(e) =>
-                        setColorIntensity((prev) =>
-                          prev.map((v, idx) =>
-                            idx === i ? parseInt(e.target.value) : v
-                          )
-                        )
-                      }
-                      onMouseUp={() =>
-                        handleCheckbox(
-                          "colors",
-                          c.hex,
-                          !tempFilters.colors.includes(c.hex)
-                        )
-                      }
-                      className="flex-1 h-2 cursor-pointer appearance-none accent-[#000000]"
-                      style={{
-                        background: `linear-gradient(to right, ${adjusted} ${colorIntensity[i]}%, #bdbdbd ${colorIntensity[i]}%)`,
-                      }}
-                    />
-                    <span className="text-xs text-gray-700">{c.hex}</span>
-                  </div>
-                );
-              })}
+        {section.id === "color" &&
+  openSection === "color" &&
+  section.data.map((c, i) => {
+    const adjusted = adjustColor(c.hex, colorIntensity[i]);
+    return (
+      <div key={i} className="flex items-center gap-3 mb-[4%]">
+        {/* Left circle – Original color */}
+        {/* <div
+          className="w-4 h-4 rounded-full border border-gray-400"
+          style={{ backgroundColor: c.hex }}
+          title={`Original ${c.hex}`}
+        ></div> */}
+  <div
+          className="w-4 h-4 rounded-full border border-gray-400"
+          style={{ backgroundColor: adjusted }}
+          title={`Adjusted ${adjusted}`}
+        ></div>
+        {/* Range slider with gradient from original → adjusted */}
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={colorIntensity[i]}
+          onChange={(e) => {
+            const value = parseInt(e.target.value);
+            setColorIntensity((prev) =>
+              prev.map((v, idx) => (idx === i ? value : v))
+            );
+            if (!tempFilters.colors.includes(c.hex)) {
+              handleCheckbox("colors", c.hex, true);
+            }
+          }}
+          className="flex-1 h-2 cursor-pointer appearance-none rounded-full"
+          style={{
+            accentColor: c.hex,
+            background: `linear-gradient(to right, ${c.hex} 0%, ${adjusted} 100%)`,
+          }}
+        />
+
+        {/* Right circle – Adjusted color */}
+      
+
+        {/* Hex label */}
+<span className="text-xs text-gray-700">{rgbToHex(adjusted)}</span>
+      </div>
+    );
+  })}
+
 
             {section.id === "brands" &&
               openSection === "brands" &&
@@ -269,8 +344,9 @@ const OutfitFilterPage = () => {
   );
 
   return (
-    <div className="bg-[#faf5e7] min-h-[80vh] py-10">
+  <div className="bg-[#faf5e7] min-h-[80vh] py-10">
       <div className="container-global flex flex-col md:flex-row gap-x-[4%] relative">
+        {/* 📱 Mobile Filter Button */}
         <button
           className="md:hidden flex justify-end mb-4"
           onClick={() => setShowFilters(true)}
@@ -278,47 +354,20 @@ const OutfitFilterPage = () => {
           <SlidersHorizontal size={30} />
         </button>
 
+        {/* 🖥️ Sidebar (Desktop) */}
         <aside className="hidden md:block md:w-[30%] lg:w-[20%]">
           <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
           {renderFilterSections()}
         </aside>
 
-        <main className="flex-1 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((p, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center mt-[2rem] cursor-pointer"
-              >
-                <div className="bg-[#f2ede4] rounded-lg p-[2%] shadow-sm relative w-full aspect-square">
-                  <Image
-                    src={p.image || "/suit.png"}
-                    alt={p.name}
-                    fill
-                    className="object-contain rounded-lg"
-                  />
-                </div>
-                <h4 className="font-bold mt-[1rem] text-center">{p.name}</h4>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 col-span-full text-center">
-              Aucun produit trouvé.
-            </p>
-          )}
-        </main>
-      </div>
+        {/* 🧩 Outfit Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
 
-      <div className="container-global">
-        <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">
-          Recommended Outfits
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {outfitKeys.map((key) => {
             const firstProduct = Object.values(outfitData[key])
               .flat()
               .find((item) => item?.product_id);
+console.log("sss",outfitData);
 
             return (
               <div
@@ -344,6 +393,38 @@ const OutfitFilterPage = () => {
             );
           })}
         </div>
+
+        {/* 📱 Mobile Drawer */}
+        {showFilters && (
+          <>
+            {/* Dark Overlay */}
+            <div
+              className={`fixed inset-0 bg-black/30 transition-opacity duration-300 ease-in-out ${
+                showFilters ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={() => setShowFilters(false)}
+            ></div>
+
+            {/* Sliding Drawer */}
+            <div
+              className={`fixed top-[6.2rem] z-100 right-0  h-full w-[80%] sm:w-[70%] bg-white shadow-lg rounded-tl-2xl transform transition-transform duration-[600ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] ${
+                showFilters ? "translate-x-0" : "translate-x-full"
+              } overflow-y-auto p-6`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold">Filtres</h3>
+                <button
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                  onClick={() => setShowFilters(false)}
+                >
+                  ✕
+                </button>
+              </div>
+              {renderFilterSections()}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
