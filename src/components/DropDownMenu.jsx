@@ -30,8 +30,8 @@ const DropDownMenu = ({ onSelect }) => {
   const availableCategories = Object.keys(Categories);
   const availableSubCategories = dropdowns.category.selected
     ? Categories[
-        dropdowns.category.selected.name || dropdowns.category.selected
-      ]
+    dropdowns.category.selected.name || dropdowns.category.selected
+    ]
     : [];
 
   // 🔁 Whenever gender or category/subcategory changes

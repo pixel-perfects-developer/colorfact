@@ -5,8 +5,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "finessementality.com",
-                pathname: "/cdn/**", // ✅ allow Shopify-style CDN path under main domain
-
+        pathname: "/cdn/**", // ✅ allow Shopify-style CDN path under main domain
       },
       {
         protocol: "https",

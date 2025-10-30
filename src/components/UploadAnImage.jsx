@@ -45,8 +45,8 @@ const UploadAnImage = () => {
         const response = await getOutfitByImage(
           values.file,
           values.subcategory,
-  values.gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
-          );
+          values.gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
+        );
 
         dispatch(setImageDetails(response));
         toast.success("Outfit analysis complete!");
