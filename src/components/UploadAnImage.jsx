@@ -68,8 +68,13 @@ const UploadAnImage = () => {
 
     try {
       setLoading(true);
-      const colors = await extractColors(file);
-      dispatch(setColors(colors))
+
+      // ✅ Clone the file for extractColors
+      const colorFile = new File([file], file.name, { type: file.type });
+      const colors = await extractColors(colorFile);
+
+      dispatch(setColors(colors));
+
       const cleanColors = Array.isArray(colors)
         ? colors.map((c) => c.replace("#", ""))
         : [colors.replace("#", "")];
@@ -119,8 +124,8 @@ const UploadAnImage = () => {
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
-              ? "border-orange-400 opacity-60"
-              : "border-gray-400 hover:border-orange-400"
+            ? "border-orange-400 opacity-60"
+            : "border-gray-400 hover:border-orange-400"
             }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
@@ -151,7 +156,7 @@ const UploadAnImage = () => {
           </p>
           <input
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             ref={fileInputRef}
             onChange={handleFileChange}
             className="hidden"

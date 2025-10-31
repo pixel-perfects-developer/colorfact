@@ -19,7 +19,7 @@ const ColorPicker = () => {
     gender: "",
     subcategory: "",
   });
-
+  console.log('dropdownValues======>', dropdownValues);
 
   useEffect(() => {
     if (!colorPickerRef.current) return;
@@ -70,8 +70,7 @@ const ColorPicker = () => {
       setLoading(false);
     }
   };
-const analyzeDisabled =
-  !dropdownValues.gender || !dropdownValues.subcategory || loading;
+  const analyzeDisabled = !dropdownValues.gender || !dropdownValues.subcategory || loading;
 
   return (
     <div className="bg-[#F9F3E9]">
@@ -84,15 +83,14 @@ const analyzeDisabled =
 
         {/* 🔘 CTA */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
-        <button
-  onClick={handleAnalyze}
-  disabled={analyzeDisabled}
-  className={`btn-orange ${
-    analyzeDisabled && "opacity-50 cursor-not-allowed"
-  }`}
->
-  {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
-</button>
+          <button
+            onClick={handleAnalyze}
+            disabled={analyzeDisabled}
+            className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
+              }`}
+          >
+            {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
+          </button>
 
         </div>
 
