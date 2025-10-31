@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setColors } from "@/redux/slices/colorSlice";
 import { setImageDetails } from "@/redux/slices/imageDetailsSlice";
 import { useRouter } from "next/navigation";
+import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 
 const UploadAnImage = () => {
   const fileInputRef = useRef(null);
@@ -46,6 +47,7 @@ const UploadAnImage = () => {
           values.gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
         );
 
+        dispatch(setOutfits([]));
         dispatch(setImageDetails(response));
         toast.success("Analyse terminée avec succès !");
         router.push("/articles-assortis");
