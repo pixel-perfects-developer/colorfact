@@ -35,7 +35,7 @@ const ColorPicker = () => {
     picker.on("color:change", (color) => {
       const selectedHex = color.hexString;
       setHex(selectedHex);
-      dispatch(setColors(selectedHex)); // 🔹 store in Redux
+      dispatch(setColors([selectedHex])); // 🔹 store in Redux
     });
 
     return () => {

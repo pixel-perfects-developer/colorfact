@@ -1,8 +1,8 @@
-import axios from "axios";
+import { customAxios } from "../../api/instance";
 
 export const getOutfitByColor = async ({ color, clothing_type, gender }) => {
   try {
-    const res = await axios.get("/api/outfit_by_color", {
+    const res = await customAxios.get("/api/outfit_by_color", {
       params: { color, clothing_type, gender },
       headers: { Accept: "application/json" },
     });

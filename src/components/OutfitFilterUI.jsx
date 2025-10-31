@@ -56,12 +56,14 @@ const OutfitFilterPage = () => {
   const router = useRouter();
 
   const colorData = useSelector((state) => state.color?.colors);
+  console.log('colorData------<', colorData);
+
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
-    ? [{ hex: colorData }]
-    : [];
-console.log("c",colors);
+      ? [{ hex: colorData }]
+      : [];
+  console.log("c", colors);
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -95,25 +97,25 @@ console.log("c",colors);
     });
   };
 
-const resetFilters = () => {
-  setTempFilters({
-    colors: [],
-    category: "",
-    brands: [],
-    avoid: [],
-    minPrice: 0,
-    maxPrice: 1000,
-  });
-  setColorIntensity(colors.map(() => 50));
-  setOpenSection(null);
-  setFiltersApplied(false);
+  const resetFilters = () => {
+    setTempFilters({
+      colors: [],
+      category: "",
+      brands: [],
+      avoid: [],
+      minPrice: 0,
+      maxPrice: 1000,
+    });
+    setColorIntensity(colors.map(() => 50));
+    setOpenSection(null);
+    setFiltersApplied(false);
 
-  // ✅ Clear API outfit data and revert to default outfitKeys data
-  dispatch(setOutfits({}));
-  toast.info("Filtres réinitialisés, affichage par défaut restauré 🔄", {
-    position: "top-center",
-  });
-};
+    // ✅ Clear API outfit data and revert to default outfitKeys data
+    dispatch(setOutfits({}));
+    toast.info("Filtres réinitialisés, affichage par défaut restauré 🔄", {
+      position: "top-center",
+    });
+  };
 
 
   const applyFilters = async () => {
@@ -128,25 +130,24 @@ const resetFilters = () => {
       setLoading(true);
       const selectedType = tempFilters.category;
 
-   const adjustedColors =
-  Array.isArray(colorData) && colorData.length
-    ? colorData.map((c, i) => {
-        const hexValue = c.hex || c; // ✅ handles both {hex: '#AABBCC'} and plain '#AABBCC'
-        const adj = adjustColor(hexValue, colorIntensity[i] || 50);
-        const rgb = adj.match(/\d+/g);
-        return rgb
-          ? rgb
-              .map((v) => parseInt(v).toString(16).padStart(2, "0"))
-              .join("")
-              .toUpperCase()
-          : hexValue.replace(/^#/, "");
-      })
-    : [];
+      const adjustedColors =
+        Array.isArray(colorData) && colorData.length
+          ? colorData.map((c, i) => {
+            const hexValue = c.hex || c; // ✅ handles both {hex: '#AABBCC'} and plain '#AABBCC'
+            const adj = adjustColor(hexValue, colorIntensity[i] || 50);
+            const rgb = adj.match(/\d+/g);
+            return rgb
+              ? rgb
+                .map((v) => parseInt(v).toString(16).padStart(2, "0"))
+                .join("")
+                .toUpperCase()
+              : hexValue.replace(/^#/, "");
+          })
+          : [];
 
-const params = new URLSearchParams();
-if (adjustedColors.length)
-  params.append("input_colors", adjustedColors.join(",")); // ✅ use join
-
+      const params = new URLSearchParams();
+      if (adjustedColors.length)
+        params.append("input_colors", adjustedColors.join(",")); // ✅ use join
       params.append("type", selectedType);
       params.append("minPrice", tempFilters.minPrice);
       params.append("maxPrice", tempFilters.maxPrice);
@@ -156,8 +157,8 @@ if (adjustedColors.length)
         params.append("removed_brands", tempFilters.avoid.join(","));
 
       const res = await fetch(`/api/outfit_recommendation?${params.toString()}`);
-      console.log("params.toString()",params.toString());
-      
+      console.log("params.toString()", params.toString());
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -228,9 +229,8 @@ if (adjustedColors.length)
             <h4 className="font-bold">{section.title}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${
-                openSection === section.id ? "rotate-180" : "rotate-0"
-              }`}
+              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"
+                }`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -240,9 +240,8 @@ if (adjustedColors.length)
           </div>
 
           <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden ${
-              openSection === section.id ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-            }`}
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${openSection === section.id ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+              }`}
           >
             {section.id === "color" &&
               section.data.map((c, i) => {
@@ -373,11 +372,10 @@ if (adjustedColors.length)
       <button
         disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${
-          !tempFilters.category || filtersApplied || loading
-            ? "bg-[#8f4c2d36] cursor-not-allowed"
-            : "bg-[#2D3F8F]"
-        } text-white font-medium py-2 rounded-md mt-6`}
+        className={`w-full ${!tempFilters.category || filtersApplied || loading
+          ? "bg-[#8f4c2d36] cursor-not-allowed"
+          : "bg-[#2D3F8F]"
+          } text-white font-medium py-2 rounded-md mt-6`}
       >
         {loading ? "Chargement..." : filtersApplied ? "Déjà appliqué " : "RECHERCHER"}
       </button>
@@ -422,7 +420,7 @@ if (adjustedColors.length)
                   return (
                     <div
                       key={cat}
-onClick={() => router.push(`/articles-assortis/${encodeURIComponent(cat)}`)}
+                      onClick={() => router.push(`/articles-assortis/${encodeURIComponent(cat)}`)}
                       className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                     >
                       <div className="relative w-full h-64">
