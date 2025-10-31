@@ -59,7 +59,11 @@ const adjustColor = (hex, percent = 50) => {
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
-  const apiOutfitData = useSelector((state) => state.outfitRecommendation.outfits || {});
+  console.log("outfitData=>", outfitData);
+
+  const apiOutfitData = useSelector(
+    (state) => state.outfitRecommendation.outfits || {}
+  );
   const outfitKeys = Object.keys(outfitData);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -495,10 +499,10 @@ const OutfitFilterPage = () => {
           </div>
         </div>
         {/* ✅ Outfit Cards */}
-        {outFitRecomend?.recommendations?.length > 0 ? (
+        {apiOutfitData?.recommendations?.length > 0 ? (
           (() => {
             const grouped = {};
-            outFitRecomend.recommendations.forEach((item) => {
+            apiOutfitData.recommendations.forEach((item) => {
               const cat = item["Catégorie produit"];
               if (!grouped[cat]) grouped[cat] = [];
               grouped[cat].push(item);
