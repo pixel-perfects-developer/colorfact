@@ -31,7 +31,7 @@ const Banner = () => {
       <div className="relative z-10 flex flex-col items-center text-center px-6 lg:px-12">
         {/* 🟢 Logo */}
         <Image
-          src="/colorfact logo.png"
+          src="/header.png"
           alt="ColorFact Logo"
           width={220}
           height={80}
