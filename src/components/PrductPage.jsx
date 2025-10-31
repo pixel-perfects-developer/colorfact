@@ -56,7 +56,7 @@
 
     if (!outfitName) {
       return (
-        <div className="flex justify-center items-center min-h-[70vh] bg-[#faf5e7]">
+        <div className="flex justify-center items-center min-h-screen bg-[#faf5e7]">
           <p className="text-gray-500 text-lg">
             Outfit not found. Please go back to recommendations.
           </p>

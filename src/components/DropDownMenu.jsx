@@ -13,12 +13,57 @@ const DropDownMenu = ({ onSelect }) => {
     subcategory: { open: false, selected: null },
   });
 
-  // 🧥 Clothing Categories (new data structure)
+  // ✅ Ontologie from outfit.yaml
   const Categories = {
-    "Casual été": ["T-shirt", "Jean", "Pantalon", "Casquette"],
-    "Casual hiver": ["Hoodie", "Pull", "Doudoune", "Manteau", "Bonnet", "Pantalon"],
-    "Sportswear": ["Jogging", "Hoodie", "Sac à dos", "Casquette"],
-    "Professionnel": ["Pantalon habillé", "Blazer", "Chemise", "Ceinture"],
+    "Hauts": [
+      "T-shirt",
+      "Polo",
+      "Chemise",
+      "Col roulé",
+      "Sweatshirt",
+      "Hoodie",
+      "Pull",
+      "Cardigan",
+      "Veste",
+      "Blouson",
+      "Manteau",
+      "Parka",
+      "Trench",
+    ],
+    "Bas": [
+      "Pantalon",
+      "Jean",
+      "Short",
+      "Jogging",
+      "Chinos",
+      "Jupe",
+      "Robe",
+      "Combinaison",
+    ],
+    "Ensembles habillés": [
+      "Costume",
+      "Tailleur",
+      "Pantalon habillé",
+      "Blazer",
+      "Robe de soirée",
+    ],
+    "Chaussures": [
+      "Sneakers",
+      "Bottes",
+      "Chaussures de ville",
+      "Escarpins",
+      "Talons",
+      "Sandales",
+    ],
+    "Accessoires": [
+      "Sac à main",
+      "Sac à dos",
+      "Lunettes",
+      "Bonnet",
+      "Casquettes",
+      "Ceinture",
+      "Montre",
+    ],
   };
 
   const Gender = [
@@ -30,16 +75,18 @@ const DropDownMenu = ({ onSelect }) => {
   const availableCategories = Object.keys(Categories);
   const availableSubCategories = dropdowns.category.selected
     ? Categories[
-    dropdowns.category.selected.name || dropdowns.category.selected
-    ]
+        dropdowns.category.selected.name || dropdowns.category.selected
+      ]
     : [];
 
-  // 🔁 Whenever gender or category/subcategory changes
+  // 🔁 Notify parent when selection changes
   useEffect(() => {
     if (onSelect) {
       onSelect({
         gender:
           dropdowns.gender.selected?.name || dropdowns.gender.selected || "",
+        category:
+          dropdowns.category.selected?.name || dropdowns.category.selected || "",
         subcategory:
           dropdowns.subcategory.selected?.name ||
           dropdowns.subcategory.selected ||
@@ -52,7 +99,7 @@ const DropDownMenu = ({ onSelect }) => {
     dropdowns.subcategory.selected,
   ]);
 
-  // 🧹 Close dropdowns on outside click
+  // 🧹 Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -61,6 +108,7 @@ const DropDownMenu = ({ onSelect }) => {
         subcategoryRef.current?.contains(e.target)
       )
         return;
+
       setDropdowns((prev) => ({
         ...prev,
         gender: { ...prev.gender, open: false },
@@ -81,12 +129,12 @@ const DropDownMenu = ({ onSelect }) => {
 
   return (
     <>
-      {/* 👕 Gender Selector */}
+      {/* 🧍‍♂️ Gender Selector */}
       <FormSelect
         ref={genderRef}
         open={dropdowns.gender.open}
         setOpen={(val) => updateDropdown("gender", { open: val })}
-        selectedLabel="Select Gender"
+        selectedLabel="Sélectionner le genre"
         MainService={Gender}
         handleSelectChange={(val) =>
           updateDropdown("gender", { selected: val, open: false })
@@ -99,7 +147,7 @@ const DropDownMenu = ({ onSelect }) => {
         ref={categoryRef}
         open={dropdowns.category.open}
         setOpen={(val) => updateDropdown("category", { open: val })}
-        selectedLabel="Select Category"
+        selectedLabel="Sélectionner une catégorie"
         MainService={availableCategories.map((name, i) => ({ id: i, name }))}
         handleSelectChange={(val) => {
           updateDropdown("category", {
@@ -117,7 +165,7 @@ const DropDownMenu = ({ onSelect }) => {
           ref={subcategoryRef}
           open={dropdowns.subcategory.open}
           setOpen={(val) => updateDropdown("subcategory", { open: val })}
-          selectedLabel="Select Clothing Type"
+          selectedLabel="Sélectionner le type de vêtement"
           MainService={availableSubCategories.map((name, i) => ({
             id: i,
             name,
