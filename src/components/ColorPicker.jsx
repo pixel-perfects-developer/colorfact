@@ -74,7 +74,7 @@ const ColorPicker = () => {
 
   return (
     <div className="bg-[#F9F3E9]">
-      <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center select-none">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center select-none">
         {/* 🎨 Color Picker */}
         <div className="mb-6" ref={colorPickerRef} />
 

@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { ArrowRight, SlidersHorizontal, X } from "lucide-react";
 import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 const adjustColor = (hex, percent = 50) => {
   if (!hex?.startsWith("#")) return hex;
   let r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -109,8 +108,6 @@ const OutfitFilterPage = () => {
     setColorIntensity(colors.map(() => 50));
     setOpenSection(null);
     setFiltersApplied(false);
-
-    // ✅ Clear API outfit data and revert to default outfitKeys data
     dispatch(setOutfits({}));
     toast.info("Filtres réinitialisés, affichage par défaut restauré 🔄", {
       position: "top-center",
@@ -133,7 +130,6 @@ const OutfitFilterPage = () => {
      const adjustedColors =
   Array.isArray(colorData) && colorData.length
     ? colorData.map((c, i) => {
-        // normalize to #RRGGBB
         const hexValue =
           typeof c === "object" && c.hex ? c.hex : c;
         const cleaned =
@@ -221,19 +217,19 @@ const OutfitFilterPage = () => {
         { id: "color", title: "Couleur", data: colors },
         {
           id: "catégorie",
-          title: "catégorie",
+          title: "Catégorie",
           data: outfitKeys.map((key) => ({ name: key })),
         },
-        {
-          id: "brands",
-          title: "Marques",
-          data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
-        },
-        {
-          id: "avoid",
-          title: "Marques à éviter",
-          data: [{ name: "Gucci" }, { name: "Balenciaga" }],
-        },
+        // {
+        //   id: "brands",
+        //   title: "Marques",
+        //   data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
+        // },
+        // {
+        //   id: "avoid",
+        //   title: "Marques à éviter",
+        //   data: [{ name: "Gucci" }, { name: "Balenciaga" }],
+        // },
         { id: "price", title: "Prix", data: [] },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%]">
@@ -405,7 +401,7 @@ const OutfitFilterPage = () => {
   );
 
   return (
-    <div className="bg-[#faf5e7] min-h-screen py-10">
+    <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
       <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
         <button
           className="md:hidden flex justify-end mb-4"
@@ -418,7 +414,37 @@ const OutfitFilterPage = () => {
           <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
           {renderFilterSections()}
         </aside>
+   <div
+        className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
+          showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
+            showFilters ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setShowFilters(false)}
+        ></div>
 
+        {/* Drawer Panel */}
+        <div
+          className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
+            showFilters ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <button
+    onClick={() => setShowFilters(false)}
+    className="absolute top-4 right-4 text-gray-600 hover:text-[#F16935] transition-colors "
+  >
+    <X size={28} />
+  </button>
+  <div className="mt-[2rem]">
+          {renderFilterSections()}
+  </div>
+
+        </div>
+      </div>
         {/* ✅ Outfit Cards */}
         {apiOutfitData?.recommendations?.length > 0 ? (
           (() => {
@@ -436,9 +462,9 @@ const OutfitFilterPage = () => {
                     <div
                       key={cat}
                       onClick={() => router.push(`/articles-assortis/${encodeURIComponent(cat)}`)}
-                      className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                      className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                     >
-                      <div className="relative w-full h-64">
+                      <div className="relative w-full h-64 ">
                         <Image
                           src={first["Photo produit 1"] || "/placeholder.jpg"}
                           alt={cat}
@@ -446,8 +472,15 @@ const OutfitFilterPage = () => {
                           className="object-cover"
                         />
                       </div>
-                      <div className="p-5">
-                        <h3 className="text-xl font-semibold text-gray-800">{cat}</h3>
+                  <div className="p-5 bg-[#F16935]/10">
+                           <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+            {cat}
+            {/* 👉 show arrow only on mobile */}
+            <ArrowRight
+              size={25}
+              className="text-[#F16935] block md:hidden"
+            />
+          </h3>   
                         <p className="text-gray-500 text-sm mt-1">
                           {grouped[cat].length} produits
                         </p>
@@ -461,26 +494,33 @@ const OutfitFilterPage = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
             {outfitKeys.map((key) => {
-              const firstProduct = Object.values(outfitData[key])
-                .flat()
-                .find((item) => item?.product_id);
+   const firstProduct = Object.values(outfitData[key])
+  .flat()
+  .find((item) => item?.["Photo produit 1"]); 
+
               return (
                 <div
                   key={key}
-                  onClick={() => router.push(`/articles-assortis/${key}`)}
-                  className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                  onClick={() => router.push(`/articles-assortis/${encodeURIComponent(key)}`)}
+                  className="cursor-pointer py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                 >
                   <div className="relative w-full h-64">
                     <Image
-                      src={firstProduct?.product_id || "/placeholder.jpg"}
+  src={firstProduct?.["Photo produit 1"] || "/placeholder.jpg"}
                       alt={key}
                       fill
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-xl font-semibold text-gray-800">{key}</h3>
-                    <p className="text-gray-500 text-sm mt-1">
+                  <div className="p-5 bg-[#F16935]/10">
+    <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+            {key}
+            {/* 👉 show arrow only on mobile */}
+            <ArrowRight
+              size={25}
+              className="text-[#F16935] block md:hidden"
+            />
+          </h3>                    <p className="text-gray-500 text-sm mt-1">
                       {Object.keys(outfitData[key]).length} catégories
                     </p>
                   </div>

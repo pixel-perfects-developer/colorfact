@@ -120,7 +120,7 @@ const UploadAnImage = () => {
       className="bg-[#faf5e7]"
       encType="multipart/form-data"
     >
-      <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
