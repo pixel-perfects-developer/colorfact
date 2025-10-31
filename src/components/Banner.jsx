@@ -44,7 +44,7 @@ const Banner = () => {
         <div className="mb-[6%]" />
 
         {/* 🧩 CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
           {/* 🔸 First button */}
           <button
             onClick={() => handleNavigation("/televerser-image")}
@@ -54,7 +54,7 @@ className="btn-orange"          >
           </button>
 
           {/* 🔸 Second button */}
-          <button
+          <button 
             onClick={() => handleNavigation("/palette-de-couleurs")}
 className="btn-orange"          >
             <Palette className="w-5 h-5" />

@@ -27,12 +27,12 @@ const Header = () => {
         <div className="flex items-center justify-start w-1/3">
           <Link href="/" className="flex items-center">
             <Image
-              src="/colorfact logo.png"
+              src="/Color-fact logo.png"
               alt="ColorFact logo"
-              width={160}
-              height={160}
+              width={120}
+              height={120}
               priority
-              className="w-[80%] h-auto object-contain"
+              className="w-[100%] h-auto object-contain"
             />
           </Link>
         </div>
