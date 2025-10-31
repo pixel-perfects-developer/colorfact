@@ -8,17 +8,16 @@ import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 
 const adjustColor = (hex, percent = 50) => {
-  const dispatch = useDispatch()
   if (!hex?.startsWith("#")) return hex;
-
+  
   let r = parseInt(hex.slice(1, 3), 16) / 255;
   let g = parseInt(hex.slice(3, 5), 16) / 255;
   let b = parseInt(hex.slice(5, 7), 16) / 255;
-
+  
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   let h, s, l = (max + min) / 2;
-
+  
   if (max === min) {
     h = s = 0;
   } else {
@@ -47,34 +46,35 @@ const adjustColor = (hex, percent = 50) => {
   };
   const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
   const p = 2 * l - q;
-
+  
   r = hue2rgb(p, q, h + 1 / 3);
   g = hue2rgb(p, q, h);
   b = hue2rgb(p, q, h - 1 / 3);
-
+  
   return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`;
 };
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
   const outfitKeys = Object.keys(outfitData);
-
+  const dispatch = useDispatch()
+  
   // ✅ Check if outfitData is empty or all keys contain empty arrays/objects
   const isEmptyOutfitData =
-    !outfitKeys.length ||
-    outfitKeys.every((key) => {
-      const value = outfitData[key];
-      // handle object-of-arrays structure
-      return (
+  !outfitKeys.length ||
+  outfitKeys.every((key) => {
+    const value = outfitData[key];
+    // handle object-of-arrays structure
+    return (
         !value ||
         (typeof value === "object" &&
           Object.values(value).flat().length === 0)
-      );
-    });
-
-  if (isEmptyOutfitData) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-[#faf5e7]">
+        );
+      });
+      
+      if (isEmptyOutfitData) {
+        return (
+          <div className="flex justify-center items-center min-h-screen bg-[#faf5e7]">
         <p className="text-gray-500 text-lg">
           No outfit recommendations available. Try searching by image or color.
         </p>
