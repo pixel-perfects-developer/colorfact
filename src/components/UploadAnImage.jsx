@@ -50,9 +50,9 @@ const UploadAnImage = () => {
         dispatch(setOutfits([]));
         dispatch(setImageDetails(response));
         toast.success("Analyse terminée avec succès !");
-        router.push("/articles-assortis");
         formik.resetForm();
         setImagePreview(null);
+        router.push("/articles-assortis");
       } catch (err) {
         console.error("Erreur d’analyse :", err);
         toast.error("Échec de la récupération des recommandations d’outfit");
