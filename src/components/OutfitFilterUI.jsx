@@ -8,7 +8,6 @@ import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 
 const adjustColor = (hex, percent = 50) => {
-  const dispatch = useDispatch()
   if (!hex?.startsWith("#")) return hex;
 
   let r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -58,6 +57,7 @@ const adjustColor = (hex, percent = 50) => {
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
   const outfitKeys = Object.keys(outfitData);
+  const dispatch = useDispatch()
 
   // ✅ Check if outfitData is empty or all keys contain empty arrays/objects
   const isEmptyOutfitData =
@@ -87,6 +87,8 @@ const OutfitFilterPage = () => {
   const router = useRouter();
 
   const colorData = useSelector((state) => state.color?.colors);
+  console.log('colorData===========>', colorData);
+
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
@@ -344,7 +346,6 @@ const OutfitFilterPage = () => {
             const firstProduct = Object.values(outfitData[key])
               .flat()
               .find((item) => item?.product_id);
-            console.log("sss", outfitData);
 
             return (
               <div
