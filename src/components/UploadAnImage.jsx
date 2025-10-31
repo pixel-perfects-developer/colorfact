@@ -61,7 +61,7 @@ const UploadAnImage = () => {
   });
 
   // 🖼 Handle file selection
- const handleFileSelect = async (file) => {
+  const handleFileSelect = async (file) => {
     if (!file) return;
     setImagePreview(URL.createObjectURL(file));
     formik.setFieldValue("file", file);
@@ -70,7 +70,6 @@ const UploadAnImage = () => {
       setLoading(true);
       const colors = await extractColors(file);
       dispatch(setColors(colors))
-      // ✅ Normalize to array
       const cleanColors = Array.isArray(colors)
         ? colors.map((c) => c.replace("#", ""))
         : [colors.replace("#", "")];
@@ -119,11 +118,10 @@ const UploadAnImage = () => {
       <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
-          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${
-            loading
+          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
               ? "border-orange-400 opacity-60"
               : "border-gray-400 hover:border-orange-400"
-          }`}
+            }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -181,9 +179,8 @@ const UploadAnImage = () => {
           <button
             type="submit"
             disabled={analyzeDisabled}
-            className={`btn-orange ${
-              analyzeDisabled && "opacity-50 cursor-not-allowed"
-            }`}
+            className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
+              }`}
           >
             {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
           </button>
