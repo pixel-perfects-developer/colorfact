@@ -130,24 +130,39 @@ const OutfitFilterPage = () => {
       setLoading(true);
       const selectedType = tempFilters.category;
 
-      const adjustedColors =
-        Array.isArray(colorData) && colorData.length
-          ? colorData.map((c, i) => {
-            const hexValue = c.hex || c; // ✅ handles both {hex: '#AABBCC'} and plain '#AABBCC'
-            const adj = adjustColor(hexValue, colorIntensity[i] || 50);
-            const rgb = adj.match(/\d+/g);
-            return rgb
-              ? rgb
-                .map((v) => parseInt(v).toString(16).padStart(2, "0"))
-                .join("")
-                .toUpperCase()
-              : hexValue.replace(/^#/, "");
-          })
-          : [];
+     const adjustedColors =
+  Array.isArray(colorData) && colorData.length
+    ? colorData.map((c, i) => {
+        // normalize to #RRGGBB
+        const hexValue =
+          typeof c === "object" && c.hex ? c.hex : c;
+        const cleaned =
+          hexValue.startsWith("#")
+            ? hexValue
+            : "#" + hexValue.replace(/^#*/, "");
+
+        const adj = adjustColor(cleaned, colorIntensity[i] || 50);
+
+        // adjustColor returns rgb(), convert back to #RRGGBB
+        const rgb = adj.match(/\d+/g);
+        if (rgb) {
+          const hex = "#" + rgb
+            .map((v) => parseInt(v).toString(16).padStart(2, "0"))
+            .join("")
+            .toUpperCase();
+          return hex;
+        }
+
+        // fallback to cleaned hex
+        return cleaned;
+      })
+    : [];
+
 
       const params = new URLSearchParams();
-      if (adjustedColors.length)
-        params.append("input_colors", adjustedColors.join(",")); // ✅ use join
+   if (adjustedColors.length) {
+  adjustedColors.forEach((c) => params.append("input_colors", c));
+}
       params.append("type", selectedType);
       params.append("minPrice", tempFilters.minPrice);
       params.append("maxPrice", tempFilters.maxPrice);
