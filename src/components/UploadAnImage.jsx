@@ -77,7 +77,7 @@ const UploadAnImage = () => {
       formik.setFieldValue("colorCode", cleanColors);
     } catch (err) {
       console.error("Color extraction failed:", err);
-      alert("Failed to extract color from image");
+      toast.error("Failed to extract color from image");
     } finally {
       setLoading(false);
     }
