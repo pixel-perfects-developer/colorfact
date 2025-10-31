@@ -7,7 +7,7 @@ import DropDownMenu from "./DropDownMenu";
 import { extractColors } from "@/api/extract_colors";
 import { getOutfitByImage } from "@/api/outfit_by_image";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setColors } from "@/redux/slices/colorSlice";
 import { setImageDetails } from "@/redux/slices/imageDetailsSlice";
 import { useRouter } from "next/navigation";
@@ -28,20 +28,18 @@ const UploadAnImage = () => {
       subcategory: "",
     },
     validationSchema: Yup.object({
-      file: Yup.mixed().required("Please upload an image"),
-      gender: Yup.string().required("Select a gender"),
-      subcategory: Yup.string().required("Select a subcategory"),
+      file: Yup.mixed().required("Veuillez téléverser une image"),
+      gender: Yup.string().required("Veuillez sélectionner un genre"),
+      subcategory: Yup.string().required("Veuillez sélectionner une catégorie"),
     }),
     onSubmit: async (values) => {
       if (!values.colorCode || values.colorCode.length === 0) {
-        alert("No color extracted from image");
+        toast.error("Aucune couleur n’a été extraite de l’image");
         return;
       }
 
       try {
         setLoading(true);
-
-        // ✅ Pass array of colors
         const response = await getOutfitByImage(
           values.file,
           values.subcategory,
@@ -49,20 +47,20 @@ const UploadAnImage = () => {
         );
 
         dispatch(setImageDetails(response));
-        toast.success("Outfit analysis complete!");
-        router.push('/articles')
+        toast.success("Analyse terminée avec succès !");
+        router.push("/articles-assortis");
         formik.resetForm();
         setImagePreview(null);
       } catch (err) {
-        console.error("Error analyzing outfit:", err);
-        alert("Failed to fetch outfit recommendations.");
+        console.error("Erreur d’analyse :", err);
+        toast.error("Échec de la récupération des recommandations d’outfit");
       } finally {
         setLoading(false);
       }
     },
   });
 
-  // 🖼 Handle file selection or drag-drop
+  // 🖼 Handle file selection
   const handleFileSelect = async (file) => {
     if (!file) return;
     setImagePreview(URL.createObjectURL(file));
@@ -72,7 +70,6 @@ const UploadAnImage = () => {
       setLoading(true);
       const colors = await extractColors(file);
       dispatch(setColors(colors))
-      // ✅ Normalize to array
       const cleanColors = Array.isArray(colors)
         ? colors.map((c) => c.replace("#", ""))
         : [colors.replace("#", "")];
@@ -118,12 +115,12 @@ const UploadAnImage = () => {
       className="bg-[#faf5e7]"
       encType="multipart/form-data"
     >
-      <div className="container-global lg:w-[70%] mx-auto min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center">
+      <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
-            ? "border-orange-400 opacity-60"
-            : "border-gray-400 hover:border-orange-400"
+              ? "border-orange-400 opacity-60"
+              : "border-gray-400 hover:border-orange-400"
             }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
@@ -133,15 +130,15 @@ const UploadAnImage = () => {
             {imagePreview ? (
               <Image
                 src={imagePreview}
-                alt="uploaded-garment"
+                alt="vêtement téléversé"
                 width={400}
                 height={400}
                 className="w-[60%] md:w-[30%] lg:w-[20%]"
               />
             ) : (
               <Image
-                src="/drag-drop.png"
-                alt="drag-drop-upload"
+                src="/drag and drop.svg" // 🔁 replace with higher-res image
+                alt="téléversement d’image"
                 width={400}
                 height={400}
                 className="w-[60%] md:w-[30%] lg:w-[20%]"
@@ -150,7 +147,7 @@ const UploadAnImage = () => {
           </div>
           <p className="text-center mt-[2rem] lg:mt-[2%] w-[80%] lg:w-[40%] mx-auto text-gray-700">
             {!imagePreview &&
-              "Drag-and-drop a photo of your favorite garment and discover what to pair it with!"}
+              "Glissez-déposez une photo de votre vêtement préféré et découvrez comment l’associer !"}
           </p>
           <input
             type="file"
@@ -185,15 +182,17 @@ const UploadAnImage = () => {
             className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
               }`}
           >
-            {loading ? "Analyzing..." : "Analyser mon vêtement"}
+            {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
           </button>
         </div>
 
-        {/* 🧠 Info Text */}
-        <p className="text-center mt-[2rem] lg:mt-[2%]">
-          Nous analysons les couleurs et le style de votre article afin de vous
-          suggérer des vêtements assortis.
-        </p>
+        {/* 🧠 Loading Message */}
+        {loading && (
+          <p className="text-center mt-[2rem] lg:mt-[2%] animate-pulse text-gray-700">
+            Nous analysons les couleurs et le style de votre article afin de vous
+            suggérer des vêtements assortis.
+          </p>
+        )}
       </div>
     </form>
   );

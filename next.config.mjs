@@ -23,6 +23,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "nestorevintage.fr", // optional, from your earlier data
       },
+       {
+        protocol: "https",
+        hostname: "colorfulstandard.com", // optional, from your earlier data
+      },
     ],
   },
 };

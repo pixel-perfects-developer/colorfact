@@ -7,8 +7,7 @@ import outfitRecommendationReducer from "./slices/outfitRecommendationSlice";
 const rootReducer = combineReducers({
   color: colorReducer,
   imageDetails: imageDetailsReducer,
-      outfitRecommendation: outfitRecommendationReducer,
-
+  outfitRecommendation: outfitRecommendationReducer,
 });
 
 export default rootReducer;

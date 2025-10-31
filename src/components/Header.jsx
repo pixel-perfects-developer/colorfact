@@ -27,12 +27,12 @@ const Header = () => {
         <div className="flex items-center justify-start w-1/3">
           <Link href="/" className="flex items-center">
             <Image
-              src="/colorfact logo.png"
+              src="/Color-fact logo.png"
               alt="ColorFact logo"
-              width={160}
-              height={160}
+              width={120}
+              height={120}
               priority
-              className="w-[80%] h-auto object-contain"
+              className="w-[100%] h-auto object-contain"
             />
           </Link>
         </div>
@@ -87,15 +87,15 @@ const Header = () => {
 
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
-            href="/upload-image"
-            className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
+            href="/televerser-image"
+              className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
           >
             <Upload className="w-4 h-4" />
             Importer
           </Link>
 
           <Link
-            href="/palette"
+            href="/palette-de-couleurs"
             className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
           >
             <Palette className="w-4 h-4" />
@@ -174,7 +174,7 @@ const Header = () => {
             {/* 🧡 Mobile CTA Buttons */}
             <div className="flex flex-col gap-3 mt-6">
               <Link
-                href="/upload-image"
+                href="/televerser-image"
                 className="btn-orange flex items-center justify-center gap-2 !py-2"
                 onClick={() => setDrawerOpen(false)}
               >
@@ -182,7 +182,7 @@ const Header = () => {
                 Importer un Article
               </Link>
               <Link
-                href="/palette"
+                href="/palette-de-couleurs"
                 className="btn-orange flex items-center justify-center gap-2 !py-2"
                 onClick={() => setDrawerOpen(false)}
               >

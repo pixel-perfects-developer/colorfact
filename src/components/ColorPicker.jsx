@@ -20,8 +20,7 @@ const ColorPicker = () => {
     subcategory: "",
   });
 
-  console.log('dropdownValues======>', dropdownValues);
-  
+
   useEffect(() => {
     if (!colorPickerRef.current) return;
     colorPickerRef.current.innerHTML = "";
@@ -38,6 +37,7 @@ const ColorPicker = () => {
       setHex(selectedHex);
       dispatch(setColors(selectedHex)); // 🔹 store in Redux
     });
+
     return () => {
       if (colorPickerRef.current) colorPickerRef.current.innerHTML = "";
     };
@@ -50,47 +50,59 @@ const ColorPicker = () => {
   const handleAnalyze = async () => {
     const { gender, subcategory } = dropdownValues;
     if (!gender || !subcategory) {
-      alert("Please select gender and clothing type first.");
+      toast.error("Veuillez sélectionner le genre et la catégorie du vêtement d’abord.");
       return;
     }
+
     setLoading(true);
     try {
       const response = await getOutfitByColor({
         color: hex,
         clothing_type: subcategory,
-        gender: gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
+        gender: gender === "Homme" ? "H" : gender === "Femme" ? "F" : "H/F",
       });
       dispatch(setImageDetails(response));
-      router.push('/articles')
-      toast.success("Analysis complete!.");
+      router.push("/articles-assortis");
+      toast.success("Analyse terminée avec succès !");
     } catch (err) {
-      toast.error("Failed to fetch outfit recommendations.");
+      toast.error("Échec de la récupération des recommandations d’outfit.");
     } finally {
       setLoading(false);
     }
   };
+const analyzeDisabled =
+  !dropdownValues.gender || !dropdownValues.subcategory || loading;
 
   return (
     <div className="bg-[#F9F3E9]">
-      <div className="container-global min-h-[clamp(32rem,79vh,50rem)] flex flex-col items-center justify-center select-none">
+      <div className="container-global min-h-screen flex flex-col items-center justify-center select-none">
+        {/* 🎨 Color Picker */}
         <div className="mb-2" ref={colorPickerRef} />
 
+        {/* 🔽 Dropdown Section */}
         <DropDownMenu onSelect={handleDropdownSelect} />
 
+        {/* 🔘 CTA */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
-          <button
-            onClick={handleAnalyze}
-            disabled={loading}
-            className={`btn-orange ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
-          >
-            {loading ? "Analyzing..." : "Analyser mon vêtement"}
-          </button>
+        <button
+  onClick={handleAnalyze}
+  disabled={analyzeDisabled}
+  className={`btn-orange ${
+    analyzeDisabled && "opacity-50 cursor-not-allowed"
+  }`}
+>
+  {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
+</button>
+
         </div>
 
-        <p className="text-center mt-[2rem] lg:mt-[2%]">
-          Nous analysons les couleurs et le style de votre article afin de vous
-          suggérer des vêtements assortis.
-        </p>
+        {/* 🧠 Loading Message */}
+        {loading && (
+          <p className="text-center mt-[2rem] lg:mt-[2%] animate-pulse text-gray-700">
+            Nous analysons les couleurs et le style de votre article afin de vous
+            suggérer des vêtements assortis.
+          </p>
+        )}
       </div>
     </div>
   );

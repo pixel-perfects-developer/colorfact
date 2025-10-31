@@ -9,7 +9,7 @@ const Banner = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-[clamp(32rem,79vh,50rem)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
+      className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
     >
       {/* 🎥 Background Video or Image */}
       <div className="absolute inset-0">
@@ -44,18 +44,18 @@ const Banner = () => {
         <div className="mb-[6%]" />
 
         {/* 🧩 CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
           {/* 🔸 First button */}
           <button
-            onClick={() => handleNavigation("/upload-image")}
+            onClick={() => handleNavigation("/televerser-image")}
 className="btn-orange"          >
             <Upload className="w-5 h-5" />
             Importer un Article
           </button>
 
           {/* 🔸 Second button */}
-          <button
-            onClick={() => handleNavigation("/palette")}
+          <button 
+            onClick={() => handleNavigation("/palette-de-couleurs")}
 className="btn-orange"          >
             <Palette className="w-5 h-5" />
             Choisir une Couleur
