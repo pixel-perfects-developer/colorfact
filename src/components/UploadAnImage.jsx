@@ -61,7 +61,7 @@ const UploadAnImage = () => {
   });
 
   // 🖼 Handle file selection
-  const handleFileSelect = async (file) => {
+ const handleFileSelect = async (file) => {
     if (!file) return;
     setImagePreview(URL.createObjectURL(file));
     formik.setFieldValue("file", file);
@@ -69,16 +69,16 @@ const UploadAnImage = () => {
     try {
       setLoading(true);
       const colors = await extractColors(file);
-      dispatch(setColors(colors.colors || colors));
-
-      const cleanColors = Array.isArray(colors.colors || colors)
-        ? (colors.colors || colors).map((c) => c.replace("#", ""))
-        : [];
+      dispatch(setColors(colors))
+      // ✅ Normalize to array
+      const cleanColors = Array.isArray(colors)
+        ? colors.map((c) => c.replace("#", ""))
+        : [colors.replace("#", "")];
 
       formik.setFieldValue("colorCode", cleanColors);
     } catch (err) {
-      console.error("Erreur d’extraction des couleurs :", err);
-      toast.error("Impossible d’extraire les couleurs de l’image");
+      console.error("Color extraction failed:", err);
+      alert("Failed to extract color from image");
     } finally {
       setLoading(false);
     }

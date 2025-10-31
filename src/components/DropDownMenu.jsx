@@ -85,8 +85,6 @@ const DropDownMenu = ({ onSelect }) => {
       onSelect({
         gender:
           dropdowns.gender.selected?.name || dropdowns.gender.selected || "",
-        category:
-          dropdowns.category.selected?.name || dropdowns.category.selected || "",
         subcategory:
           dropdowns.subcategory.selected?.name ||
           dropdowns.subcategory.selected ||
