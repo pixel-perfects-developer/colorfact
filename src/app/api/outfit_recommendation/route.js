@@ -1,22 +1,41 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL ;
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL; // should be https://api.madtech-group.com
 
 export async function GET(req) {
   try {
-    const { searchParams } = new URL(req.url);
+    if (!BACKEND_URL) {
+      return NextResponse.json(
+        { error: "Backend URL not configured" },
+        { status: 500 }
+      );
+    }
 
-    // Forward all query params to your real backend API
+    // get all query params
+    const { searchParams } = new URL(req.url);
+    const query = Object.fromEntries(searchParams.entries());
+
+    // forward request to backend
     const response = await axios.get(`${BACKEND_URL}/outfit_recommendation`, {
-      params: Object.fromEntries(searchParams.entries()),
+      params: query,
+      timeout: 20000, // 20s safety timeout
     });
 
-    return NextResponse.json(response.data, { status: 200 });
+    console.log("✅ Forwarded to backend successfully");
+    return NextResponse.json(response.data, { status: response.status });
+
   } catch (error) {
-    console.error("❌ Proxy error (outfit_recommendation):", error);
+    console.error("❌ Proxy error (outfit_recommendation):", {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
+
     return NextResponse.json(
-      { error: "Failed to fetch outfit recommendation" },
+      { 
+        error: error.response?.data || error.message || "Failed to fetch outfit recommendation" 
+      },
       { status: error.response?.status || 500 }
     );
   }

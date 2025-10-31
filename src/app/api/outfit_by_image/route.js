@@ -16,7 +16,6 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-
     // Build form to send to external API
     const forwardForm = new FormData();
     forwardForm.append("file", file);
@@ -24,8 +23,6 @@ export async function POST(req) {
     forwardForm.append("gender", gender);
 
     const apiUrl = "https://api.madtech-group.com/outfit_by_image/";
-
-    console.log("➡️ Forwarding to external API:", apiUrl);
 
     const response = await fetch(
       `${apiUrl}?clothing_type=${encodeURIComponent(clothing_type)}&gender=${encodeURIComponent(gender)}`,
