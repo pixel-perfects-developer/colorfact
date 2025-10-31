@@ -50,6 +50,7 @@ const adjustColor = (hex, percent = 50) => {
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
+  const apiOutfitData = useSelector((state) => state.outfitRecommendation.outfits || {});
   const outfitKeys = Object.keys(outfitData);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -60,25 +61,27 @@ const OutfitFilterPage = () => {
     : colorData
     ? [{ hex: colorData }]
     : [];
+console.log("c",colors);
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
-  const [customPrice, setCustomPrice] = useState({ min: 0, max: 1000 });
-
   const [colorIntensity, setColorIntensity] = useState(colors.map(() => 50));
   const [loading, setLoading] = useState(false);
-const [tempFilters, setTempFilters] = useState({
-  colors: [],
-  category: "",
-  brands: [],
-  avoid: [],
-  minPrice: 0,
-  maxPrice: 1000,
-});
+  const [filtersApplied, setFiltersApplied] = useState(false);
+
+  const [tempFilters, setTempFilters] = useState({
+    colors: [],
+    category: "",
+    brands: [],
+    avoid: [],
+    minPrice: 0,
+    maxPrice: 1000,
+  });
 
   const toggleSection = (id) => setOpenSection(openSection === id ? null : id);
 
   const handleCheckbox = (type, name, checked, extra = null) => {
+    setFiltersApplied(false);
     setTempFilters((prev) => {
       let updated = [...prev[type]];
       if (extra && "min" in extra && "max" in extra) {
@@ -91,64 +94,95 @@ const [tempFilters, setTempFilters] = useState({
       return { ...prev, [type]: updated };
     });
   };
-const applyFilters = async () => {
-  try {
-    // ✅ Require at least color + category
-    if (
-      (!colorData || colorData.length === 0) ||
-      !tempFilters.category
-    ) {
-      alert("Veuillez sélectionner au moins une couleur et une catégorie.");
-      return;
-    }
 
-    setLoading(true);
+const resetFilters = () => {
+  setTempFilters({
+    colors: [],
+    category: "",
+    brands: [],
+    avoid: [],
+    minPrice: 0,
+    maxPrice: 1000,
+  });
+  setColorIntensity(colors.map(() => 50));
+  setOpenSection(null);
+  setFiltersApplied(false);
 
-    // ✅ Use user-selected category instead of first key
-    const selectedType = tempFilters.category;
-
-    // ✅ Use adjusted colors
-    const adjustedColors = Array.isArray(colorData)
-      ? colorData.map((c, i) => {
-          const adj = adjustColor(c, colorIntensity[i]);
-          const rgb = adj.match(/\d+/g);
-          return rgb
-            ? rgb
-                .map((v) =>
-                  parseInt(v)
-                    .toString(16)
-                    .padStart(2, "0")
-                )
-                .join("")
-                .toUpperCase()
-            : c.replace(/^#/, "");
-        })
-      : [];
-
-    const params = new URLSearchParams();
-    adjustedColors.forEach((c) => params.append("input_colors", c));
-    params.append("type", selectedType);
-
-    // ✅ Use actual typed values
-    params.append("minPrice", tempFilters.minPrice);
-    params.append("maxPrice", tempFilters.maxPrice);
-
-    if (tempFilters.brands.length)
-      params.append("wanted_brands", tempFilters.brands.join(","));
-    if (tempFilters.avoid.length)
-      params.append("removed_brands", tempFilters.avoid.join(","));
-
-    const res = await fetch(`/api/outfit_recommendation?${params.toString()}`);
-    const data = await res.json();
-
-    dispatch(setOutfits(data));
-    console.log("✅ Filtered outfit data:", data);
-  } catch (err) {
-    console.error("❌ API error:", err);
-  } finally {
-    setLoading(false);
-  }
+  // ✅ Clear API outfit data and revert to default outfitKeys data
+  dispatch(setOutfits({}));
+  toast.info("Filtres réinitialisés, affichage par défaut restauré 🔄", {
+    position: "top-center",
+  });
 };
+
+
+  const applyFilters = async () => {
+    try {
+      if (!tempFilters.category) {
+        toast.error("Veuillez sélectionner au moins une catégorie.", {
+          position: "top-center",
+        });
+        return;
+      }
+
+      setLoading(true);
+      const selectedType = tempFilters.category;
+
+   const adjustedColors =
+  Array.isArray(colorData) && colorData.length
+    ? colorData.map((c, i) => {
+        const hexValue = c.hex || c; // ✅ handles both {hex: '#AABBCC'} and plain '#AABBCC'
+        const adj = adjustColor(hexValue, colorIntensity[i] || 50);
+        const rgb = adj.match(/\d+/g);
+        return rgb
+          ? rgb
+              .map((v) => parseInt(v).toString(16).padStart(2, "0"))
+              .join("")
+              .toUpperCase()
+          : hexValue.replace(/^#/, "");
+      })
+    : [];
+
+const params = new URLSearchParams();
+if (adjustedColors.length)
+  params.append("input_colors", adjustedColors.join(",")); // ✅ use join
+
+      params.append("type", selectedType);
+      params.append("minPrice", tempFilters.minPrice);
+      params.append("maxPrice", tempFilters.maxPrice);
+      if (tempFilters.brands.length)
+        params.append("wanted_brands", tempFilters.brands.join(","));
+      if (tempFilters.avoid.length)
+        params.append("removed_brands", tempFilters.avoid.join(","));
+
+      const res = await fetch(`/api/outfit_recommendation?${params.toString()}`);
+      console.log("params.toString()",params.toString());
+      
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error("Erreur lors du chargement des recommandations.", {
+          position: "top-center",
+        });
+        throw new Error("API Error");
+      }
+
+      dispatch(setOutfits(data));
+      toast.success("Recommandations mises à jour avec succès 🎉", {
+        position: "top-center",
+      });
+      setFiltersApplied(true);
+      console.log("✅ Filtered outfit data:", data);
+
+    } catch (err) {
+      console.error("❌ API error:", err);
+      toast.error("Une erreur s'est produite. Veuillez réessayer.", {
+        position: "top-center",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const rgbToHex = (rgb) => {
     const result = rgb.match(/\d+/g);
@@ -184,12 +218,7 @@ const applyFilters = async () => {
           title: "Marques à éviter",
           data: [{ name: "Gucci" }, { name: "Balenciaga" }],
         },
-    {
-  id: "price",
-  title: "Prix",
-  data: [],
-},
-
+        { id: "price", title: "Prix", data: [] },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%]">
           <div
@@ -230,6 +259,7 @@ const applyFilters = async () => {
                       max="100"
                       value={colorIntensity[i]}
                       onChange={(e) => {
+                        setFiltersApplied(false);
                         const value = parseInt(e.target.value);
                         setColorIntensity((prev) =>
                           prev.map((v, idx) => (idx === i ? value : v))
@@ -256,9 +286,10 @@ const applyFilters = async () => {
                     type="radio"
                     name="category"
                     checked={tempFilters.category === cat.name}
-                    onChange={() =>
-                      setTempFilters((prev) => ({ ...prev, category: cat.name }))
-                    }
+                    onChange={() => {
+                      setFiltersApplied(false);
+                      setTempFilters((prev) => ({ ...prev, category: cat.name }));
+                    }}
                     className="accent-[#F16935]"
                   />
                   <h5>{cat.name}</h5>
@@ -291,75 +322,78 @@ const applyFilters = async () => {
                 </label>
               ))}
 
-    {section.id === "price" &&
-  openSection === "price" && (
-    <div className="flex flex-col gap-3">
-      <div>
-        <label className="text-sm font-medium text-gray-700">
-          Prix minimum (€)
-        </label>
-        <input
-          type="number"
-          min="0"
-          max="1000"
-          value={tempFilters.minPrice}
-          onChange={(e) =>
-            setTempFilters((prev) => ({
-              ...prev,
-              minPrice: Math.max(0, Math.min(1000, Number(e.target.value))),
-            }))
-          }
-          className="border rounded-md p-2 w-full text-sm"
-          placeholder="0"
-        />
-      </div>
-      <div>
-        <label className="text-sm font-medium text-gray-700">
-          Prix maximum (€)
-        </label>
-        <input
-          type="number"
-          min="0"
-          max="1000"
-          value={tempFilters.maxPrice}
-          onChange={(e) =>
-            setTempFilters((prev) => ({
-              ...prev,
-              maxPrice: Math.max(0, Math.min(1000, Number(e.target.value))),
-            }))
-          }
-          className="border rounded-md p-2 w-full text-sm"
-          placeholder="1000"
-        />
-      </div>
-      <p className="text-xs text-gray-500">
-        Entrez une plage de prix entre 50€ et 1000€.
-      </p>
-    </div>
-  )}
-
-
+            {section.id === "price" && openSection === "price" && (
+              <div className="flex flex-col gap-3">
+                <div>
+                  <label className="text-sm font-medium text-gray-700">
+                    Prix minimum (€)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="1000"
+                    value={tempFilters.minPrice}
+                    onChange={(e) => {
+                      setFiltersApplied(false);
+                      setTempFilters((prev) => ({
+                        ...prev,
+                        minPrice: Math.max(0, Math.min(1000, Number(e.target.value))),
+                      }));
+                    }}
+                    className="border rounded-md p-2 w-full text-sm"
+                    placeholder="0"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">
+                    Prix maximum (€)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="1000"
+                    value={tempFilters.maxPrice}
+                    onChange={(e) => {
+                      setFiltersApplied(false);
+                      setTempFilters((prev) => ({
+                        ...prev,
+                        maxPrice: Math.max(0, Math.min(1000, Number(e.target.value))),
+                      }));
+                    }}
+                    className="border rounded-md p-2 w-full text-sm"
+                    placeholder="1000"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ))}
 
       <button
-        disabled={!tempFilters.colors.length || !tempFilters.category}
+        disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
         className={`w-full ${
-          !tempFilters.colors.length || !tempFilters.category
+          !tempFilters.category || filtersApplied || loading
             ? "bg-[#8f4c2d36] cursor-not-allowed"
             : "bg-[#2D3F8F]"
         } text-white font-medium py-2 rounded-md mt-6`}
       >
-        {loading ? "Chargement..." : "RECHERCHER"}
+        {loading ? "Chargement..." : filtersApplied ? "Déjà appliqué " : "RECHERCHER"}
+      </button>
+
+      <button
+        onClick={resetFilters}
+        className="w-full bg-gray-300 text-gray-700 font-medium py-2 rounded-md mt-3 hover:bg-gray-400 transition-all"
+      >
+        Réinitialiser les filtres
       </button>
     </>
   );
 
   return (
     <div className="bg-[#faf5e7] min-h-screen py-10">
-      <div className="container-global flex flex-col md:flex-row gap-x-[4%] relative">
+      <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
         <button
           className="md:hidden flex justify-end mb-4"
           onClick={() => setShowFilters(true)}
@@ -372,35 +406,76 @@ const applyFilters = async () => {
           {renderFilterSections()}
         </aside>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
-          {outfitKeys.map((key) => {
-            const firstProduct = Object.values(outfitData[key])
-              .flat()
-              .find((item) => item?.product_id);
+        {/* ✅ Outfit Cards */}
+        {apiOutfitData?.recommendations?.length > 0 ? (
+          (() => {
+            const grouped = {};
+            apiOutfitData.recommendations.forEach((item) => {
+              const cat = item["Catégorie produit"];
+              if (!grouped[cat]) grouped[cat] = [];
+              grouped[cat].push(item);
+            });
             return (
-              <div
-                key={key}
-                onClick={() => router.push(`/articles-assortis/${key}`)}
-                className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
-              >
-                <div className="relative w-full h-64">
-                  <Image
-                    src={firstProduct?.product_id || "/placeholder.jpg"}
-                    alt={key}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-semibold text-gray-800">{key}</h3>
-                  <p className="text-gray-500 text-sm mt-1">
-                    {Object.keys(outfitData[key]).length} catégories
-                  </p>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
+                {Object.keys(grouped).map((cat) => {
+                  const first = grouped[cat][0];
+                  return (
+                    <div
+                      key={cat}
+onClick={() => router.push(`/articles-assortis/${encodeURIComponent(cat)}`)}
+                      className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                    >
+                      <div className="relative w-full h-64">
+                        <Image
+                          src={first["Photo produit 1"] || "/placeholder.jpg"}
+                          alt={cat}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="p-5">
+                        <h3 className="text-xl font-semibold text-gray-800">{cat}</h3>
+                        <p className="text-gray-500 text-sm mt-1">
+                          {grouped[cat].length} produits
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             );
-          })}
-        </div>
+          })()
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
+            {outfitKeys.map((key) => {
+              const firstProduct = Object.values(outfitData[key])
+                .flat()
+                .find((item) => item?.product_id);
+              return (
+                <div
+                  key={key}
+                  onClick={() => router.push(`/articles-assortis/${key}`)}
+                  className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                >
+                  <div className="relative w-full h-64">
+                    <Image
+                      src={firstProduct?.product_id || "/placeholder.jpg"}
+                      alt={key}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-xl font-semibold text-gray-800">{key}</h3>
+                    <p className="text-gray-500 text-sm mt-1">
+                      {Object.keys(outfitData[key]).length} catégories
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

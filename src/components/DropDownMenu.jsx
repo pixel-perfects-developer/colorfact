@@ -118,12 +118,19 @@ const DropDownMenu = ({ onSelect }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const updateDropdown = (key, updates) => {
-    setDropdowns((prev) => ({
-      ...prev,
-      [key]: { ...prev[key], ...updates },
-    }));
-  };
+const updateDropdown = (key, updates) => {
+  setDropdowns((prev) => {
+    const newState = {
+      gender: { ...prev.gender, open: false },
+      category: { ...prev.category, open: false },
+      subcategory: { ...prev.subcategory, open: false },
+    };
+
+    newState[key] = { ...prev[key], ...updates };
+    return newState;
+  });
+};
+
 
   return (
     <>
