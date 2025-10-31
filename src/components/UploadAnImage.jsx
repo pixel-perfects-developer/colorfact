@@ -137,7 +137,7 @@ const UploadAnImage = () => {
               />
             ) : (
               <Image
-                src="/drag and drop.svg" // 🔁 replace with higher-res image
+                src="/draganddrop.svg" // 🔁 replace with higher-res image
                 alt="téléversement d’image"
                 width={400}
                 height={400}

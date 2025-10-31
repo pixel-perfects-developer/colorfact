@@ -47,7 +47,7 @@ const Banner = () => {
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
           {/* 🔸 First button */}
           <button
-            onClick={() => handleNavigation("/televerser-image")}
+            onClick={() => handleNavigation("/image-search")}
 className="btn-orange"          >
             <Upload className="w-5 h-5" />
             Importer un Article
@@ -55,7 +55,7 @@ className="btn-orange"          >
 
           {/* 🔸 Second button */}
           <button 
-            onClick={() => handleNavigation("/palette-de-couleurs")}
+            onClick={() => handleNavigation("/color-search")}
 className="btn-orange"          >
             <Palette className="w-5 h-5" />
             Choisir une Couleur

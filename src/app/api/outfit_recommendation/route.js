@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL; // should be https://api.madtech-group.com
+// ✅ Force Node.js runtime (Edge runtime can't load axios.cjs)
+export const runtime = "nodejs";
+
+// ✅ Optional: keep your forced dynamic behavior if needed
+export const dynamic = "force-dynamic";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.madtech-group.com";
 
 export async function GET(req) {
   try {
@@ -12,14 +18,14 @@ export async function GET(req) {
       );
     }
 
-    // get all query params
+    // ✅ Get all query parameters
     const { searchParams } = new URL(req.url);
     const query = Object.fromEntries(searchParams.entries());
 
-    // forward request to backend
+    // ✅ Forward GET request to backend API
     const response = await axios.get(`${BACKEND_URL}outfit_recommendation`, {
       params: query,
-      timeout: 20000, // 20s safety timeout
+      timeout: 20000, // safety timeout
     });
 
     console.log("✅ Forwarded to backend successfully");
@@ -33,10 +39,18 @@ export async function GET(req) {
     });
 
     return NextResponse.json(
-      { 
-        error: error.response?.data || error.message || "Failed to fetch outfit recommendation" 
+      {
+        error:
+          error.response?.data ||
+          error.message ||
+          "Failed to fetch outfit recommendation",
       },
       { status: error.response?.status || 500 }
     );
   }
+}
+
+// ✅ Add OPTIONS to fix “Method Not Allowed” preflight issues on Vercel
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200 });
 }
