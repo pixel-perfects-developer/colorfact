@@ -87,7 +87,7 @@ const Header = () => {
 
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
-            href="/televerser-image"
+            href="/image-search"
               className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
           >
             <Upload className="w-4 h-4" />
@@ -95,7 +95,7 @@ const Header = () => {
           </Link>
 
           <Link
-            href="/palette-de-couleurs"
+            href="/color-search"
             className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
           >
             <Palette className="w-4 h-4" />
@@ -174,7 +174,7 @@ const Header = () => {
             {/* 🧡 Mobile CTA Buttons */}
             <div className="flex flex-col gap-3 mt-6">
               <Link
-                href="/televerser-image"
+                href="/image-search"
                 className="btn-orange flex items-center justify-center gap-2 !py-2"
                 onClick={() => setDrawerOpen(false)}
               >
@@ -182,7 +182,7 @@ const Header = () => {
                 Importer un Article
               </Link>
               <Link
-                href="/palette-de-couleurs"
+                href="/color-search"
                 className="btn-orange flex items-center justify-center gap-2 !py-2"
                 onClick={() => setDrawerOpen(false)}
               >

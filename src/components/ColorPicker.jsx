@@ -75,9 +75,9 @@ const analyzeDisabled =
 
   return (
     <div className="bg-[#F9F3E9]">
-      <div className="container-global min-h-screen flex flex-col items-center justify-center select-none">
+      <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center select-none">
         {/* 🎨 Color Picker */}
-        <div className="mb-2" ref={colorPickerRef} />
+        <div className="mb-6" ref={colorPickerRef} />
 
         {/* 🔽 Dropdown Section */}
         <DropDownMenu onSelect={handleDropdownSelect} />
