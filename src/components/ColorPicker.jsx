@@ -19,7 +19,6 @@ const ColorPicker = () => {
     gender: "",
     subcategory: "",
   });
-  console.log('dropdownValues======>', dropdownValues);
 
   useEffect(() => {
     if (!colorPickerRef.current) return;

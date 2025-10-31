@@ -55,14 +55,12 @@ const OutfitFilterPage = () => {
   const router = useRouter();
 
   const colorData = useSelector((state) => state.color?.colors);
-  console.log('colorData------<', colorData);
 
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
       ? [{ hex: colorData }]
       : [];
-  console.log("c", colors);
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -137,28 +135,28 @@ const OutfitFilterPage = () => {
             ? hexValue
             : "#" + hexValue.replace(/^#*/, "");
 
-        const adj = adjustColor(cleaned, colorIntensity[i] || 50);
+            const adj = adjustColor(cleaned, colorIntensity[i] || 50);
 
-        // adjustColor returns rgb(), convert back to #RRGGBB
-        const rgb = adj.match(/\d+/g);
-        if (rgb) {
-          const hex = "#" + rgb
-            .map((v) => parseInt(v).toString(16).padStart(2, "0"))
-            .join("")
-            .toUpperCase();
-          return hex;
-        }
+            // adjustColor returns rgb(), convert back to #RRGGBB
+            const rgb = adj.match(/\d+/g);
+            if (rgb) {
+              const hex = "#" + rgb
+                .map((v) => parseInt(v).toString(16).padStart(2, "0"))
+                .join("")
+                .toUpperCase();
+              return hex;
+            }
 
-        // fallback to cleaned hex
-        return cleaned;
-      })
-    : [];
+            // fallback to cleaned hex
+            return cleaned;
+          })
+          : [];
 
 
       const params = new URLSearchParams();
-   if (adjustedColors.length) {
-  adjustedColors.forEach((c) => params.append("input_colors", c));
-}
+      if (adjustedColors.length) {
+        adjustedColors.forEach((c) => params.append("input_colors", c));
+      }
       params.append("type", selectedType);
       params.append("minPrice", tempFilters.minPrice);
       params.append("maxPrice", tempFilters.maxPrice);
