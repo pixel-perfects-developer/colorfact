@@ -17,7 +17,7 @@ export async function GET(req) {
     const query = Object.fromEntries(searchParams.entries());
 
     // forward request to backend
-    const response = await axios.get(`${BACKEND_URL}/outfit_recommendation`, {
+    const response = await axios.get(`${BACKEND_URL}outfit_recommendation`, {
       params: query,
       timeout: 20000, // 20s safety timeout
     });
