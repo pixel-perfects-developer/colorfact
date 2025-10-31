@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setColors } from "@/redux/slices/colorSlice";
 import { setImageDetails } from "@/redux/slices/imageDetailsSlice";
 import { useRouter } from "next/navigation";
+import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 
 const ColorPicker = () => {
   const colorPickerRef = useRef(null);
@@ -34,6 +35,7 @@ const ColorPicker = () => {
     picker.on("color:change", (color) => {
       const selectedHex = color.hexString;
       setHex(selectedHex);
+      dispatch(setOutfits([]));
       dispatch(setColors([selectedHex])); // 🔹 store in Redux
     });
 
