@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setColors } from "@/redux/slices/colorSlice";
 import { setImageDetails } from "@/redux/slices/imageDetailsSlice";
 import { useRouter } from "next/navigation";
+import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 
 const UploadAnImage = () => {
   const fileInputRef = useRef(null);
@@ -46,11 +47,12 @@ const UploadAnImage = () => {
           values.gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
         );
 
+        dispatch(setOutfits([]));
         dispatch(setImageDetails(response));
         toast.success("Analyse terminée avec succès !");
-        router.push("/articles-assortis");
         formik.resetForm();
         setImagePreview(null);
+        router.push("/articles-assortis");
       } catch (err) {
         console.error("Erreur d’analyse :", err);
         toast.error("Échec de la récupération des recommandations d’outfit");
@@ -68,8 +70,13 @@ const UploadAnImage = () => {
 
     try {
       setLoading(true);
-      const colors = await extractColors(file);
-      dispatch(setColors(colors))
+
+      // ✅ Clone the file for extractColors
+      const colorFile = new File([file], file.name, { type: file.type });
+      const colors = await extractColors(colorFile);
+
+      dispatch(setColors(colors));
+
       const cleanColors = Array.isArray(colors)
         ? colors.map((c) => c.replace("#", ""))
         : [colors.replace("#", "")];
@@ -115,12 +122,12 @@ const UploadAnImage = () => {
       className="bg-[#faf5e7]"
       encType="multipart/form-data"
     >
-      <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
-              ? "border-orange-400 opacity-60"
-              : "border-gray-400 hover:border-orange-400"
+            ? "border-orange-400 opacity-60"
+            : "border-gray-400 hover:border-orange-400"
             }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
@@ -151,7 +158,7 @@ const UploadAnImage = () => {
           </p>
           <input
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             ref={fileInputRef}
             onChange={handleFileChange}
             className="hidden"

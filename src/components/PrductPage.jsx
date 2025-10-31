@@ -1,6 +1,6 @@
 "use client";
 import { useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -10,41 +10,89 @@ import { useState, useEffect } from "react";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const decodedSlug = decodeURIComponent(id).toLowerCase();
-
-  const router = useRouter();
+  const decodedSlug = decodeURIComponent(id);
   const { swiperRef, handleSlideChange, swiperState } = useSwiper();
 
-  // 🧩 Both possible data sources
   const outfitData = useSelector((state) => state.imageDetails.details || {});
   const apiOutfitData = useSelector((state) => state.outfitRecommendation.outfits || {});
 
+  const [activeCategory, setActiveCategory] = useState("All");
   const [products, setProducts] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [isFromOutfitData, setIsFromOutfitData] = useState(false);
 
-  // 🔄 Combine logic: decide which data source to use
+  // 🧠 Decide which dataset to use
   useEffect(() => {
     if (apiOutfitData?.recommendations?.length > 0) {
-      // ✅ From AI recommendation API
+      // ✅ Case 1: Recommendation data
       const filtered = apiOutfitData.recommendations.filter(
         (item) =>
-          item["Catégorie produit"]?.toLowerCase().replace(/\s+/g, "-") === decodedSlug
+          item["Catégorie produit"]?.toLowerCase().replace(/\s+/g, "-") ===
+          decodedSlug.toLowerCase().replace(/\s+/g, "-")
       );
       setProducts(filtered);
+      setIsFromOutfitData(false);
     } else if (outfitData && Object.keys(outfitData).length > 0) {
-      // ✅ From extracted outfitData
+      // ✅ Case 2: Outfit data
       const matchedKey = Object.keys(outfitData).find(
-        (key) => key.toLowerCase().replace(/\s+/g, "-") === decodedSlug
+        (key) =>
+          key.toLowerCase().replace(/\s+/g, "-") ===
+          decodedSlug.toLowerCase().replace(/\s+/g, "-")
       );
       if (matchedKey) {
-        const categoryProducts = Object.values(outfitData[matchedKey])
+        const currentCategory = outfitData[matchedKey];
+
+        // 🧹 Filter out empty subcategories
+        const validSubcategories = Object.keys(currentCategory).filter(
+          (subKey) => Array.isArray(currentCategory[subKey]) && currentCategory[subKey].length > 0
+        );
+
+        setSubCategories(["All", ...validSubcategories]);
+
+        // Flatten only valid products
+        const allProducts = validSubcategories
+          .map((key) => currentCategory[key])
           .flat()
-          .filter((item) => item?.product_id);
-        setProducts(categoryProducts);
+          .filter((item) => item?.["Photo produit 1"] || item?.product_id);
+
+        setProducts(allProducts);
+        setIsFromOutfitData(true);
       }
     }
   }, [decodedSlug, outfitData, apiOutfitData]);
 
-  // 📏 Responsive arrow threshold
+    useEffect(() => {
+      if (swiperRef.current && swiperRef.current.slideTo) {
+        swiperRef.current.slideTo(0);
+      }
+
+    }, [activeCategory]); 
+    
+    useEffect(() => {
+    if (!isFromOutfitData) return;
+
+    const matchedKey = Object.keys(outfitData).find(
+      (key) =>
+        key.toLowerCase().replace(/\s+/g, "-") ===
+        decodedSlug.toLowerCase().replace(/\s+/g, "-")
+    );
+    if (!matchedKey) return;
+
+    const currentCategory = outfitData[matchedKey];
+    if (activeCategory === "All") {
+      const allProducts = subCategories
+        .filter((c) => c !== "All")
+        .map((key) => currentCategory[key])
+        .flat()
+        .filter((item) => item?.["Photo produit 1"] || item?.product_id);
+      setProducts(allProducts);
+    } else {
+      const filtered = currentCategory[activeCategory] || [];
+      setProducts(filtered.filter((item) => item?.["Photo produit 1"] || item?.product_id));
+    }
+  }, [activeCategory, decodedSlug, outfitData, isFromOutfitData]);
+
+  // 📏 Responsive arrows
   const [arrowThreshold, setArrowThreshold] = useState(4);
   useEffect(() => {
     const handleResize = () => {
@@ -69,12 +117,32 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="bg-[#faf5e7] min-h-screen py-10">
+    <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
       <div className="container-global">
-        <h2 className="mb-8 text-center text-2xl font-semibold text-gray-800 capitalize">
+        <h2 className="mb-6 text-center text-2xl font-semibold text-gray-800 capitalize">
           {decodedSlug.replace(/-/g, " ")}
         </h2>
 
+        {/* 🏷️ Show tags only for outfitData */}
+        {isFromOutfitData && subCategories.length > 1 && (
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {subCategories.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setActiveCategory(tag)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  activeCategory === tag
+                    ? "bg-[#2D3F8F] text-white shadow-md"
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* 🎡 Product Carousel */}
         <div className="flex justify-center items-center gap-x-[2%] w-[90%] mx-auto md:w-full">
           {(() => {
             const totalItems = products.length;
@@ -88,11 +156,7 @@ const ProductPage = () => {
                   />
                 )}
 
-                <div
-                  className={`${
-                    totalItems > arrowThreshold ? "w-[90%]" : "w-full"
-                  }`}
-                >
+                <div className={`${totalItems > arrowThreshold ? "w-[90%]" : "w-full"}`}>
                   <Swiper
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
                     onSlideChange={handleSlideChange}
@@ -109,19 +173,18 @@ const ProductPage = () => {
                       <SwiperSlide key={index}>
                         <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all p-6 flex flex-col justify-between h-[420px] w-[90%] mx-auto md:w-full">
                           {/* 🖼 Image */}
-                     <div className="relative w-full h-[240px] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
-    <Image
-      src={
-        item["Photo produit 1"] ||
-        item.product_id ||
-        "/placeholder.jpg"
-      }
-      alt={item["Nom produit"] || item.name || "Product"}
-      fill
-      className="object-contain p-2 transition-transform duration-500 hover:scale-105"
-    />
-  </div>
-
+                          <div className="relative w-full h-[240px] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                            <Image
+                              src={
+                                item["Photo produit 1"] ||
+                                item.product_id ||
+                                "/placeholder.jpg"
+                              }
+                              alt={item["Nom produit"] || item.name || "Product"}
+                              fill
+                              className="object-contain p-2 transition-transform duration-500 hover:scale-105"
+                            />
+                          </div>
 
                           {/* 📄 Product Info */}
                           <div className="flex flex-col justify-between mt-4 flex-1">
@@ -131,10 +194,7 @@ const ProductPage = () => {
                               </h4>
 
                               <p className="text-gray-900 font-semibold text-[1rem] mb-1">
-                                €
-                                {item.Prix ||
-                                  item.price ||
-                                  "—"}
+                                €{item.Prix || item.price || "—"}
                               </p>
 
                               <p className="text-gray-400 text-xs mb-2">

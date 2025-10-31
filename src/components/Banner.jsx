@@ -9,7 +9,7 @@ const Banner = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
+      className="relative w-full min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
     >
       {/* 🎥 Background Video or Image */}
       <div className="absolute inset-0">
@@ -31,7 +31,7 @@ const Banner = () => {
       <div className="relative z-10 flex flex-col items-center text-center px-6 lg:px-12">
         {/* 🟢 Logo */}
         <Image
-          src="/colorfact logo.png"
+          src="/header.png"
           alt="ColorFact Logo"
           width={220}
           height={80}

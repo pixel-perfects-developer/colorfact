@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setColors } from "@/redux/slices/colorSlice";
 import { setImageDetails } from "@/redux/slices/imageDetailsSlice";
 import { useRouter } from "next/navigation";
+import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 
 const ColorPicker = () => {
   const colorPickerRef = useRef(null);
@@ -19,7 +20,6 @@ const ColorPicker = () => {
     gender: "",
     subcategory: "",
   });
-
 
   useEffect(() => {
     if (!colorPickerRef.current) return;
@@ -35,6 +35,7 @@ const ColorPicker = () => {
     picker.on("color:change", (color) => {
       const selectedHex = color.hexString;
       setHex(selectedHex);
+      dispatch(setOutfits([]));
       dispatch(setColors([selectedHex])); // 🔹 store in Redux
     });
 
@@ -70,12 +71,11 @@ const ColorPicker = () => {
       setLoading(false);
     }
   };
-const analyzeDisabled =
-  !dropdownValues.gender || !dropdownValues.subcategory || loading;
+  const analyzeDisabled = !dropdownValues.gender || !dropdownValues.subcategory || loading;
 
   return (
     <div className="bg-[#F9F3E9]">
-      <div className="container-global lg:w-[70%] mx-auto min-h-screen flex flex-col items-center justify-center select-none">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center select-none">
         {/* 🎨 Color Picker */}
         <div className="mb-6" ref={colorPickerRef} />
 
@@ -84,15 +84,14 @@ const analyzeDisabled =
 
         {/* 🔘 CTA */}
         <div className="flex justify-center mt-[2rem] lg:mt-[2%]">
-        <button
-  onClick={handleAnalyze}
-  disabled={analyzeDisabled}
-  className={`btn-orange ${
-    analyzeDisabled && "opacity-50 cursor-not-allowed"
-  }`}
->
-  {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
-</button>
+          <button
+            onClick={handleAnalyze}
+            disabled={analyzeDisabled}
+            className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
+              }`}
+          >
+            {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
+          </button>
 
         </div>
 

@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { ArrowRight, SlidersHorizontal, X } from "lucide-react";
 import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 const adjustColor = (hex, percent = 50) => {
   if (!hex?.startsWith("#")) return hex;
   let r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -15,7 +14,9 @@ const adjustColor = (hex, percent = 50) => {
   let b = parseInt(hex.slice(5, 7), 16) / 255;
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
-  let h, s, l = (max + min) / 2;
+  let h,
+    s,
+    l = (max + min) / 2;
 
   if (max === min) {
     h = s = 0;
@@ -23,9 +24,15 @@ const adjustColor = (hex, percent = 50) => {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h /= 6;
   }
@@ -45,25 +52,29 @@ const adjustColor = (hex, percent = 50) => {
   r = hue2rgb(p, q, h + 1 / 3);
   g = hue2rgb(p, q, h);
   b = hue2rgb(p, q, h - 1 / 3);
-  return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`;
+  return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(
+    b * 255
+  )})`;
 };
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
-  const apiOutfitData = useSelector((state) => state.outfitRecommendation.outfits || {});
+  console.log("outfitData=>", outfitData);
+
+  const apiOutfitData = useSelector(
+    (state) => state.outfitRecommendation.outfits || {}
+  );
   const outfitKeys = Object.keys(outfitData);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const colorData = useSelector((state) => state.color?.colors);
-  console.log('colorData------<', colorData);
 
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
-      ? [{ hex: colorData }]
-      : [];
-  console.log("c", colors);
+    ? [{ hex: colorData }]
+    : [];
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -79,6 +90,7 @@ const OutfitFilterPage = () => {
     minPrice: 0,
     maxPrice: 1000,
   });
+  console.log("tempFilters------<", tempFilters);
 
   const toggleSection = (id) => setOpenSection(openSection === id ? null : id);
 
@@ -109,14 +121,12 @@ const OutfitFilterPage = () => {
     setColorIntensity(colors.map(() => 50));
     setOpenSection(null);
     setFiltersApplied(false);
-
-    // ✅ Clear API outfit data and revert to default outfitKeys data
     dispatch(setOutfits({}));
     toast.info("Filtres réinitialisés, affichage par défaut restauré 🔄", {
       position: "top-center",
     });
   };
-
+  const selectedType = tempFilters.category;
 
   const applyFilters = async () => {
     try {
@@ -128,41 +138,38 @@ const OutfitFilterPage = () => {
       }
 
       setLoading(true);
-      const selectedType = tempFilters.category;
 
-     const adjustedColors =
-  Array.isArray(colorData) && colorData.length
-    ? colorData.map((c, i) => {
-        // normalize to #RRGGBB
-        const hexValue =
-          typeof c === "object" && c.hex ? c.hex : c;
-        const cleaned =
-          hexValue.startsWith("#")
-            ? hexValue
-            : "#" + hexValue.replace(/^#*/, "");
+      const adjustedColors =
+        Array.isArray(colorData) && colorData.length
+          ? colorData.map((c, i) => {
+              const hexValue = typeof c === "object" && c.hex ? c.hex : c;
+              const cleaned = hexValue.startsWith("#")
+                ? hexValue
+                : "#" + hexValue.replace(/^#*/, "");
 
-        const adj = adjustColor(cleaned, colorIntensity[i] || 50);
+              const adj = adjustColor(cleaned, colorIntensity[i] || 50);
 
-        // adjustColor returns rgb(), convert back to #RRGGBB
-        const rgb = adj.match(/\d+/g);
-        if (rgb) {
-          const hex = "#" + rgb
-            .map((v) => parseInt(v).toString(16).padStart(2, "0"))
-            .join("")
-            .toUpperCase();
-          return hex;
-        }
+              // adjustColor returns rgb(), convert back to #RRGGBB
+              const rgb = adj.match(/\d+/g);
+              if (rgb) {
+                const hex =
+                  "#" +
+                  rgb
+                    .map((v) => parseInt(v).toString(16).padStart(2, "0"))
+                    .join("")
+                    .toUpperCase();
+                return hex;
+              }
 
-        // fallback to cleaned hex
-        return cleaned;
-      })
-    : [];
-
+              // fallback to cleaned hex
+              return cleaned;
+            })
+          : [];
 
       const params = new URLSearchParams();
-   if (adjustedColors.length) {
-  adjustedColors.forEach((c) => params.append("input_colors", c));
-}
+      if (adjustedColors.length) {
+        adjustedColors.forEach((c) => params.append("input_colors", c));
+      }
       params.append("type", selectedType);
       params.append("minPrice", tempFilters.minPrice);
       params.append("maxPrice", tempFilters.maxPrice);
@@ -171,7 +178,9 @@ const OutfitFilterPage = () => {
       if (tempFilters.avoid.length)
         params.append("removed_brands", tempFilters.avoid.join(","));
 
-      const res = await fetch(`/api/outfit_recommendation?${params.toString()}`);
+      const res = await fetch(
+        `/api/outfit_recommendation?${params.toString()}`
+      );
       console.log("params.toString()", params.toString());
 
       const data = await res.json();
@@ -189,7 +198,6 @@ const OutfitFilterPage = () => {
       });
       setFiltersApplied(true);
       console.log("✅ Filtered outfit data:", data);
-
     } catch (err) {
       console.error("❌ API error:", err);
       toast.error("Une erreur s'est produite. Veuillez réessayer.", {
@@ -220,20 +228,20 @@ const OutfitFilterPage = () => {
       {[
         { id: "color", title: "Couleur", data: colors },
         {
-          id: "catégorie",
-          title: "catégorie",
+          id: "category",
+          title: "Catégorie",
           data: outfitKeys.map((key) => ({ name: key })),
         },
-        {
-          id: "brands",
-          title: "Marques",
-          data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
-        },
-        {
-          id: "avoid",
-          title: "Marques à éviter",
-          data: [{ name: "Gucci" }, { name: "Balenciaga" }],
-        },
+        // {
+        //   id: "brands",
+        //   title: "Marques",
+        //   data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
+        // },
+        // {
+        //   id: "avoid",
+        //   title: "Marques à éviter",
+        //   data: [{ name: "Gucci" }, { name: "Balenciaga" }],
+        // },
         { id: "price", title: "Prix", data: [] },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%]">
@@ -244,19 +252,28 @@ const OutfitFilterPage = () => {
             <h4 className="font-bold">{section.title}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"
-                }`}
+              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${
+                openSection === section.id ? "rotate-180" : "rotate-0"
+              }`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </div>
 
           <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden ${openSection === section.id ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-              }`}
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${
+              openSection === section.id
+                ? "max-h-[500px] opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
           >
             {section.id === "color" &&
               section.data.map((c, i) => {
@@ -288,35 +305,54 @@ const OutfitFilterPage = () => {
                         background: `linear-gradient(to right, ${c.hex} 0%, ${adjusted} 100%)`,
                       }}
                     />
-                    <span className="text-xs text-gray-700">{rgbToHex(adjusted)}</span>
+                    <span className="text-xs text-gray-700">
+                      {rgbToHex(adjusted)}
+                    </span>
                   </div>
                 );
               })}
-
-            {section.id === "catégorie" &&
+              {section.id === "category" &&
               section.data.map((cat, i) => (
-                <label key={i} className="flex items-center gap-2 cursor-pointer">
+                <label
+                  key={i}
+                  className={`flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors`}
+                >
                   <input
                     type="radio"
                     name="category"
-                    checked={tempFilters.category === cat.name}
+                    value={tempFilters.category === cat.name}
                     onChange={() => {
-                      setFiltersApplied(false);
-                      setTempFilters((prev) => ({ ...prev, category: cat.name }));
+                      setTempFilters((prev) => ({
+                        ...prev,
+                        category:
+                          prev.category === cat.name
+                            ? "" // ✅ toggle off if clicked again
+                            : cat.name,
+                      }));
                     }}
-                    className="accent-[#F16935]"
+                    className={`w-4 h-4 cursor-pointer transition-all duration-200
+    ${
+      tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
+    }
+  `}  
                   />
-                  <h5>{cat.name}</h5>
+
+                  <h5 className={`text-sm  "text-gray-800"}`}>{cat.name}</h5>
                 </label>
               ))}
 
             {section.id === "brands" &&
               section.data.map((b, i) => (
-                <label key={i} className="flex items-center gap-2 cursor-pointer">
+                <label
+                  key={i}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={tempFilters.brands.includes(b.name)}
-                    onChange={(e) => handleCheckbox("brands", b.name, e.target.checked)}
+                    onChange={(e) =>
+                      handleCheckbox("brands", b.name, e.target.checked)
+                    }
                     className="accent-[#F16935]"
                   />
                   <h5>{b.name}</h5>
@@ -325,11 +361,16 @@ const OutfitFilterPage = () => {
 
             {section.id === "avoid" &&
               section.data.map((b, i) => (
-                <label key={i} className="flex items-center gap-2 cursor-pointer">
+                <label
+                  key={i}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={tempFilters.avoid.includes(b.name)}
-                    onChange={(e) => handleCheckbox("avoid", b.name, e.target.checked)}
+                    onChange={(e) =>
+                      handleCheckbox("avoid", b.name, e.target.checked)
+                    }
                     className="accent-[#F16935]"
                   />
                   <h5>{b.name}</h5>
@@ -351,7 +392,10 @@ const OutfitFilterPage = () => {
                       setFiltersApplied(false);
                       setTempFilters((prev) => ({
                         ...prev,
-                        minPrice: Math.max(0, Math.min(1000, Number(e.target.value))),
+                        minPrice: Math.max(
+                          0,
+                          Math.min(1000, Number(e.target.value))
+                        ),
                       }));
                     }}
                     className="border rounded-md p-2 w-full text-sm"
@@ -371,7 +415,10 @@ const OutfitFilterPage = () => {
                       setFiltersApplied(false);
                       setTempFilters((prev) => ({
                         ...prev,
-                        maxPrice: Math.max(0, Math.min(1000, Number(e.target.value))),
+                        maxPrice: Math.max(
+                          0,
+                          Math.min(1000, Number(e.target.value))
+                        ),
                       }));
                     }}
                     className="border rounded-md p-2 w-full text-sm"
@@ -387,12 +434,17 @@ const OutfitFilterPage = () => {
       <button
         disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${!tempFilters.category || filtersApplied || loading
-          ? "bg-[#8f4c2d36] cursor-not-allowed"
-          : "bg-[#2D3F8F]"
-          } text-white font-medium py-2 rounded-md mt-6`}
+        className={`w-full ${
+          !tempFilters.category || filtersApplied || loading
+            ? "bg-[#8f4c2d36] cursor-not-allowed"
+            : "bg-[#2D3F8F]"
+        } text-white font-medium py-2 rounded-md mt-6`}
       >
-        {loading ? "Chargement..." : filtersApplied ? "Déjà appliqué " : "RECHERCHER"}
+        {loading
+          ? "Chargement..."
+          : filtersApplied
+          ? "Déjà appliqué "
+          : "RECHERCHER"}
       </button>
 
       <button
@@ -405,7 +457,7 @@ const OutfitFilterPage = () => {
   );
 
   return (
-    <div className="bg-[#faf5e7] min-h-screen py-10">
+    <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
       <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
         <button
           className="md:hidden flex justify-end mb-4"
@@ -418,7 +470,34 @@ const OutfitFilterPage = () => {
           <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
           {renderFilterSections()}
         </aside>
+        <div
+          className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
+            showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+        >
+          {/* Backdrop */}
+          <div
+            className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
+              showFilters ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={() => setShowFilters(false)}
+          ></div>
 
+          {/* Drawer Panel */}
+          <div
+            className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
+              showFilters ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <button
+              onClick={() => setShowFilters(false)}
+              className="absolute top-4 right-4 text-gray-600 hover:text-[#F16935] transition-colors "
+            >
+              <X size={28} />
+            </button>
+            <div className="mt-[2rem]">{renderFilterSections()}</div>
+          </div>
+        </div>
         {/* ✅ Outfit Cards */}
         {apiOutfitData?.recommendations?.length > 0 ? (
           (() => {
@@ -435,10 +514,14 @@ const OutfitFilterPage = () => {
                   return (
                     <div
                       key={cat}
-                      onClick={() => router.push(`/articles-assortis/${encodeURIComponent(cat)}`)}
-                      className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                      onClick={() =>
+                        router.push(
+                          `/articles-assortis/${encodeURIComponent(cat)}`
+                        )
+                      }
+                      className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                     >
-                      <div className="relative w-full h-64">
+                      <div className="relative w-full h-64 ">
                         <Image
                           src={first["Photo produit 1"] || "/placeholder.jpg"}
                           alt={cat}
@@ -446,8 +529,15 @@ const OutfitFilterPage = () => {
                           className="object-cover"
                         />
                       </div>
-                      <div className="p-5">
-                        <h3 className="text-xl font-semibold text-gray-800">{cat}</h3>
+                      <div className="p-5 bg-[#F16935]/10">
+                        <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+                          {cat}
+                          {/* 👉 show arrow only on mobile */}
+                          <ArrowRight
+                            size={25}
+                            className="text-[#F16935] block md:hidden"
+                          />
+                        </h3>
                         <p className="text-gray-500 text-sm mt-1">
                           {grouped[cat].length} produits
                         </p>
@@ -463,23 +553,35 @@ const OutfitFilterPage = () => {
             {outfitKeys.map((key) => {
               const firstProduct = Object.values(outfitData[key])
                 .flat()
-                .find((item) => item?.product_id);
+                .find((item) => item?.["Photo produit 1"]);
+
               return (
                 <div
                   key={key}
-                  onClick={() => router.push(`/articles-assortis/${key}`)}
-                  className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                  onClick={() =>
+                    router.push(`/articles-assortis/${encodeURIComponent(key)}`)
+                  }
+                  className="cursor-pointer py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                 >
                   <div className="relative w-full h-64">
                     <Image
-                      src={firstProduct?.product_id || "/placeholder.jpg"}
+                      src={
+                        firstProduct?.["Photo produit 1"] || "/placeholder.jpg"
+                      }
                       alt={key}
                       fill
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-xl font-semibold text-gray-800">{key}</h3>
+                  <div className="p-5 bg-[#F16935]/10">
+                    <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+                      {key}
+                      {/* 👉 show arrow only on mobile */}
+                      <ArrowRight
+                        size={25}
+                        className="text-[#F16935] block md:hidden"
+                      />
+                    </h3>{" "}
                     <p className="text-gray-500 text-sm mt-1">
                       {Object.keys(outfitData[key]).length} catégories
                     </p>
