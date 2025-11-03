@@ -164,16 +164,19 @@ const ProductPage = () => {
                     loop={false}
                     allowTouchMove={true}
                     slidesPerView={1}
-                    breakpoints={{
-                      640: { slidesPerView: 2 },
-                      1024: { slidesPerView: 4 },
-                    }}
+                breakpoints={{
+  0: { slidesPerView: 1 },       // mobile
+  640: { slidesPerView: 2 },     // tablet
+  1024: { slidesPerView: 2 },    // laptop
+  1280: { slidesPerView: 4 },    // xl screens
+}}
+
                   >
                     {products.map((item, index) => (
                       <SwiperSlide key={index}>
-                        <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all p-6 flex flex-col justify-between h-[420px] w-[90%] mx-auto md:w-full">
+                        <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all p-4 flex flex-col justify-between h-[420px] w-[90%] mx-auto md:w-full">
                           {/* 🖼 Image */}
-                          <div className="relative w-full h-[240px] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                          <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
                             <Image
                               src={
                                 item["Photo produit 1"] ||

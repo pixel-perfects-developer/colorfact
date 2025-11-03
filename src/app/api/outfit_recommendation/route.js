@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 // ✅ Optional: keep your forced dynamic behavior if needed
 export const dynamic = "force-dynamic";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.madtech-group.com";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL ;
 
 export async function GET(req) {
   try {

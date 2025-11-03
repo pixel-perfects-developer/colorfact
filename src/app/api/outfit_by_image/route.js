@@ -16,9 +16,9 @@ export async function POST(req) {
     const { searchParams } = new URL(req.url);
     const clothing_type = searchParams.get("clothing_type");
     const gender = searchParams.get("gender");
-
+      const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL ;
     // Construct the external API URL with query params
-    const externalApi = `https://api.madtech-group.com/outfit_by_image/?clothing_type=${clothing_type}&gender=${gender}`;
+    const externalApi = `${BACKEND_URL}outfit_by_image/?clothing_type=${clothing_type}&gender=${gender}`;
 
     // Forward the request to the external API
     const response = await fetch(externalApi, {
