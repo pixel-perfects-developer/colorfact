@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL ;
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(req) {
+  
   try {
     // ✅ Parse multipart form data
     const formData = await req.formData();
