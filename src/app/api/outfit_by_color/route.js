@@ -20,6 +20,7 @@ export async function GET(req) {
         { status: 400 }
       );
     }
+      const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL ;
 
     // ✅ Build upstream API URL
     const apiUrl = `${BACKEND_URL}outfit_by_color/?color=${encodeURIComponent(

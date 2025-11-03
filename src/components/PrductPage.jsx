@@ -165,10 +165,10 @@ const ProductPage = () => {
                     allowTouchMove={true}
                     slidesPerView={1}
                 breakpoints={{
-  0: { slidesPerView: 1 },       // mobile
-  640: { slidesPerView: 2 },     // tablet
-  1024: { slidesPerView: 2 },    // laptop
-  1280: { slidesPerView: 4 },    // xl screens
+  0: { slidesPerView: 1 },     
+  640: { slidesPerView: 2 },    
+  1024: { slidesPerView: 2 },   
+  1280: { slidesPerView: 4 },   
 }}
 
                   >
