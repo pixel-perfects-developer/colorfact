@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL ;
 
 export async function POST(req) {
   try {
@@ -22,10 +23,10 @@ export async function POST(req) {
     forwardForm.append("file", file);
 
     // ✅ Forward to external API
-    const response = await fetch("https://api.madtech-group.com/extract_colors/", {
+    const response = await fetch(`${BACKEND_URL}extract_colors/`, {
       method: "POST",
       body: forwardForm,
-      duplex: "half", // required for streaming multipart uploads
+      // duplex: "half", // required for streaming multipart uploads
     });
 
     const text = await response.text();

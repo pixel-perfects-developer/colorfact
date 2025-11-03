@@ -22,7 +22,7 @@ export async function GET(req) {
     }
 
     // ✅ Build upstream API URL
-    const apiUrl = `https://api.madtech-group.com/outfit_by_color/?color=${encodeURIComponent(
+    const apiUrl = `${BACKEND_URL}outfit_by_color/?color=${encodeURIComponent(
       color
     )}&clothing_type=${encodeURIComponent(clothing_type)}&gender=${encodeURIComponent(gender)}`;
 

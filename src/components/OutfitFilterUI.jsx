@@ -130,15 +130,7 @@ const OutfitFilterPage = () => {
 
   const applyFilters = async () => {
     try {
-      if (!tempFilters.category) {
-        toast.error("Veuillez sélectionner au moins une catégorie.", {
-          position: "top-center",
-        });
-        return;
-      }
-
       setLoading(true);
-
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
           ? colorData.map((c, i) => {
@@ -432,10 +424,9 @@ const OutfitFilterPage = () => {
       ))}
 
       <button
-        disabled={!tempFilters.category || filtersApplied || loading}
+        disabled={ filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${
-          !tempFilters.category || filtersApplied || loading
+        className={`w-full ${ filtersApplied || loading
             ? "bg-[#8f4c2d36] cursor-not-allowed"
             : "bg-[#2D3F8F]"
         } text-white font-medium py-2 rounded-md mt-6`}
@@ -460,13 +451,13 @@ const OutfitFilterPage = () => {
     <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
       <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
         <button
-          className="md:hidden flex justify-end mb-4"
+          className="lg:hidden flex justify-end mb-4 "
           onClick={() => setShowFilters(true)}
         >
           <SlidersHorizontal size={30} />
         </button>
 
-        <aside className="hidden md:block md:w-[30%] lg:w-[20%]">
+        <aside className="hidden lg:block md:w-[30%] lg:w-[20%]">
           <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
           {renderFilterSections()}
         </aside>
@@ -521,7 +512,7 @@ const OutfitFilterPage = () => {
                       }
                       className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                     >
-                      <div className="relative w-full h-64 ">
+                      <div className="relative w-full h-72 ">
                         <Image
                           src={first["Photo produit 1"] || "/placeholder.jpg"}
                           alt={cat}
@@ -563,7 +554,7 @@ const OutfitFilterPage = () => {
                   }
                   className="cursor-pointer py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                 >
-                  <div className="relative w-full h-64">
+                  <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
                     <Image
                       src={
                         firstProduct?.["Photo produit 1"] || "/placeholder.jpg"
