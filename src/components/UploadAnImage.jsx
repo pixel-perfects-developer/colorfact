@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import DropDownMenu from "./DropDownMenu";
@@ -24,7 +24,6 @@ const UploadAnImage = () => {
   const formik = useFormik({
     initialValues: {
       file: null,
-      colorCode: [],
       gender: "",
       subcategory: "",
     },
@@ -34,28 +33,54 @@ const UploadAnImage = () => {
       subcategory: Yup.string().required("Veuillez sélectionner une catégorie"),
     }),
     onSubmit: async (values) => {
-      if (!values.colorCode || values.colorCode.length === 0) {
-        toast.error("Aucune couleur n’a été extraite de l’image");
-        return;
-      }
-
       try {
+        if (!values.file) {
+          toast.error("Veuillez téléverser une image");
+          return;
+        }
+
+        if (!values.gender || !values.subcategory) {
+          toast.error("Veuillez sélectionner le genre et la catégorie");
+          return;
+        }
+
         setLoading(true);
-        const response = await getOutfitByImage(
-          values.file,
-          values.subcategory,
-          values.gender === "Homme" ? "H" : values.gender === "Femme" ? "F" : "H/F"
-        );
+
+        const colorFile = new File([values.file], values.file.name, {
+          type: values.file.type,
+        });
+
+        // ⚡ Run both APIs in parallel
+        const [colors, outfitResponse] = await Promise.all([
+          extractColors(colorFile),
+          getOutfitByImage(
+            values.file,
+            values.subcategory,
+            values.gender === "Homme"
+              ? "H"
+              : values.gender === "Femme"
+              ? "F"
+              : "H/F"
+          ),
+        ]);
+
+        // 🧠 Process responses
+        if (!colors || colors.length === 0) {
+          toast.warn("Aucune couleur extraite, mais recommandations disponibles.");
+        } else {
+          dispatch(setColors(colors));
+        }
 
         dispatch(setOutfits([]));
-        dispatch(setImageDetails(response));
+        dispatch(setImageDetails(outfitResponse));
+
         toast.success("Analyse terminée avec succès !");
         formik.resetForm();
         setImagePreview(null);
         router.push("/articles-assortis");
       } catch (err) {
         console.error("Erreur d’analyse :", err);
-        toast.error("Échec de la récupération des recommandations d’outfit");
+        toast.error("Échec de l’analyse. Veuillez réessayer.");
       } finally {
         setLoading(false);
       }
@@ -67,33 +92,13 @@ const UploadAnImage = () => {
     if (!file) return;
     setImagePreview(URL.createObjectURL(file));
     formik.setFieldValue("file", file);
-
-    try {
-      setLoading(true);
-
-      // ✅ Clone the file for extractColors
-      const colorFile = new File([file], file.name, { type: file.type });
-      const colors = await extractColors(colorFile);
-
-      dispatch(setColors(colors));
-
-      const cleanColors = Array.isArray(colors)
-        ? colors.map((c) => c.replace("#", ""))
-        : [colors.replace("#", "")];
-
-      formik.setFieldValue("colorCode", cleanColors);
-    } catch (err) {
-      console.error("Color extraction failed:", err);
-      toast.error("Failed to extract color from image");
-    } finally {
-      setLoading(false);
-    }
   };
-// 🧹 Reset state when coming back to page
-React.useEffect(() => {
-  formik.resetForm();
-  setImagePreview(null);
-}, []);
+
+  // 🧹 Reset state when coming back to page
+  useEffect(() => {
+    formik.resetForm();
+    setImagePreview(null);
+  }, []);
 
   // 📂 File input handler
   const handleFileChange = (e) => {
@@ -130,10 +135,11 @@ React.useEffect(() => {
       <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
-          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
-            ? "border-orange-400 opacity-60"
-            : "border-gray-400 hover:border-orange-400"
-            }`}
+          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${
+            loading
+              ? "border-orange-400 opacity-60"
+              : "border-gray-400 hover:border-orange-400"
+          }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -149,7 +155,7 @@ React.useEffect(() => {
               />
             ) : (
               <Image
-                src="/draganddrop.svg" // 🔁 replace with higher-res image
+                src="/draganddrop.svg"
                 alt="téléversement d’image"
                 width={400}
                 height={400}
@@ -191,8 +197,9 @@ React.useEffect(() => {
           <button
             type="submit"
             disabled={analyzeDisabled}
-            className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
-              }`}
+            className={`btn-orange ${
+              analyzeDisabled && "opacity-50 cursor-not-allowed"
+            }`}
           >
             {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
           </button>

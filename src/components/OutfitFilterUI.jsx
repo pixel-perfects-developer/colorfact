@@ -7,6 +7,8 @@ import { ArrowRight, SlidersHorizontal, X } from "lucide-react";
 import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion } from "framer-motion";
+
 const adjustColor = (hex, percent = 50) => {
   if (!hex?.startsWith("#")) return hex;
   let r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -59,8 +61,6 @@ const adjustColor = (hex, percent = 50) => {
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
-  console.log("outfitData=>", outfitData);
-
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {}
   );
@@ -455,6 +455,12 @@ const OutfitFilterPage = () => {
   );
 
   return (
+    <motion.div
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.7, ease: "easeOut" }}
+  className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10"
+>
     <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
       <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
         <button
@@ -562,12 +568,19 @@ const OutfitFilterPage = () => {
                   className="cursor-pointer py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                 >
                   <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
-                    <Image
-                      src={firstProduct?.["Photo produit 1"]}
-                      alt={key}
-                      fill
-                      className="object-cover"
-                    />
+            <Image
+    src={firstProduct?.["Photo produit 1"] || "/color-fact.png"}
+    alt={key}
+    fill
+    className={`object-cover transition-all duration-300 ${
+      !firstProduct ? "grayscale opacity-80" : ""
+    }`}
+  />
+        {!firstProduct && (
+    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+      <p className="text-white font-semibold text-lg">Error</p>
+    </div>
+  )}
                   </div>
                   <div className="p-5 bg-[#F16935]/10">
                     <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
@@ -585,6 +598,7 @@ const OutfitFilterPage = () => {
         )}
       </div>
     </div>
+    </motion.div>
   );
 };
 
