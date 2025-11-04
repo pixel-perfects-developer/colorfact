@@ -130,6 +130,12 @@ const OutfitFilterPage = () => {
 
   const applyFilters = async () => {
     try {
+      if (!tempFilters.category) {
+        toast.error("Veuillez sélectionner au moins une catégorie.", {
+          position: "top-center",
+        });
+        return;
+      }
       setLoading(true);
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
@@ -303,7 +309,7 @@ const OutfitFilterPage = () => {
                   </div>
                 );
               })}
-              {section.id === "category" &&
+            {section.id === "category" &&
               section.data.map((cat, i) => (
                 <label
                   key={i}
@@ -326,7 +332,7 @@ const OutfitFilterPage = () => {
     ${
       tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
     }
-  `}  
+  `}
                   />
 
                   <h5 className={`text-sm  "text-gray-800"}`}>{cat.name}</h5>
@@ -424,9 +430,10 @@ const OutfitFilterPage = () => {
       ))}
 
       <button
-        disabled={ filtersApplied || loading}
+        disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${ filtersApplied || loading
+        className={`w-full ${
+          !tempFilters.category || filtersApplied || loading
             ? "bg-[#8f4c2d36] cursor-not-allowed"
             : "bg-[#2D3F8F]"
         } text-white font-medium py-2 rounded-md mt-6`}
@@ -514,7 +521,7 @@ const OutfitFilterPage = () => {
                     >
                       <div className="relative w-full h-72 ">
                         <Image
-                          src={first["Photo produit 1"] || "/placeholder.jpg"}
+                          src={first["Photo produit 1"]}
                           alt={cat}
                           fill
                           className="object-cover"
@@ -556,9 +563,7 @@ const OutfitFilterPage = () => {
                 >
                   <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
                     <Image
-                      src={
-                        firstProduct?.["Photo produit 1"] || "/placeholder.jpg"
-                      }
+                      src={firstProduct?.["Photo produit 1"]}
                       alt={key}
                       fill
                       className="object-cover"
@@ -567,15 +572,11 @@ const OutfitFilterPage = () => {
                   <div className="p-5 bg-[#F16935]/10">
                     <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
                       {key}
-                      {/* 👉 show arrow only on mobile */}
                       <ArrowRight
                         size={25}
                         className="text-[#F16935] block md:hidden"
                       />
-                    </h3>{" "}
-                    <p className="text-gray-500 text-sm mt-1">
-                      {Object.keys(outfitData[key]).length} catégories
-                    </p>
+                    </h3>
                   </div>
                 </div>
               );

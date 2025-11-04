@@ -1,12 +1,13 @@
 "use client";
 import { useSelector } from "react-redux";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useSwiper } from "@/lib/SwiperStates";
 import { CustomNextArrow, CustomPrevArrow } from "@/components/CustomArrow";
 import { useState, useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -20,8 +21,9 @@ const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [isFromOutfitData, setIsFromOutfitData] = useState(false);
+const router = useRouter();
 
-  // 🧠 Decide which dataset to use
+
   useEffect(() => {
     if (apiOutfitData?.recommendations?.length > 0) {
       // ✅ Case 1: Recommendation data
@@ -119,9 +121,21 @@ const ProductPage = () => {
   return (
     <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
       <div className="container-global">
-        <h2 className="mb-6 text-center text-2xl font-semibold text-gray-800 capitalize">
-          {decodedSlug.replace(/-/g, " ")}
-        </h2>
+     <div className="relative w-full mb-6">
+  <button
+    onClick={() => router.back()}
+    className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-2  font-medium transition-all"
+  >
+    <ArrowLeft className="w-4 h-4" />
+    <p className="text-[1rem]">Retour</p>
+  </button>
+
+  {/* 🧭 Centered Heading */}
+  <h2 className="text-center text-2xl font-semibold text-gray-800 capitalize">
+    {decodedSlug.replace(/-/g, " ")}
+  </h2>
+</div>
+
 
         {/* 🏷️ Show tags only for outfitData */}
         {isFromOutfitData && subCategories.length > 1 && (
@@ -180,8 +194,7 @@ const ProductPage = () => {
                             <Image
                               src={
                                 item["Photo produit 1"] ||
-                                item.product_id ||
-                                "/placeholder.jpg"
+                                item.product_id
                               }
                               alt={item["Nom produit"] || item.name || "Product"}
                               fill
@@ -192,9 +205,15 @@ const ProductPage = () => {
                           {/* 📄 Product Info */}
                           <div className="flex flex-col justify-between mt-4 flex-1">
                             <div>
-                              <h4 className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1">
-                                {item["Nom produit"] || item.name || "Produit"}
-                              </h4>
+                           <h4
+  className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 leading-tight"
+  style={{
+    height: "clamp(2.2rem, 2.5vw, 3rem)", // ✅ replaces h-[2.5vw] max-h-[3vw]
+  }}
+>
+  {item["Nom produit"] || item.name || "Produit"}
+</h4>
+
 
                               <p className="text-gray-900 font-semibold text-[1rem] mb-1">
                                 €{item.Prix || item.price || "—"}
