@@ -14,13 +14,23 @@ const Footer = () => {
 
         {/* 🔹 Center: Footer Links */}
         <nav className="flex flex-wrap justify-center items-center gap-6 text-[#666] text-[0.8rem] lg:text-sm font-medium">
-          <FooterLink href="/politique-de-confidentialite">
+          <FooterLink
+          //  href="/politique-de-confidentialite"
+            href={"#"}
+
+>
             Politique de confidentialité
           </FooterLink>
-          <FooterLink href="/conditions-d-utilisation">
+          <FooterLink 
+          // href="/conditions-d-utilisation"
+            href={"#"}
+          >
             Conditions d’utilisation
           </FooterLink>
-          <FooterLink href="/aide-et-contact">Aide & Contact</FooterLink>
+          <FooterLink
+          //  href="/aide-et-contact"
+            href={"#"}
+          >Aide & Contact</FooterLink>
         </nav>
 
         {/* 🔹 Right: Social Icons (Lucide) */}
