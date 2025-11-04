@@ -130,6 +130,12 @@ const OutfitFilterPage = () => {
 
   const applyFilters = async () => {
     try {
+      if (!tempFilters.category) {
+        toast.error("Veuillez sélectionner au moins une catégorie.", {
+          position: "top-center",
+        });
+        return;
+      }
       setLoading(true);
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
@@ -219,11 +225,11 @@ const OutfitFilterPage = () => {
     <>
       {[
         { id: "color", title: "Couleur", data: colors },
-        // {
-        //   id: "category",
-        //   title: "Catégorie",
-        //   data: outfitKeys.map((key) => ({ name: key })),
-        // },
+        {
+          id: "category",
+          title: "Catégorie",
+          data: outfitKeys.map((key) => ({ name: key })),
+        },
         // {
         //   id: "brands",
         //   title: "Marques",
@@ -303,7 +309,7 @@ const OutfitFilterPage = () => {
                   </div>
                 );
               })}
-              {section.id === "category" &&
+            {section.id === "category" &&
               section.data.map((cat, i) => (
                 <label
                   key={i}
@@ -326,7 +332,7 @@ const OutfitFilterPage = () => {
     ${
       tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
     }
-  `}  
+  `}
                   />
 
                   <h5 className={`text-sm  "text-gray-800"}`}>{cat.name}</h5>
@@ -424,9 +430,10 @@ const OutfitFilterPage = () => {
       ))}
 
       <button
-        disabled={ filtersApplied || loading}
+        disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${ filtersApplied || loading
+        className={`w-full ${
+          !tempFilters.category || filtersApplied || loading
             ? "bg-[#8f4c2d36] cursor-not-allowed"
             : "bg-[#2D3F8F]"
         } text-white font-medium py-2 rounded-md mt-6`}
@@ -556,9 +563,7 @@ const OutfitFilterPage = () => {
                 >
                   <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
                     <Image
-                      src={
-                        firstProduct?.["Photo produit 1"] 
-                      }
+                      src={firstProduct?.["Photo produit 1"]}
                       alt={key}
                       fill
                       className="object-cover"
