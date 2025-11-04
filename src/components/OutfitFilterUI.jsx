@@ -562,11 +562,16 @@ const OutfitFilterPage = () => {
               return (
                 <div
                   key={key}
-                  onClick={() =>
-                    router.push(`/articles-assortis/${encodeURIComponent(key)}`)
-                  }
-                  className="cursor-pointer py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
-                >
+                  onClick={() => {
+    if (firstProduct) {
+      router.push(`/articles-assortis/${encodeURIComponent(key)}`);
+    } else {
+      toast.warning("Aucune donnée disponible pour cette catégorie.");
+    }
+  }}
+  className={`${!firstProduct?"cursor-default":"cursor-pointer"} py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
+    !firstProduct ? "opacity-60 cursor-not-allowed" : ""
+  }`}                >
                   <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
             <Image
     src={firstProduct?.["Photo produit 1"] || "/color-fact.png"}
@@ -576,19 +581,15 @@ const OutfitFilterPage = () => {
       !firstProduct ? "grayscale opacity-80" : ""
     }`}
   />
-        {!firstProduct && (
-    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-      <p className="text-white font-semibold text-lg">Error</p>
-    </div>
-  )}
                   </div>
                   <div className="p-5 bg-[#F16935]/10">
                     <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
                       {key}
                       <ArrowRight
                         size={25}
-                        className="text-[#F16935] block md:hidden"
-                      />
+className={`${
+          !firstProduct ? "text-gray-400" : "text-[#F16935]"
+        } block md:hidden`}                      />
                     </h3>
                   </div>
                 </div>
