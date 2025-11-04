@@ -219,11 +219,11 @@ const OutfitFilterPage = () => {
     <>
       {[
         { id: "color", title: "Couleur", data: colors },
-        {
-          id: "category",
-          title: "Catégorie",
-          data: outfitKeys.map((key) => ({ name: key })),
-        },
+        // {
+        //   id: "category",
+        //   title: "Catégorie",
+        //   data: outfitKeys.map((key) => ({ name: key })),
+        // },
         // {
         //   id: "brands",
         //   title: "Marques",
@@ -514,7 +514,7 @@ const OutfitFilterPage = () => {
                     >
                       <div className="relative w-full h-72 ">
                         <Image
-                          src={first["Photo produit 1"] || "/placeholder.jpg"}
+                          src={first["Photo produit 1"]}
                           alt={cat}
                           fill
                           className="object-cover"
@@ -557,7 +557,7 @@ const OutfitFilterPage = () => {
                   <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
                     <Image
                       src={
-                        firstProduct?.["Photo produit 1"] || "/placeholder.jpg"
+                        firstProduct?.["Photo produit 1"] 
                       }
                       alt={key}
                       fill
@@ -567,15 +567,11 @@ const OutfitFilterPage = () => {
                   <div className="p-5 bg-[#F16935]/10">
                     <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
                       {key}
-                      {/* 👉 show arrow only on mobile */}
                       <ArrowRight
                         size={25}
                         className="text-[#F16935] block md:hidden"
                       />
-                    </h3>{" "}
-                    <p className="text-gray-500 text-sm mt-1">
-                      {Object.keys(outfitData[key]).length} catégories
-                    </p>
+                    </h3>
                   </div>
                 </div>
               );

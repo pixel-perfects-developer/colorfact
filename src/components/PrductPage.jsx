@@ -180,8 +180,7 @@ const ProductPage = () => {
                             <Image
                               src={
                                 item["Photo produit 1"] ||
-                                item.product_id ||
-                                "/placeholder.jpg"
+                                item.product_id
                               }
                               alt={item["Nom produit"] || item.name || "Product"}
                               fill

@@ -89,6 +89,11 @@ const UploadAnImage = () => {
       setLoading(false);
     }
   };
+// 🧹 Reset state when coming back to page
+React.useEffect(() => {
+  formik.resetForm();
+  setImagePreview(null);
+}, []);
 
   // 📂 File input handler
   const handleFileChange = (e) => {
