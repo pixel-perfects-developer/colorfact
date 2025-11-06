@@ -31,12 +31,12 @@ const Banner = () => {
       <div className="relative z-10 flex flex-col items-center text-center px-6 lg:px-12">
         {/* 🟢 Logo */}
         <Image
-          src="/header.png"
+          src="/color-fact.png"
           alt="ColorFact Logo"
-          width={220}
+          width={180}
           height={80}
           priority
-          className="object-contain w-[150px] md:w-[200px] lg:w-[220px] mb-6"
+          className="object-contain w-[100px] md:w-[80px] lg:w-[100px] mb-6"
         />
 
         {/* ❌ Removed “Servir l’Harmonie” (as per client) */}

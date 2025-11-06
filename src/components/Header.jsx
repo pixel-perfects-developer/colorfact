@@ -26,14 +26,14 @@ const Header = () => {
         {/* 🟣 Left (Logo) */}
         <div className="flex items-center justify-start w-1/3">
           <Link href="/" className="flex items-center">
-            <Image
-              src={"/header.png"}
-              alt="ColorFact logo"
-              width={120}
-              height={120}
-              priority
-              className="w-[100%] h-auto object-contain"
-            />
+                   <Image
+                     src="/color-fact.png"
+                     alt="ColorFact Logo"
+                     width={180}
+                     height={180}
+                     priority
+                     className="object-contain w-[80px] md:w-[70px] lg:w-[80px]"
+                   />
           </Link>
         </div>
 
