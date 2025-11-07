@@ -21,6 +21,12 @@ const ColorPicker = () => {
     subcategory: "",
   });
 
+  // ✅ Set default color in Redux on mount, clear it on unmount
+  useEffect(() => {
+    dispatch(setColors(["#00cfaa"]));
+  }, [dispatch]);
+
+  // ✅ Initialize color picker
   useEffect(() => {
     if (!colorPickerRef.current) return;
     colorPickerRef.current.innerHTML = "";
@@ -35,8 +41,8 @@ const ColorPicker = () => {
     picker.on("color:change", (color) => {
       const selectedHex = color.hexString;
       setHex(selectedHex);
+      dispatch(setColors([selectedHex])); // store in Redux
       dispatch(setOutfits([]));
-      dispatch(setColors([selectedHex])); // 🔹 store in Redux
     });
 
     return () => {
@@ -71,6 +77,7 @@ const ColorPicker = () => {
       setLoading(false);
     }
   };
+
   const analyzeDisabled = !dropdownValues.gender || !dropdownValues.subcategory || loading;
 
   return (
@@ -87,12 +94,10 @@ const ColorPicker = () => {
           <button
             onClick={handleAnalyze}
             disabled={analyzeDisabled}
-            className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
-              }`}
+            className={`btn-orange ${analyzeDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
           </button>
-
         </div>
 
         {/* 🧠 Loading Message */}

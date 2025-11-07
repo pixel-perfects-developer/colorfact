@@ -8,6 +8,7 @@ import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
+import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 
 const adjustColor = (hex, percent = 50) => {
   if (!hex?.startsWith("#")) return hex;
@@ -73,8 +74,8 @@ const OutfitFilterPage = () => {
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
-    ? [{ hex: colorData }]
-    : [];
+      ? [{ hex: colorData }]
+      : [];
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -90,7 +91,6 @@ const OutfitFilterPage = () => {
     minPrice: 0,
     maxPrice: 1000,
   });
-  console.log("tempFilters------<", tempFilters);
 
   const toggleSection = (id) => setOpenSection(openSection === id ? null : id);
 
@@ -136,60 +136,51 @@ const OutfitFilterPage = () => {
         });
         return;
       }
+
       setLoading(true);
+
+      // Adjust colors with intensity
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
           ? colorData.map((c, i) => {
-              const hexValue = typeof c === "object" && c.hex ? c.hex : c;
-              const cleaned = hexValue.startsWith("#")
-                ? hexValue
-                : "#" + hexValue.replace(/^#*/, "");
+            let hexValue = typeof c === "object" && c.hex ? c.hex : c;
 
-              const adj = adjustColor(cleaned, colorIntensity[i] || 50);
+            // ✅ Ensure starts with #
+            if (!hexValue.startsWith("#")) {
+              hexValue = "#" + hexValue.replace(/^#*/, "");
+            }
 
-              // adjustColor returns rgb(), convert back to #RRGGBB
-              const rgb = adj.match(/\d+/g);
-              if (rgb) {
-                const hex =
-                  "#" +
-                  rgb
-                    .map((v) => parseInt(v).toString(16).padStart(2, "0"))
-                    .join("")
-                    .toUpperCase();
-                return hex;
-              }
+            // ✅ Normalize shorthand (#ABC → #AABBCC)
+            if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
+              hexValue = "#" + hexValue.slice(1).split("").map(ch => ch + ch).join("");
+            }
 
-              // fallback to cleaned hex
-              return cleaned;
-            })
+            // ✅ Uppercase + length check
+            hexValue = hexValue.toUpperCase();
+            if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
+              console.warn("Skipping invalid color:", hexValue);
+              return null;
+            }
+
+            return hexValue;
+          }).filter(Boolean)
           : [];
 
-      const params = new URLSearchParams();
-      if (adjustedColors.length) {
-        adjustedColors.forEach((c) => params.append("input_colors", c));
-      }
-      params.append("type", selectedType);
-      params.append("minPrice", tempFilters.minPrice);
-      params.append("maxPrice", tempFilters.maxPrice);
-      if (tempFilters.brands.length)
-        params.append("wanted_brands", tempFilters.brands.join(","));
-      if (tempFilters.avoid.length)
-        params.append("removed_brands", tempFilters.avoid.join(","));
+      // ✅ Call the helper function directly (no more /api call)
+      const data = await getOutfitRecommendation({
+        inputColors: adjustedColors,
+        type: selectedType,
+        minPrice: tempFilters.minPrice,
+        maxPrice: tempFilters.maxPrice,
+        wantedBrands: tempFilters.brands,
+        removedBrands: tempFilters.avoid,
+      });
 
-      const res = await fetch(
-        `/api/outfit_recommendation?${params.toString()}`
-      );
-      console.log("params.toString()", params.toString());
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error("Erreur lors du chargement des recommandations.", {
-          position: "top-center",
-        });
-        throw new Error("API Error");
+      if (data.error) {
+        throw new Error(data.error);
       }
 
+      // ✅ Update Redux
       dispatch(setOutfits(data));
       toast.success("Recommandations mises à jour avec succès 🎉", {
         position: "top-center",
@@ -250,9 +241,8 @@ const OutfitFilterPage = () => {
             <h4 className="font-bold">{section.title}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${
-                openSection === section.id ? "rotate-180" : "rotate-0"
-              }`}
+              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"
+                }`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -267,11 +257,10 @@ const OutfitFilterPage = () => {
           </div>
 
           <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden ${
-              openSection === section.id
-                ? "max-h-[500px] opacity-100"
-                : "max-h-0 opacity-0"
-            }`}
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${openSection === section.id
+              ? "max-h-[500px] opacity-100"
+              : "max-h-0 opacity-0"
+              }`}
           >
             {section.id === "color" &&
               section.data.map((c, i) => {
@@ -329,9 +318,8 @@ const OutfitFilterPage = () => {
                       }));
                     }}
                     className={`w-4 h-4 cursor-pointer transition-all duration-200
-    ${
-      tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
-    }
+    ${tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
+                      }
   `}
                   />
 
@@ -432,17 +420,16 @@ const OutfitFilterPage = () => {
       <button
         disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${
-          !tempFilters.category || filtersApplied || loading
-            ? "bg-[#8f4c2d36] cursor-not-allowed"
-            : "bg-[#2D3F8F]"
-        } text-white font-medium py-2 rounded-md mt-6`}
+        className={`w-full ${!tempFilters.category || filtersApplied || loading
+          ? "bg-[#8f4c2d36] cursor-not-allowed"
+          : "bg-[#2D3F8F]"
+          } text-white font-medium py-2 rounded-md mt-6`}
       >
         {loading
           ? "Chargement..."
           : filtersApplied
-          ? "Déjà appliqué "
-          : "RECHERCHER"}
+            ? "Déjà appliqué "
+            : "RECHERCHER"}
       </button>
 
       <button
@@ -456,149 +443,155 @@ const OutfitFilterPage = () => {
 
   return (
     <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.7, ease: "easeOut" }}
-  className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10"
->
-    <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
-      <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
-        <button
-          className="lg:hidden flex justify-end mb-4 "
-          onClick={() => setShowFilters(true)}
-        >
-          <SlidersHorizontal size={30} />
-        </button>
-
-        <aside className="hidden lg:block md:w-[30%] lg:w-[20%]">
-          <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
-          {renderFilterSections()}
-        </aside>
-        <div
-          className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
-            showFilters ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-        >
-          {/* Backdrop */}
-          <div
-            className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
-              showFilters ? "opacity-100" : "opacity-0"
-            }`}
-            onClick={() => setShowFilters(false)}
-          ></div>
-
-          {/* Drawer Panel */}
-          <div
-            className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
-              showFilters ? "translate-x-0" : "translate-x-full"
-            }`}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10"
+    >
+      <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
+        <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
+          <button
+            className="lg:hidden flex justify-end mb-4 "
+            onClick={() => setShowFilters(true)}
           >
-            <button
+            <SlidersHorizontal size={30} />
+          </button>
+
+          <aside className="hidden lg:block md:w-[30%] lg:w-[20%]">
+            <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
+            {renderFilterSections()}
+          </aside>
+          <div
+            className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
+          >
+            {/* Backdrop */}
+            <div
+              className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${showFilters ? "opacity-100" : "opacity-0"
+                }`}
               onClick={() => setShowFilters(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-[#F16935] transition-colors "
+            ></div>
+
+            {/* Drawer Panel */}
+            <div
+              className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${showFilters ? "translate-x-0" : "translate-x-full"
+                }`}
             >
-              <X size={28} />
-            </button>
-            <div className="mt-[2rem]">{renderFilterSections()}</div>
+              <button
+                onClick={() => setShowFilters(false)}
+                className="absolute top-4 right-4 text-gray-600 hover:text-[#F16935] transition-colors "
+              >
+                <X size={28} />
+              </button>
+              <div className="mt-[2rem]">{renderFilterSections()}</div>
+            </div>
           </div>
-        </div>
-        {/* ✅ Outfit Cards */}
-        {apiOutfitData?.recommendations?.length > 0 ? (
-          (() => {
-            const grouped = {};
-            apiOutfitData.recommendations.forEach((item) => {
-              const cat = item["Catégorie produit"];
-              if (!grouped[cat]) grouped[cat] = [];
-              grouped[cat].push(item);
-            });
-            return (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
-                {Object.keys(grouped).map((cat) => {
-                  const first = grouped[cat][0];
+          {/* ✅ Outfit Cards */}
+          {apiOutfitData?.recommendations?.length > 0 ? (
+            (() => {
+              const grouped = {};
+              apiOutfitData.recommendations.forEach((item) => {
+                const cat = item["Catégorie produit"];
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(item);
+              });
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
+                  {Object.keys(grouped).map((cat) => {
+                    const first = grouped[cat][0];
+                    return (
+                      <div
+                        key={cat}
+                        onClick={() =>
+                          router.push(`/articles-assortis?id=${encodeURIComponent(cat)}`)
+                        }
+                        className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                      >
+                        <div className="relative w-full h-72 ">
+                          <Image
+                            src={first["Photo produit 1"]}
+                            alt={cat}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="p-5 bg-[#F16935]/10">
+                          <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+                            {cat}
+                            {/* 👉 show arrow only on mobile */}
+                            <ArrowRight
+                              size={25}
+                              className="text-[#F16935] block md:hidden"
+                            />
+                          </h3>
+                          <p className="text-gray-500 text-sm mt-1">
+                            {grouped[cat].length} produits
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
+              {Object.entries(outfitData)
+                // ✅ Filter out empty categories (no nested items or all empty arrays)
+                .filter(([_, categoryData]) => {
+                  return (
+                    categoryData &&
+                    Object.values(categoryData).some(
+                      (arr) => Array.isArray(arr) && arr.length > 0
+                    )
+                  );
+                })
+                .map(([key, categoryData]) => {
+                  const firstProduct = Object.values(categoryData)
+                    .flat()
+                    .find((item) => item?.["Photo produit 1"]);
+
                   return (
                     <div
-                      key={cat}
-                      onClick={() =>
-                        router.push(
-                          `/articles-assortis/${encodeURIComponent(cat)}`
-                        )
-                      }
-                      className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                      key={key}
+                      onClick={() => {
+                        if (firstProduct) {
+                          router.push(`/articles-assortis?id=${encodeURIComponent(key)}`);
+                        } else {
+                          toast.warning("Aucune donnée disponible pour cette catégorie.");
+                        }
+                      }}
+                      className={`${!firstProduct ? "cursor-default" : "cursor-pointer"
+                        } py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${!firstProduct ? "opacity-60 cursor-not-allowed" : ""
+                        }`}
                     >
-                      <div className="relative w-full h-72 ">
+                      <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw]">
                         <Image
-                          src={first["Photo produit 1"]}
-                          alt={cat}
+                          src={firstProduct?.["Photo produit 1"] || "/color-fact.png"}
+                          alt={key}
                           fill
-                          className="object-cover"
+                          className={`object-cover transition-all duration-300 ${!firstProduct ? "grayscale opacity-80" : ""
+                            }`}
                         />
                       </div>
                       <div className="p-5 bg-[#F16935]/10">
                         <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
-                          {cat}
-                          {/* 👉 show arrow only on mobile */}
+                          {key}
                           <ArrowRight
                             size={25}
-                            className="text-[#F16935] block md:hidden"
+                            className={`${!firstProduct ? "text-gray-400" : "text-[#F16935]"
+                              } block md:hidden`}
                           />
                         </h3>
-                        <p className="text-gray-500 text-sm mt-1">
-                          {grouped[cat].length} produits
-                        </p>
                       </div>
                     </div>
                   );
                 })}
-              </div>
-            );
-          })()
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-[2%]">
-            {outfitKeys.map((key) => {
-              const firstProduct = Object.values(outfitData[key])
-                .flat()
-                .find((item) => item?.["Photo produit 1"]);
+            </div>
 
-              return (
-                <div
-                  key={key}
-                  onClick={() => {
-    if (firstProduct) {
-      router.push(`/articles-assortis/${encodeURIComponent(key)}`);
-    } else {
-      toast.warning("Aucune donnée disponible pour cette catégorie.");
-    }
-  }}
-  className={`${!firstProduct?"cursor-default":"cursor-pointer"} py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
-    !firstProduct ? "opacity-60 cursor-not-allowed" : ""
-  }`}                >
-                  <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] ">
-            <Image
-    src={firstProduct?.["Photo produit 1"] || "/color-fact.png"}
-    alt={key}
-    fill
-    className={`object-cover transition-all duration-300 ${
-      !firstProduct ? "grayscale opacity-80" : ""
-    }`}
-  />
-                  </div>
-                  <div className="p-5 bg-[#F16935]/10">
-                    <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
-                      {key}
-                      <ArrowRight
-                        size={25}
-className={`${
-          !firstProduct ? "text-gray-400" : "text-[#F16935]"
-        } block md:hidden`}                      />
-                    </h3>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
     </motion.div>
   );
 };

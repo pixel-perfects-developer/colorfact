@@ -15,7 +15,7 @@ const Banner = () => {
       <div className="absolute inset-0">
         <video
           className="hidden lg:block w-full h-full object-cover"
-          src="/Fond_home_page.mov"
+          src="/Fond_home_page.mp4"
           autoPlay
           loop
           muted
@@ -31,12 +31,12 @@ const Banner = () => {
       <div className="relative z-10 flex flex-col items-center text-center px-6 lg:px-12">
         {/* 🟢 Logo */}
         <Image
-          src="/color-fact.png"
+          src="/header.png"
           alt="ColorFact Logo"
-          width={180}
+          width={220}
           height={80}
           priority
-          className="object-contain w-[100px] md:w-[80px] lg:w-[100px] mb-6"
+          className="object-contain w-[150px] md:w-[200px] lg:w-[220px] mb-6"
         />
 
         {/* ❌ Removed “Servir l’Harmonie” (as per client) */}

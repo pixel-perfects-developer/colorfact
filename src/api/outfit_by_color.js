@@ -1,16 +1,47 @@
+// import axios from "axios";
+
+// export const getOutfitByColor = async ({ color, clothing_type, gender }) => {
+//   try {
+//     const res = await axios.get("/api/outfit_by_color", {
+//       params: { color, clothing_type, gender },
+//       headers: { Accept: "application/json" },
+//     });
+
+//     const data = typeof res.data === "string" ? JSON.parse(res.data) : res.data;
+//     return data;
+//   } catch (err) {
+//     console.error("Error fetching outfit by color:", err);
+//     return { error: err.message || "Failed to fetch outfit suggestions" };
+//   }
+// };
 import axios from "axios";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
+// Example: https://api.colorfact.ai/
 
 export const getOutfitByColor = async ({ color, clothing_type, gender }) => {
   try {
-    const res = await axios.get("/api/outfit_by_color", {
-      params: { color, clothing_type, gender },
-      headers: { Accept: "application/json" },
+    // ✅ Directly call the backend API with query params
+    const res = await axios.get(`${BACKEND_URL}outfit_by_color/`, {
+      params: {
+        color,
+        clothing_type,
+        gender,
+      },
+      headers: {
+        Accept: "application/json",
+      },
     });
 
-    const data = typeof res.data === "string" ? JSON.parse(res.data) : res.data;
+    // ✅ Parse response safely
+    const data =
+      typeof res.data === "string" ? JSON.parse(res.data) : res.data;
+
     return data;
-  } catch (err) {
-    console.error("Error fetching outfit by color:", err);
-    return { error: err.message || "Failed to fetch outfit suggestions" };
+  } catch (error) {
+    console.error("Error calling outfit_by_color directly:", error);
+    return {
+      error: error.message || "Failed to fetch outfit suggestions",
+    };
   }
 };

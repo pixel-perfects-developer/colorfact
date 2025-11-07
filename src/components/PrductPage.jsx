@@ -1,6 +1,6 @@
 "use client";
 import { useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,8 +9,7 @@ import { CustomNextArrow, CustomPrevArrow } from "@/components/CustomArrow";
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 
-const ProductPage = () => {
-  const { id } = useParams();
+const ProductPage = ({id}) => {
   const decodedSlug = decodeURIComponent(id);
   const { swiperRef, handleSlideChange, swiperState } = useSwiper();
 

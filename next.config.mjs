@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',          // needed for OVH static hosting
+  trailingSlash: true,       // ensures clean folder-based URLs
   images: {
+    unoptimized: true,       // disable next/image optimization for static
     remotePatterns: [
       {
         protocol: "https",
         hostname: "finessementality.com",
-        pathname: "/cdn/**", // ✅ allow Shopify-style CDN path under main domain
+        pathname: "/cdn/**",
       },
       {
         protocol: "https",
@@ -21,13 +24,16 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "nestorevintage.fr", // optional, from your earlier data
+        hostname: "nestorevintage.fr",
       },
-       {
+      {
         protocol: "https",
-        hostname: "colorfulstandard.com", // optional, from your earlier data
+        hostname: "colorfulstandard.com",
       },
     ],
+  },
+  experimental: {
+    typedRoutes: false,
   },
 };
 
