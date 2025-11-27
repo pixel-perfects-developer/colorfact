@@ -203,7 +203,7 @@ const ProductPage = ({ id }) => {
                               <h4
                                 className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 leading-tight"
                                 style={{
-                                  height: "clamp(2.2rem, 2.5vw, 3rem)", // ✅ replaces h-[2.5vw] max-h-[3vw]
+                                  height: "clamp(2.6rem, 2.9vw, 3.4rem)", // ✅ replaces h-[2.5vw] max-h-[3vw]
                                 }}
                               >
                                 {item["Nom produit"] || item.name || "Produit"}
