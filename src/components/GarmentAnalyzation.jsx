@@ -4,7 +4,7 @@ import React from "react";
 
 const GarmentAnalyzation = ({ selectedGarment }) => {
   return (
-    <div className="container-global">
+    <div className="min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)]">
       <div className="container-global lg:w-[70%] mx-auto">
         <div className="flex justify-center">
           <Image

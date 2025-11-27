@@ -70,7 +70,6 @@ const ColorPicker = () => {
       });
       dispatch(setImageDetails(response));
       router.push("/articles-assortis");
-      toast.success("Analyse terminée avec succès !");
     } catch (err) {
       toast.error("Échec de la récupération des recommandations d’outfit.");
     } finally {
@@ -82,7 +81,7 @@ const ColorPicker = () => {
 
   return (
     <div className="bg-[#F9F3E9]">
-      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center select-none">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] flex flex-col items-center justify-center select-none">
         {/* 🎨 Color Picker */}
         <div className="mb-6" ref={colorPickerRef} />
 
