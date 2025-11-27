@@ -59,8 +59,8 @@ const UploadAnImage = () => {
             values.gender === "Homme"
               ? "H"
               : values.gender === "Femme"
-              ? "F"
-              : "H/F"
+                ? "F"
+                : "H/F"
           ),
         ]);
 
@@ -132,14 +132,14 @@ const UploadAnImage = () => {
       className="bg-[#faf5e7]"
       encType="multipart/form-data"
     >
+      
       <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
-          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${
-            loading
-              ? "border-orange-400 opacity-60"
-              : "border-gray-400 hover:border-orange-400"
-          }`}
+          className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
+            ? "border-orange-400 opacity-60"
+            : "border-gray-400 hover:border-orange-400"
+            }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -197,9 +197,8 @@ const UploadAnImage = () => {
           <button
             type="submit"
             disabled={analyzeDisabled}
-            className={`btn-orange ${
-              analyzeDisabled && "opacity-50 cursor-not-allowed"
-            }`}
+            className={`btn-orange ${analyzeDisabled && "opacity-50 cursor-not-allowed"
+              }`}
           >
             {loading ? "Analyse en cours..." : "Analyser mon vêtement"}
           </button>

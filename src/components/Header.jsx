@@ -32,7 +32,7 @@ const Header = () => {
               width={120}
               height={120}
               priority
-              className="w-[100%] h-auto object-contain"
+              className="object-contain w-[80px] md:w-[70px] lg:w-[120px]"
             />
           </Link>
         </div>
@@ -91,7 +91,7 @@ const Header = () => {
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
             href="/image-search"
-              className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
+            className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
           >
             <Upload className="w-4 h-4" />
             Importer
@@ -128,23 +128,20 @@ const Header = () => {
 
       {/* 🟠 Mobile Drawer */}
       <div
-        className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
-          isDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
+        className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${isDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
       >
         {/* Backdrop */}
         <div
-          className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
-            isDrawerOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${isDrawerOpen ? "opacity-100" : "opacity-0"
+            }`}
           onClick={() => setDrawerOpen(false)}
         ></div>
 
         {/* Drawer Panel */}
         <div
-          className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
-            isDrawerOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           {/* Close Button */}
           <div className="flex justify-end mb-6">
