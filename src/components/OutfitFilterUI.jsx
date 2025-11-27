@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState,useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, SlidersHorizontal, X } from "lucide-react";
 import { setOutfits } from "@/redux/slices/outfitRecommendationSlice";
 import { toast } from "react-toastify";
@@ -13,15 +13,15 @@ import * as Slider from "@radix-ui/react-slider";
 
 const adjustColor = (hex, percent = 50) => {
   if (typeof hex === "object" && hex?.hex) {
-    hex = hex.hex;    // extract #abc123
+    hex = hex.hex; // extract #abc123
   }
 
   if (Array.isArray(hex)) {
-    hex = hex[0];     // extract first element
+    hex = hex[0]; // extract first element
   }
 
   if (typeof hex !== "string") {
-    hex = String(hex || "");   // convert number/null/undefined → ""
+    hex = String(hex || ""); // convert number/null/undefined → ""
   }
 
   hex = hex.trim().toUpperCase();
@@ -34,7 +34,13 @@ const adjustColor = (hex, percent = 50) => {
 
   // Expand #ABC → #AABBCC
   if (/^#([A-F0-9]{3})$/.test(hex)) {
-    hex = "#" + hex.slice(1).split("").map((c) => c + c).join("");
+    hex =
+      "#" +
+      hex
+        .slice(1)
+        .split("")
+        .map((c) => c + c)
+        .join("");
   }
 
   // If still invalid → skip and return original
@@ -42,10 +48,10 @@ const adjustColor = (hex, percent = 50) => {
     console.warn("❌ Invalid HEX passed to adjustColor:", hex);
     return "#000000"; // fallback
   }
-    let r = parseInt(hex.slice(1, 3), 16) / 255;
+  let r = parseInt(hex.slice(1, 3), 16) / 255;
   let g = parseInt(hex.slice(3, 5), 16) / 255;
   let b = parseInt(hex.slice(5, 7), 16) / 255;
-  
+
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   let h, s;
@@ -94,7 +100,6 @@ const adjustColor = (hex, percent = 50) => {
   )})`;
 };
 
-
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
   const apiOutfitData = useSelector(
@@ -109,8 +114,8 @@ const OutfitFilterPage = () => {
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
-      ? [{ hex: colorData }]
-      : [];
+    ? [{ hex: colorData }]
+    : [];
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -162,7 +167,6 @@ const OutfitFilterPage = () => {
     setOpenSection(null);
     setFiltersApplied(false);
     dispatch(setOutfits({}));
-
   };
   const selectedType = tempFilters.category;
 
@@ -180,28 +184,36 @@ const OutfitFilterPage = () => {
       // Adjust colors with intensity
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
-          ? colorData.map((c, i) => {
-            let hexValue = typeof c === "object" && c.hex ? c.hex : c;
+          ? colorData
+              .map((c, i) => {
+                let hexValue = typeof c === "object" && c.hex ? c.hex : c;
 
-            // ✅ Ensure starts with #
-            if (!hexValue.startsWith("#")) {
-              hexValue = "#" + hexValue.replace(/^#*/, "");
-            }
+                // ✅ Ensure starts with #
+                if (!hexValue.startsWith("#")) {
+                  hexValue = "#" + hexValue.replace(/^#*/, "");
+                }
 
-            // ✅ Normalize shorthand (#ABC → #AABBCC)
-            if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
-              hexValue = "#" + hexValue.slice(1).split("").map(ch => ch + ch).join("");
-            }
+                // ✅ Normalize shorthand (#ABC → #AABBCC)
+                if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
+                  hexValue =
+                    "#" +
+                    hexValue
+                      .slice(1)
+                      .split("")
+                      .map((ch) => ch + ch)
+                      .join("");
+                }
 
-            // ✅ Uppercase + length check
-            hexValue = hexValue.toUpperCase();
-            if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
-              console.warn("Skipping invalid color:", hexValue);
-              return null;
-            }
+                // ✅ Uppercase + length check
+                hexValue = hexValue.toUpperCase();
+                if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
+                  console.warn("Skipping invalid color:", hexValue);
+                  return null;
+                }
 
-            return hexValue;
-          }).filter(Boolean)
+                return hexValue;
+              })
+              .filter(Boolean)
           : [];
 
       // ✅ Call the helper function directly (no more /api call)
@@ -213,14 +225,14 @@ const OutfitFilterPage = () => {
         wantedBrands: tempFilters.brands,
         removedBrands: tempFilters.avoid,
       });
-
+setShowFilters(false)
       if (data.error) {
         throw new Error(data.error);
       }
 
       // ✅ Update Redux
       dispatch(setOutfits(data));
-  
+
       setFiltersApplied(true);
       console.log("✅ Filtered outfit data:", data);
     } catch (err) {
@@ -277,8 +289,9 @@ const OutfitFilterPage = () => {
             <h4 className="font-bold">{section.title}</h4>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"
-                }`}
+              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${
+                openSection === section.id ? "rotate-180" : "rotate-0"
+              }`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -293,76 +306,89 @@ const OutfitFilterPage = () => {
           </div>
 
           <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden ${openSection === section.id
-              ? "max-h-[500px] opacity-100"
-              : "max-h-0 opacity-0"
-              }`}
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${
+              openSection === section.id
+                ? "max-h-[500px] opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
           >
-         {section.id === "color" &&
+      {section.id === "color" &&
   section.data.map((c, i) => {
     const adjusted = adjustColor(c.hex, colorIntensity[i]);
     const isOn = colorIntensity[i] > 0;
 
     return (
-      <div
-        key={i}
-        // className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200"
-      >
-        {/* LEFT SIDE — Color Dot + Hex */}
-       
+      <div key={i} className="mb-6">
+        {/* LABEL + TOGGLE */}
+        <div className="flex justify-between items-center mb-2">
+          <p className={`text-xs font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
+            Intensité de la couleur
+          </p>
 
-        {/* MAIN AREA — Slider */}
-        <div className="flex-1 flex flex-col gap-3">
-          {/* Label + ON/OFF Toggle */}
-          <div className="flex justify-between items-center">
-            <p className={`text-xs font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
-              Intensité de la couleur
-            </p>
+          {/* iPhone style toggle */}
+          <label className="relative inline-flex items-center cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              checked={isOn}
+              onChange={(e) => {
+                const enable = e.target.checked;
+                const newVal = enable ? 50 : 0;
 
-            {/* iPhone Toggle */}
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={isOn}
-                onChange={(e) => {
-                  const enable = e.target.checked;
-                  const newVal = enable ? 50 : 0;
+                setColorIntensity((prev) =>
+                  prev.map((v, idx) => (idx === i ? newVal : v))
+                );
 
-                  setColorIntensity((prev) =>
-                    prev.map((v, idx) => (idx === i ? newVal : v))
-                  );
+                handleCheckbox("colors", c.hex, enable);
+              }}
+              className="sr-only peer"
+            />
 
-                  handleCheckbox("colors", c.hex, enable);
-                }}
-                className="sr-only peer"
-              />
-              <div className="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-[#F16935] transition-all relative">
-                <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow 
-                            transition-all peer-checked:translate-x-6" />
-              </div>
-            </label>
+            {/* Toggle track */}
+            <div
+              className="
+                w-12 h-6 bg-gray-300 rounded-full
+                transition-all duration-300 ease-out
+                peer-checked:bg-[#F16935] relative
+              "
+            >
+              {/* Toggle circle */}
+           <div
+  className={`
+    absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow
+    transition-transform duration-300 ease-in-out
+    ${isOn ? "translate-x-6" : "translate-x-0"}
+  `}
+/>
+
+            </div>
+          </label>
+        </div>
+
+        {/* COLOR DOT + SLIDER */}
+        <div className="flex gap-3">
+          {/* Dot + HEX */}
+          <div className="flex flex-col items-center w-12 select-none">
+            <div
+              className={`w-5 h-5 rounded-full border shadow-sm mb-1 transition-all ${
+                !isOn ? "opacity-30" : ""
+              }`}
+              style={{ backgroundColor: adjusted }}
+            ></div>
+
+            <span className={`text-[10px] font-medium ${!isOn ? "opacity-30" : ""}`}>
+              {rgbToHex(adjusted)}
+            </span>
           </div>
 
-          {/* Premium BIG Slider */}
-          <div className="flex  gap-x-[2%] ">
-           <div className="flex flex-col items-center w-12">
-          {/* Big color dot */}
-          <div
-            className={`w-5 h-5 rounded-full border shadow-sm mb-1 transition-all ${!isOn ? "opacity-30" : ""}`}
-            style={{ backgroundColor: adjusted }}
-          ></div>
-
-          {/* HEX label */}
-          <span className={`text-[10px] font-medium ${!isOn ? "opacity-30" : ""}`}>
-            {rgbToHex(adjusted)}
-          </span>
-        </div>
+          {/* Slider */}
           <Slider.Root
-            className={`relative flex items-center w-full h-8 ${!isOn ? "opacity-30 pointer-events-none" : ""}`}
+            className={`relative flex items-center w-full h-8 ${
+              !isOn ? "opacity-30 pointer-events-none" : ""
+            }`}
             min={0}
             max={100}
             step={1}
-            value={[colorIntensity[i]]}
+            value={[isOn ? colorIntensity[i] : 0]} // 🔥 ensures thumb stays LEFT on OFF
             onValueChange={(values) => {
               const v = values[0];
 
@@ -385,14 +411,20 @@ const OutfitFilterPage = () => {
             </Slider.Track>
 
             <Slider.Thumb
-              className="block w-6 h-6 bg-[#F16935] outline outline-white outline-2 rounded-full shadow-lg cursor-pointer hover:scale-125 transition-all"
+              className="
+                block w-6 h-6 bg-[#F16935] 
+                outline outline-white outline-2 
+                rounded-full shadow-lg 
+                cursor-pointer hover:scale-125 
+                transition-all
+              "
             />
           </Slider.Root>
-        </div>
         </div>
       </div>
     );
   })}
+
 
             {section.id === "category" &&
               section.data.map((cat, i) => (
@@ -414,8 +446,9 @@ const OutfitFilterPage = () => {
                       }));
                     }}
                     className={`w-4 h-4 cursor-pointer transition-all duration-200
-    ${tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
-                      }
+    ${
+      tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
+    }
   `}
                   />
 
@@ -462,68 +495,89 @@ const OutfitFilterPage = () => {
             {section.id === "price" && openSection === "price" && (
               <div className="flex flex-col gap-3">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Prix minimum (€)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="1000"
-                    value={tempFilters.minPrice}
-                    onChange={(e) => {
-                      setFiltersApplied(false);
-                      setTempFilters((prev) => ({
-                        ...prev,
-                        minPrice: Math.max(
-                          0,
-                          Math.min(1000, Number(e.target.value))
-                        ),
-                      }));
-                    }}
-                    className="border rounded-md p-2 w-full text-sm"
-                    placeholder="0"
-                  />
+                  <div className="flex justify-between gap-x-4">
+                    {/* MIN PRICE */}
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        min="0"
+                        max="1000"
+                        value={tempFilters.minPrice}
+                        onChange={(e) => {
+                          setFiltersApplied(false);
+                          setTempFilters((prev) => ({
+                            ...prev,
+                            minPrice: Math.max(
+                              0,
+                              Math.min(1000, Number(e.target.value))
+                            ),
+                          }));
+                        }}
+                        className="border rounded-md p-2 w-full text-sm pr-6"
+                        placeholder="0"
+                      />
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
+                        €
+                      </span>
+                    </div>
+
+                    {/* MAX PRICE */}
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        min="0"
+                        max="1000"
+                        value={tempFilters.maxPrice}
+                        onChange={(e) => {
+                          setFiltersApplied(false);
+                          setTempFilters((prev) => ({
+                            ...prev,
+                            maxPrice: Math.max(
+                              0,
+                              Math.min(1000, Number(e.target.value))
+                            ),
+                          }));
+                        }}
+                        className="border rounded-md p-2 w-full text-sm pr-6"
+                        placeholder="0"
+                      />
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
+                        €
+                      </span>
+                    </div>
+                  </div>
                 </div>
-          <div className="flex flex-col gap-4">
-  <label className="text-sm font-medium text-gray-700">Prix (€)</label>
+                <div className="flex flex-col gap-4">
+                  <div className="px-2">
+                    <Slider.Root
+                      className="relative flex items-center select-none touch-none w-full h-5"
+                      min={0}
+                      max={1000}
+                      step={5}
+                      value={[tempFilters.minPrice, tempFilters.maxPrice]}
+                      onValueChange={(values) => {
+                        setFiltersApplied(false);
+                        setTempFilters((prev) => ({
+                          ...prev,
+                          minPrice: values[0],
+                          maxPrice: values[1],
+                        }));
+                      }}
+                    >
+                      {/* Track */}
+                      <Slider.Track className="bg-gray-300 relative grow rounded-full h-[4px]">
+                        {/* Highlighted Range */}
+                        <Slider.Range className="absolute bg-[#F16935] h-full rounded-full" />
+                      </Slider.Track>
 
-  <div className="px-2">
-    <Slider.Root
-      className="relative flex items-center select-none touch-none w-full h-5"
-      min={0}
-      max={1000}
-      step={5}
-      value={[tempFilters.minPrice, tempFilters.maxPrice]}
-      onValueChange={(values) => {
-        setFiltersApplied(false);
-        setTempFilters((prev) => ({
-          ...prev,
-          minPrice: values[0],
-          maxPrice: values[1],
-        }));
-      }}
-    >
-      {/* Track */}
-      <Slider.Track className="bg-gray-300 relative grow rounded-full h-[4px]">
-        {/* Highlighted Range */}
-        <Slider.Range className="absolute bg-[#F16935] h-full rounded-full" />
-      </Slider.Track>
+                      {/* Left Thumb */}
+                      <Slider.Thumb className="block w-4 h-4 bg-[#F16935] rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform" />
 
-      {/* Left Thumb */}
-      <Slider.Thumb className="block w-4 h-4 bg-[#F16935] rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform" />
-
-      {/* Right Thumb */}
-      <Slider.Thumb className="block w-4 h-4 bg-[#F16935] rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform" />
-    </Slider.Root>
-  </div>
-
-  {/* Min & Max labels */}
-  <div className="flex justify-between text-xs text-gray-600">
-    <span>Min: €{tempFilters.minPrice}</span>
-    <span>Max: €{tempFilters.maxPrice}</span>
-  </div>
-</div>
-
+                      {/* Right Thumb */}
+                      <Slider.Thumb className="block w-4 h-4 bg-[#F16935] rounded-full shadow-md cursor-pointer hover:scale-110 transition-transform" />
+                    </Slider.Root>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -533,16 +587,17 @@ const OutfitFilterPage = () => {
       <button
         disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${!tempFilters.category || filtersApplied || loading
-          ? "bg-[#8f4c2d36] cursor-not-allowed"
-          : "bg-[#2D3F8F]"
-          } text-white font-medium py-2 rounded-md mt-6`}
+        className={`w-full ${
+          !tempFilters.category || filtersApplied || loading
+            ? "bg-[#8f4c2d36] cursor-not-allowed"
+            : "bg-[#2D3F8F]"
+        } text-white font-medium py-2 rounded-md mt-6`}
       >
         {loading
           ? "Chargement..."
           : filtersApplied
-            ? "Déjà appliqué "
-            : "RECHERCHER"}
+          ? "Déjà appliqué "
+          : "RECHERCHER"}
       </button>
 
       <button
@@ -559,9 +614,8 @@ const OutfitFilterPage = () => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="bg-[#faf5e7] min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] py-10"
+      className="bg-[#faf5e7] min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] lg:py-10"
     >
-      <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
         <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
           <button
             className="lg:hidden flex justify-end mb-4 "
@@ -575,20 +629,23 @@ const OutfitFilterPage = () => {
             {renderFilterSections()}
           </aside>
           <div
-            className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${showFilters ? "opacity-100 visible" : "opacity-0 invisible"
-              }`}
+            className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
+              showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
           >
             {/* Backdrop */}
             <div
-              className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${showFilters ? "opacity-100" : "opacity-0"
-                }`}
+              className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
+                showFilters ? "opacity-100" : "opacity-0"
+              }`}
               onClick={() => setShowFilters(false)}
             ></div>
 
             {/* Drawer Panel */}
             <div
-              className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${showFilters ? "translate-x-0" : "translate-x-full"
-                }`}
+              className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
+                showFilters ? "translate-x-0" : "translate-x-full"
+              }`}
             >
               <button
                 onClick={() => setShowFilters(false)}
@@ -616,7 +673,9 @@ const OutfitFilterPage = () => {
                       <div
                         key={cat}
                         onClick={() =>
-                          router.push(`/articles-assortis?id=${encodeURIComponent(cat)}`)
+                          router.push(
+                            `/articles-assortis?id=${encodeURIComponent(cat)}`
+                          )
                         }
                         className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                       >
@@ -637,7 +696,7 @@ const OutfitFilterPage = () => {
                               className="text-[#F16935] block md:hidden"
                             />
                           </h3>
-                          <p className="text-gray-500 text-sm mt-1">
+                          <p className="text-gray-500 text-sm mb-[1rem] lg:my-[2%]">
                             {grouped[cat].length} produits
                           </p>
                         </div>
@@ -669,22 +728,32 @@ const OutfitFilterPage = () => {
                       key={key}
                       onClick={() => {
                         if (firstProduct) {
-                          router.push(`/articles-assortis?id=${encodeURIComponent(key)}`);
+                          router.push(
+                            `/articles-assortis?id=${encodeURIComponent(key)}`
+                          );
                         } else {
-                          toast.warning("Aucune donnée disponible pour cette catégorie.");
+                          toast.warning(
+                            "Aucune donnée disponible pour cette catégorie."
+                          );
                         }
                       }}
-                      className={`${!firstProduct ? "cursor-default" : "cursor-pointer"
-                        } py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${!firstProduct ? "opacity-60 cursor-not-allowed" : ""
-                        }`}
+                      className={`${
+                        !firstProduct ? "cursor-default" : "cursor-pointer"
+                      } py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
+                        !firstProduct ? "opacity-60 cursor-not-allowed" : ""
+                      }`}
                     >
                       <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw]">
                         <Image
-                          src={firstProduct?.["Photo produit 1"] || "/color-fact.png"}
+                          src={
+                            firstProduct?.["Photo produit 1"] ||
+                            "/color-fact.png"
+                          }
                           alt={key}
                           fill
-                          className={`object-contain transition-all duration-300 ${!firstProduct ? "grayscale opacity-80" : ""
-                            }`}
+                          className={`object-contain transition-all duration-300 ${
+                            !firstProduct ? "grayscale opacity-80" : ""
+                          }`}
                         />
                       </div>
                       <div className="p-5 bg-[#F16935]/10">
@@ -692,8 +761,9 @@ const OutfitFilterPage = () => {
                           {key}
                           <ArrowRight
                             size={25}
-                            className={`${!firstProduct ? "text-gray-400" : "text-[#F16935]"
-                              } block md:hidden`}
+                            className={`${
+                              !firstProduct ? "text-gray-400" : "text-[#F16935]"
+                            } block md:hidden`}
                           />
                         </h3>
                       </div>
@@ -701,10 +771,8 @@ const OutfitFilterPage = () => {
                   );
                 })}
             </div>
-
           )}
         </div>
-      </div>
     </motion.div>
   );
 };

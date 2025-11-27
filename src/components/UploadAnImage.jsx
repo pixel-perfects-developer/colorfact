@@ -131,7 +131,7 @@ const UploadAnImage = () => {
       encType="multipart/form-data"
     >
       
-      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] flex flex-col items-center justify-center">
+      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
@@ -157,7 +157,7 @@ const UploadAnImage = () => {
                 alt="téléversement d’image"
                 width={400}
                 height={400}
-                className="w-[60%] md:w-[30%] lg:w-[20%]"
+                className="w-[30%] md:w-[30%] lg:w-[20%]"
               />
             )}
           </div>
