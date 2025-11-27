@@ -12,8 +12,37 @@ import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 import * as Slider from "@radix-ui/react-slider";
 
 const adjustColor = (hex, percent = 50) => {
-  if (!hex?.startsWith("#")) return hex;
-  let r = parseInt(hex.slice(1, 3), 16) / 255;
+  if (typeof hex === "object" && hex?.hex) {
+    hex = hex.hex;    // extract #abc123
+  }
+
+  if (Array.isArray(hex)) {
+    hex = hex[0];     // extract first element
+  }
+
+  if (typeof hex !== "string") {
+    hex = String(hex || "");   // convert number/null/undefined → ""
+  }
+
+  hex = hex.trim().toUpperCase();
+
+  // If rgb(), skip adjustment
+  if (hex.startsWith("RGB")) return hex;
+
+  // Ensure #
+  if (!hex.startsWith("#")) hex = "#" + hex.replace(/^#*/, "");
+
+  // Expand #ABC → #AABBCC
+  if (/^#([A-F0-9]{3})$/.test(hex)) {
+    hex = "#" + hex.slice(1).split("").map((c) => c + c).join("");
+  }
+
+  // If still invalid → skip and return original
+  if (!/^#[A-F0-9]{6}$/.test(hex)) {
+    console.warn("❌ Invalid HEX passed to adjustColor:", hex);
+    return "#000000"; // fallback
+  }
+    let r = parseInt(hex.slice(1, 3), 16) / 255;
   let g = parseInt(hex.slice(3, 5), 16) / 255;
   let b = parseInt(hex.slice(5, 7), 16) / 255;
   
