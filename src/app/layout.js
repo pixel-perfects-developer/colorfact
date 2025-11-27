@@ -23,6 +23,9 @@ export const metadata = {
   title: "ColorFact — Serving Harmony",
   description:
     "Discover minimalist design and harmony in fashion. Import articles, choose your color, and explore modern aesthetics with ColorFact.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -46,8 +46,8 @@
 // };
 import axios from "axios";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
-// Example: https://api.colorfact.ai/
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL; 
+// Example: https://api.colorfact.fr/
 
 export const getOutfitRecommendation = async ({
   inputColors,
@@ -62,19 +62,30 @@ export const getOutfitRecommendation = async ({
       throw new Error("❌ Missing input colors for outfit recommendation.");
     }
 
-    // ✅ Build query params
-    const params = {
-      input_colors: inputColors.join(","), // convert array to comma-separated string
-      type,
-      minPrice,
-      maxPrice,
-      wanted_brands: wantedBrands.join(","),
-      removed_brands: removedBrands.join(","),
-    };
+    // ✅ Build query params properly (without #)
+    const params = new URLSearchParams();
 
-    // ✅ Direct call to backend
-    const res = await axios.get(`${BACKEND_URL}outfit_recommendation/`, {
-      params,
+    inputColors.forEach((color) => {
+      let formatted = color.trim().replace(/^#/, ""); // remove #
+      params.append("input_colors", formatted);
+    });
+
+    if (type) params.append("type", type);
+    params.append("minPrice", minPrice);
+    params.append("maxPrice", maxPrice);
+
+    if (wantedBrands.length > 0) {
+      wantedBrands.forEach((b) => params.append("wanted_brands", b));
+    }
+    if (removedBrands.length > 0) {
+      removedBrands.forEach((b) => params.append("removed_brands", b));
+    }
+
+    // ✅ Final URL
+    const url = `${BACKEND_URL}outfit_recommendation/?${params.toString()}`;
+    console.log("🔗 Final API URL (no #):", url);
+
+    const res = await axios.get(url, {
       headers: {
         Accept: "application/json",
       },

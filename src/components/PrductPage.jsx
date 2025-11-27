@@ -1,6 +1,6 @@
 "use client";
 import { useSelector } from "react-redux";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,7 +9,7 @@ import { CustomNextArrow, CustomPrevArrow } from "@/components/CustomArrow";
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 
-const ProductPage = ({id}) => {
+const ProductPage = ({ id }) => {
   const decodedSlug = decodeURIComponent(id);
   const { swiperRef, handleSlideChange, swiperState } = useSwiper();
 
@@ -20,7 +20,7 @@ const ProductPage = ({id}) => {
   const [products, setProducts] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [isFromOutfitData, setIsFromOutfitData] = useState(false);
-const router = useRouter();
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -62,14 +62,14 @@ const router = useRouter();
     }
   }, [decodedSlug, outfitData, apiOutfitData]);
 
-    useEffect(() => {
-      if (swiperRef.current && swiperRef.current.slideTo) {
-        swiperRef.current.slideTo(0);
-      }
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.slideTo) {
+      swiperRef.current.slideTo(0);
+    }
 
-    }, [activeCategory]); 
-    
-    useEffect(() => {
+  }, [activeCategory]);
+
+  useEffect(() => {
     if (!isFromOutfitData) return;
 
     const matchedKey = Object.keys(outfitData).find(
@@ -118,24 +118,21 @@ const router = useRouter();
   }
 
   return (
-    <div className="bg-[#faf5e7] min-h-[calc(100vh-240px)] lg:min-h-[calc(100vh-160px)] py-10">
-      <div className="container-global">
-     <div className="relative w-full mb-6">
-  <button
-    onClick={() => router.back()}
-    className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-2  font-medium transition-all"
-  >
-    <ArrowLeft className="w-4 h-4" />
-    <p className="text-[1rem]">Retour</p>
-  </button>
+    <div className="bg-[#faf5e7] min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] py-10">      <div className="container-global">
+        <div className="relative w-full mb-6">
+          <button
+            onClick={() => router.back()}
+            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-2  font-medium transition-all"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <p className="text-[1rem]">Retour</p>
+          </button>
 
-  {/* 🧭 Centered Heading */}
-  <h2 className="text-center text-2xl font-semibold text-gray-800 capitalize">
-    {decodedSlug.replace(/-/g, " ")}
-  </h2>
-</div>
-
-
+          {/* 🧭 Centered Heading */}
+          <h2 className="text-center text-2xl font-semibold text-gray-800 capitalize">
+            {decodedSlug.replace(/-/g, " ")}
+          </h2>
+        </div>
         {/* 🏷️ Show tags only for outfitData */}
         {isFromOutfitData && subCategories.length > 1 && (
           <div className="flex flex-wrap justify-center gap-3 mb-8">
@@ -143,11 +140,10 @@ const router = useRouter();
               <button
                 key={tag}
                 onClick={() => setActiveCategory(tag)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === tag
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === tag
                     ? "bg-[#2D3F8F] text-white shadow-md"
                     : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
-                }`}
+                  }`}
               >
                 {tag}
               </button>
@@ -177,12 +173,12 @@ const router = useRouter();
                     loop={false}
                     allowTouchMove={true}
                     slidesPerView={1}
-                breakpoints={{
-  0: { slidesPerView: 1 },     
-  640: { slidesPerView: 2 },    
-  1024: { slidesPerView: 2 },   
-  1280: { slidesPerView: 4 },   
-}}
+                    breakpoints={{
+                      0: { slidesPerView: 1 },
+                      640: { slidesPerView: 2 },
+                      1024: { slidesPerView: 2 },
+                      1280: { slidesPerView: 4 },
+                    }}
 
                   >
                     {products.map((item, index) => (
@@ -204,14 +200,14 @@ const router = useRouter();
                           {/* 📄 Product Info */}
                           <div className="flex flex-col justify-between mt-4 flex-1">
                             <div>
-                           <h4
-  className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 leading-tight"
-  style={{
-    height: "clamp(2.2rem, 2.5vw, 3rem)", // ✅ replaces h-[2.5vw] max-h-[3vw]
-  }}
->
-  {item["Nom produit"] || item.name || "Produit"}
-</h4>
+                              <h4
+                                className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 leading-tight"
+                                style={{
+                                  height: "clamp(2.2rem, 2.5vw, 3rem)", // ✅ replaces h-[2.5vw] max-h-[3vw]
+                                }}
+                              >
+                                {item["Nom produit"] || item.name || "Produit"}
+                              </h4>
 
 
                               <p className="text-gray-900 font-semibold text-[1rem] mb-1">
