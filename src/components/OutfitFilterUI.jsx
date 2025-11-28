@@ -608,15 +608,24 @@ setShowFilters(false)
       </button>
     </>
   );
+const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
+  return (
+    categoryData &&
+    Object.values(categoryData).some(
+      (arr) => Array.isArray(arr) && arr.length > 0
+    )
+  );
+});
+
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="bg-[#faf5e7] min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] lg:py-10"
+      className="bg-[#faf5e7] min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] "
     >
-        <div className="container-global flex flex-col items-start md:flex-row gap-x-[4%] relative">
+        <div className="container-global py-0 flex flex-col items-start md:flex-row gap-x-[4%] relative">
           <button
             className="lg:hidden flex justify-end mb-4 "
             onClick={() => setShowFilters(true)}
@@ -624,7 +633,7 @@ setShowFilters(false)
             <SlidersHorizontal size={30} />
           </button>
 
-          <aside className="hidden lg:block md:w-[30%] lg:w-[20%] sticky top-30">
+          <aside className="hidden lg:block md:w-[30%] lg:w-[20%] sticky top-30 mt-[2%]">
             <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
             {renderFilterSections()}
           </aside>
@@ -665,8 +674,20 @@ setShowFilters(false)
                 if (!grouped[cat]) grouped[cat] = [];
                 grouped[cat].push(item);
               });
+                const categories = Object.keys(grouped);
+    const catCount = categories.length;
+
+    // 🔥 width logic
+    const cycle = catCount % 3;
+    console.log("cy",cycle);
+    
+    const cardWidth =
+      cycle === 2 ? "2xl:w-[48%]" :
+      cycle === 1 ? "2xl:w-[32%]" :cycle===0?"2xl:w-[32%]":
+      "2xl:w-[23.5%]";
+
               return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-[2%]">
+                <div className="flex flex-wrap w-full gap-[2%]">
                   {Object.keys(grouped).map((cat) => {
                     const first = grouped[cat][0];
                     return (
@@ -677,9 +698,9 @@ setShowFilters(false)
                             `/articles-assortis?id=${encodeURIComponent(cat)}`
                           )
                         }
-                        className="cursor-pointer py-[1rem] lg:py-0  bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
+                        className={`cursor-pointer mt-[2%]  py-[1rem] lg:py-0 w-full  md:w-[48%] ${cardWidth}   bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all`}
                       >
-                        <div className="relative w-full h-72 ">
+                        <div className="relative w-full h-72 lg:h-[11vw] ">
                           <Image
                             src={first["Photo produit 1"]}
                             alt={cat}
@@ -707,18 +728,13 @@ setShowFilters(false)
               );
             })()
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-[2%]">
-              {Object.entries(outfitData)
-                // ✅ Filter out empty categories (no nested items or all empty arrays)
-                .filter(([_, categoryData]) => {
-                  return (
-                    categoryData &&
-                    Object.values(categoryData).some(
-                      (arr) => Array.isArray(arr) && arr.length > 0
-                    )
-                  );
-                })
+            <div className={`w-full flex flex-wrap gap-x-[2%] `} >
+              {filteredData
                 .map(([key, categoryData]) => {
+                    const cycle = filteredData.length % 3;
+  const cardWidth =
+    cycle === 2 ? "2xl:w-[48%]" : cycle === 1 ? "2xl:w-[23.5%]" :cycle === 0?"2xl:w-[32%]": "2xl:w-[23.5%]";
+
                   const firstProduct = Object.values(categoryData)
                     .flat()
                     .find((item) => item?.["Photo produit 1"]);
@@ -739,11 +755,11 @@ setShowFilters(false)
                       }}
                       className={`${
                         !firstProduct ? "cursor-default" : "cursor-pointer"
-                      } py-[1rem] lg:p-0 bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
+                      } py-[1rem] mt-[2%] lg:p-0  w-full  md:w-[48%] ${cardWidth} bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
                         !firstProduct ? "opacity-60 cursor-not-allowed" : ""
                       }`}
                     >
-                      <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw]">
+                      <div className="relative w-full h-[25rem]  lg:h-[11vw]">
                         <Image
                           src={
                             firstProduct?.["Photo produit 1"] ||

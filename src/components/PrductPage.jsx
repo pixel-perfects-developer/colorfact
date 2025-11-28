@@ -177,7 +177,7 @@ const ProductPage = ({ id }) => {
                       0: { slidesPerView: 1 },
                       640: { slidesPerView: 2 },
                       1024: { slidesPerView: 2 },
-                      1280: { slidesPerView: 4 },
+                      1500: { slidesPerView: 3.8 },
                     }}
 
                   >
@@ -185,7 +185,7 @@ const ProductPage = ({ id }) => {
                       <SwiperSlide key={index}>
                         <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all p-4 flex flex-col justify-between h-[420px] w-[90%] mx-auto md:w-full">
                           {/* 🖼 Image */}
-                          <div className="relative w-full h-[25rem] 2xl:h-[20rem] xl:h-[20vw] lg:h-[20vw] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                          <div className="relative w-full h-[25rem] 2xl:h-[10vw] xl:h-[20vw] lg:h-[20vw] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
                             <Image
                               src={
                                 item["Photo produit 1"] ||
@@ -193,7 +193,7 @@ const ProductPage = ({ id }) => {
                               }
                               alt={item["Nom produit"] || item.name || "Product"}
                               fill
-                              className="object-contain p-2 transition-transform duration-500 hover:scale-105"
+                              className="object-contain  transition-transform duration-500 hover:scale-105"
                             />
                           </div>
 
@@ -201,10 +201,8 @@ const ProductPage = ({ id }) => {
                           <div className="flex flex-col justify-between mt-4 flex-1">
                             <div>
                               <h4
-                                className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 leading-tight"
-                                style={{
-                                  height: "clamp(2.6rem, 2.9vw, 3.4rem)", // ✅ replaces h-[2.5vw] max-h-[3vw]
-                                }}
+                                className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 lg:h-[8vw] xl:h-[3vw] 2xl:h-[6vw]"
+                              
                               >
                                 {item["Nom produit"] || item.name || "Produit"}
                               </h4>
