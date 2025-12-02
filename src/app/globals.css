@@ -33,7 +33,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
-  background-color: var(--color-bg-main);
+  background-color: #F5F5F5;
   color: var(--color-text-primary);
   /* user-select: none; */
 }
