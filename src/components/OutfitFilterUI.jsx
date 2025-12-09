@@ -281,12 +281,12 @@ setShowFilters(false)
         // },
         { id: "price", title: "Prix", data: [] },
       ].map((section) => (
-        <div key={section.id} className="border-b border-gray-200 py-[4%]">
+        <div key={section.id} className="border-b border-gray-200 py-[4%] select-none">
           <div
             onClick={() => toggleSection(section.id)}
             className="flex items-center justify-between cursor-pointer mb-[2%]"
           >
-            <h4 className="font-bold">{section.title}</h4>
+            <h5 className="font-bold">{section.title}</h5>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${
@@ -318,10 +318,10 @@ setShowFilters(false)
     const isOn = colorIntensity[i] > 0;
 
     return (
-      <div key={i} className="mb-6">
+      <div key={i} className="mb-[4%]">
         {/* LABEL + TOGGLE */}
         <div className="flex justify-between items-center mb-2">
-          <p className={`text-xs font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
+          <p className={`font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
             Intensité de la couleur
           </p>
 
@@ -441,18 +441,18 @@ setShowFilters(false)
                         ...prev,
                         category:
                           prev.category === cat.name
-                            ? "" // ✅ toggle off if clicked again
+                            ? ""
                             : cat.name,
                       }));
                     }}
                     className={`w-4 h-4 cursor-pointer transition-all duration-200
     ${
-      tempFilters.category === cat.name ? "accent-[#F16935]" : "accent-gray-400"
+      tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"
     }
   `}
                   />
 
-                  <h5 className={`text-sm  "text-gray-800"}`}>{cat.name}</h5>
+                  <h6 className={tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"}>{cat.name}</h6>
                 </label>
               ))}
 
@@ -589,9 +589,9 @@ setShowFilters(false)
         onClick={applyFilters}
         className={`w-full ${
           !tempFilters.category || filtersApplied || loading
-            ? "bg-[#8f4c2d36] cursor-not-allowed"
-            : "bg-[#2D3F8F]"
-        } text-white font-medium py-2 rounded-md mt-6`}
+            ? "btn-blue opacity-80 !cursor-not-allowed "
+            : "btn-blue"
+        } `}
       >
         {loading
           ? "Chargement..."
@@ -634,7 +634,7 @@ const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
           </button>
 
           <aside className="hidden lg:block md:w-[30%] 2xl:w-[20%] sticky top-30 mt-[2%]">
-            <h3 className="mb-[2%] text-lg font-semibold">Filtres</h3>
+            <h4 className="mb-[2%] ">Filtres</h4>
             {renderFilterSections()}
           </aside>
           <div
@@ -706,15 +706,15 @@ const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
                           />
                         </div>
                         <div className="p-5 bg-[#F16935]/10">
-                          <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+                          <h4 className="flex items-center justify-between gap-2">
                             {cat}
                             {/* 👉 show arrow only on mobile */}
                             <ArrowRight
                               size={25}
                               className="text-[#F16935] block md:hidden"
                             />
-                          </h3>
-                          <p className="text-gray-500 text-sm mb-[1rem] lg:my-[2%]">
+                          </h4>
+                          <p className="mb-[1rem] lg:my-[2%]">
                             {grouped[cat].length} produits
                           </p>
                         </div>
@@ -770,7 +770,7 @@ const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
                         />
                       </div>
                       <div className="p-5 bg-[#F16935]/10">
-                        <h3 className="text-xl font-semibold text-gray-800 flex items-center justify-between gap-2">
+                        <h4 className="flex items-center justify-between gap-2">
                           {key}
                           <ArrowRight
                             size={25}
@@ -778,7 +778,7 @@ const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
                               !firstProduct ? "text-gray-400" : "text-[#F16935]"
                             } block md:hidden`}
                           />
-                        </h3>
+                        </h4>
                       </div>
                     </div>
                   );

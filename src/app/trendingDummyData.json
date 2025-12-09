@@ -1,0 +1,103 @@
+{
+  "categories": [
+    { "id": 1, "name": "Moda" },
+    { "id": 2, "name": "Inspiración" },
+    { "id": 3, "name": "Colores" },
+    { "id": 4, "name": "Estilo de Vida" }
+  ],
+
+  "trends": [
+    {
+      "id": "trend-001",
+      "title": "Las Tendencias de Moda que Marcarán el 2025",
+      "subtitle": "Una mirada a los estilos que dominarán la próxima temporada según expertos del sector.",
+      "category": "Moda",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
+      "tags": ["moda", "tendencias 2025", "estilo"],
+      "published": true,
+      "authorName":"HÉLOÏSE SALESSY",
+      "createdAt": "2025-01-15T10:00:00Z",
+      "updatedAt": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "trend-701",
+      "title": "Las Tendencias de Moda que Marcarán el 2025",
+      "subtitle": "Una mirada a los estilos que dominarán la próxima temporada según expertos del sector.",
+      "category": "Moda",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "content": "<p>El 2025 llega con una revolución estética donde la sostenibilidad, los tonos tierra y los cortes minimalistas vuelven a tomar protagonismo. Diseñadores europeos y casas de alta costura han apostado por tejidos orgánicos, siluetas limpias y combinaciones monocromáticas que evocan elegancia moderna.</p><p>Los accesorios adquieren un papel esencial: bolsos estructurados, joyería dorada y calzado de líneas futuristas completan los looks más destacados de la temporada. La tendencia 'quiet luxury' se mantiene fuerte, priorizando piezas atemporales y de alta calidad.</p>",
+      "tags": ["moda", "tendencias 2025", "estilo"],
+      "published": true,
+      "createdAt": "2025-01-15T10:00:00Z",
+      "updatedAt": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "trend-4002",
+      "title": "Inspiraciones para Bodas Modernas",
+      "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
+      "category": "Inspiración",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
+      "tags": ["bodas", "inspiración", "decoración"],
+      "authorName":"HÉLOÏSE SALESSY",
+
+      "published": true,
+      "createdAt": "2025-01-14T11:30:00Z",
+      "updatedAt": "2025-01-14T11:30:00Z"
+    },
+    {
+      "id": "trend-2003",
+      "title": "Colores que Dominarán la Temporada",
+      "subtitle": "Una paleta vibrante y elegante que transformará tus looks del día a día.",
+      "category": "Colores",
+      "mainImage": "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92",
+      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
+      "tags": ["colores", "estilo", "tendencias"],
+      "authorName":"HÉLOÏSE SALESSY",
+
+      "published": false,
+      "createdAt": "2025-01-13T09:45:00Z",
+      "updatedAt": "2025-01-13T09:45:00Z"
+    },
+      {
+      "id": "trend-0102",
+      "title": "Inspiraciones para Bodas Modernas",
+      "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
+      "category": "Inspiración",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
+      "tags": ["bodas", "inspiración", "decoración"],
+      "published": true,
+      "authorName":"HÉLOÏSE SALESSY",
+      "createdAt": "2025-01-14T11:30:00Z",
+      "updatedAt": "2025-01-14T11:30:00Z"
+    },
+      {
+      "id": "trend-007",
+      "title": "Inspiraciones para Bodas Modernas",
+      "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
+      "category": "Inspiración",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
+      "tags": ["bodas", "inspiración", "decoración"],
+      "authorName":"HÉLOÏSE SALESSY",
+      "published": true,
+      "createdAt": "2025-01-14T11:30:00Z",
+      "updatedAt": "2025-01-14T11:30:00Z"
+    },
+          {
+      "id": "trend-0107",
+      "title": "Inspiraciones para Bodas Modernas",
+      "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
+      "category": "Estilo de Vida",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
+      "tags": ["bodas", "inspiración", "decoración"],
+      "published": true,
+      "authorName":"HÉLOÏSE SALESSY",
+      "createdAt": "2025-01-14T11:30:00Z",
+      "updatedAt": "2025-01-14T11:30:00Z"
+    }
+  ]
+}

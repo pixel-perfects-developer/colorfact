@@ -101,7 +101,7 @@ const ColorPicker = () => {
 
         {/* 🧠 Loading Message */}
         {loading && (
-          <p className="text-center mt-[2rem] lg:mt-[2%] animate-pulse text-gray-700">
+          <p className="text-center mt-[2rem] lg:mt-[2%] animate-pulse">
             Nous analysons les couleurs et le style de votre article afin de vous
             suggérer des vêtements assortis.
           </p>

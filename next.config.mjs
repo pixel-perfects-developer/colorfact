@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',          // needed for OVH static hosting
   trailingSlash: true,       // ensures clean folder-based URLs
   images: {
     unoptimized: true,       // disable next/image optimization for static

@@ -48,7 +48,7 @@ const Header = () => {
           </Link>
           <Link
             // href="/trends"
-            href={"#"}
+            href={"/tendencias"}
 
             className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
@@ -167,7 +167,7 @@ const Header = () => {
             <Link href="/our-story" onClick={() => setDrawerOpen(false)}>
               Notre Histoire
             </Link>
-            <Link href="/trends" onClick={() => setDrawerOpen(false)}>
+            <Link  href={"/tendencias"} onClick={() => setDrawerOpen(false)}>
               Tendances
             </Link>
 

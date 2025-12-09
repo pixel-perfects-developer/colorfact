@@ -8,6 +8,7 @@ import { useSwiper } from "@/lib/SwiperStates";
 import { CustomNextArrow, CustomPrevArrow } from "@/components/CustomArrow";
 import { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 const ProductPage = ({ id }) => {
   const decodedSlug = decodeURIComponent(id);
@@ -129,21 +130,19 @@ const ProductPage = ({ id }) => {
           </button>
 
           {/* 🧭 Centered Heading */}
-          <h2 className="text-center text-2xl font-semibold text-gray-800 capitalize">
+          <h2 className="text-center capitalize">
             {decodedSlug.replace(/-/g, " ")}
           </h2>
         </div>
         {/* 🏷️ Show tags only for outfitData */}
         {isFromOutfitData && subCategories.length > 1 && (
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <div className="flex flex-wrap justify-center gap-3 mb-[2%]">
             {subCategories.map((tag) => (
               <button
                 key={tag}
                 onClick={() => setActiveCategory(tag)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === tag
-                    ? "bg-[#2D3F8F] text-white shadow-md"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
-                  }`}
+                        className={activeCategory === tag ? "btn-blue" : "btn-white"}
+
               >
                 {tag}
               </button>
@@ -170,14 +169,13 @@ const ProductPage = ({ id }) => {
                     onSwiper={(swiper) => (swiperRef.current = swiper)}
                     onSlideChange={handleSlideChange}
                     spaceBetween={20}
-                    loop={false}
+                    loop={false} grabCursor={true}
                     allowTouchMove={true}
                     slidesPerView={1}
                     breakpoints={{
                       0: { slidesPerView: 1 },
                       640: { slidesPerView: 2 },
-                      1024: { slidesPerView: 2 },
-                      1500: { slidesPerView: 3.8 },
+                      1200: { slidesPerView: 3.8 },
                     }}
 
                   >
@@ -200,31 +198,31 @@ const ProductPage = ({ id }) => {
                           {/* 📄 Product Info */}
                           <div className="flex flex-col justify-between mt-4 flex-1">
                             <div>
-                              <h4
-                                className="text-[0.95rem] font-semibold text-gray-900 uppercase mb-1 lg:h-[8vw] xl:h-[3vw] 2xl:h-[6vw]"
+                              <h5
+                                className=" font-semibold  uppercase mb-[1%] lg:h-[8vw] xl:h-[3vw] 2xl:h-[6vw]"
                               
                               >
                                 {item["Nom produit"] || item.name || "Produit"}
-                              </h4>
+                              </h5>
 
 
-                              <p className="text-gray-900 font-semibold text-[1rem] mb-1">
+                              <p className="mb-[1%] font-bold">
                                 €{item.Prix || item.price || "—"}
                               </p>
 
-                              <p className="text-gray-400 text-xs mb-2">
+                              <p className="text-gray-400  mb-[2%]">
                                 Prix TTC, toutes taxes comprises
                               </p>
                             </div>
 
-                            <a
+                            <Link
                               href={item["Lien achat"] || "#"}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="mt-4 bg-[#0D1320] text-white text-sm font-medium py-2 rounded-md hover:bg-[#1c263b] transition-colors w-full text-center"
+                              className="btn-black text-center"
                             >
                               Acheter
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       </SwiperSlide>
