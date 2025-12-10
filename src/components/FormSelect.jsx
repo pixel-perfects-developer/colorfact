@@ -6,7 +6,7 @@ const FormSelect = forwardRef(
     {
       setOpen,
       open,
-      selectedLabel,
+      selectedLabel,isBlueDropdown,
       MainService,
       handleSelectChange,
       selectedCategory,
@@ -24,7 +24,7 @@ const FormSelect = forwardRef(
  } bg-white
                        transition-all duration-200 focus:outline-none flex items-center justify-between`}
           >
-            <h6 className="text-sm font-medium ">{selectedCategory || selectedLabel}</h6>
+            <h5 className=" font-medium ">{selectedCategory || selectedLabel}</h5>
 
             {/* Arrow Icon */}
             <svg
@@ -60,8 +60,8 @@ const FormSelect = forwardRef(
       className={`px-[1rem] py-[0.8rem] text-sm cursor-pointer transition-all duration-150
         ${
           selectedCategory?.trim().toLowerCase() === item.name.toLowerCase()
-            ? "bg-[#F16935] text-white font-medium"
-            : "hover:bg-orange-50 text-black"
+            ? isBlueDropdown?"bg-[#2D3F8F] text-white font-medium":"bg-[#F16935] text-white font-medium"
+            : isBlueDropdown?"hover:bg-[#2d3f8f85] text-black": "hover:bg-orange-50 text-black"
         }`}
     >
       {item.name}

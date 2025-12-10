@@ -7,22 +7,16 @@
 /* ✅ Root Variables & Theme */
 /* ----------------------------- */
 :root {
-   --font-inter: "Inter", sans-serif;
-  --font-poppins: "Poppins", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --: "Poppins", sans-serif;
 
   /* 🎨 French Color Palette */
-  --color-bg-main: #FAFAFA;          /* Blanc cassé - main background */
-  --color-accent-light: #D6D4D4;     /* Gris clair - sections / separators */
-  --color-accent-cta: #0056D2;       /* Bleu logo - CTA buttons / links */
-  --color-hover-cta: #007BFF;        /* Bleu vif - hover state for CTAs */
-  --color-trust: #C9E6FF;            /* Bleu clair subtil - badges / trust color */
-  --color-text-primary: #333333;     /* Gris anthracite - body text */
-  --color-text-secondary: #666666;   /* Gris moyen - subtitles */
-  --color-video-bg: #FFFFFF;         /* Pure white - video background */
+  --color-text-primary: #333333;
+  /* Gris anthracite - body text */
+  --color-video-bg: #FFFFFF;
+  /* Pure white - video background */
 }
 
-/* ----------------------------- */
-/* ✅ Base HTML & Body */
 /* ----------------------------- */
 html {
   scroll-behavior: smooth !important;
@@ -35,74 +29,9 @@ body {
   text-rendering: optimizeSpeed;
   background-color: #F5F5F5;
   color: var(--color-text-primary);
-  /* user-select: none; */
 }
 
-/* ----------------------------- */
-/* ✅ Typography (Based on Client’s Design Brief) */
-/* ----------------------------- */
-@layer base {
-  
-  h1 {
-    font-family: var(--font-poppins);
-    font-size: clamp(2.25rem, 4vw, 3rem); /* 36–48px */
-    font-weight: 700;
-    line-height: 110%;
-    color: var(--color-text-primary);
-  }
 
-  h2 {
-    font-family: var(--font-poppins);
-    font-size: clamp(1.75rem, 3vw, 2.5rem); /* 28–40px */
-    font-weight: 600;
-    line-height: 115%;
-    color: var(--color-text-primary);
-  }
-
-  h3 {
-    font-family: var(--font-poppins);
-    font-size: clamp(1.25rem, 2.2vw, 1.75rem); /* 20–28px */
-    font-weight: 600;
-    color: var(--color-text-primary);
-  }
-
-  p,
-  .text-body1 {
-    font-family: var(--font-inter);
-    font-size: clamp(1rem, 1.2vw, 1.125rem); /* 16–18px */
-    font-weight: 400;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-  }
-
-  .text-secondary {
-    color: var(--color-text-secondary);
-  }
-
-  button,
-  .text-button {
-    font-family: var(--font-inter);
-    font-size: clamp(1rem, 1.3vw, 1.25rem); /* 16–20px */
-    font-weight: 500;cursor: pointer;
-    text-transform: none;
-  }
-
-  footer,
-  .text-footer {
-    font-family: var(--font-inter);
-    font-size: clamp(0.75rem, 1vw, 0.875rem); /* 12–14px */
-    font-weight: 400;
-    color: var(--color-text-secondary);
-  }
-
-  .bigHeading {
-    font-size: clamp(2rem, 3.5vw, 4.5rem) !important;
-  }
-
-  * {
-    transition: all 0.25s ease-out;
-  }
-}
 
 
 .fade-out {
@@ -116,6 +45,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -131,89 +61,80 @@ body {
 /* ----------------------------- */
 @layer components {
   .container-global {
-    @apply w-[96%] max-w-full lg:max-w-[2000px] lg:w-[90%] m-auto py-[1rem] lg:py-[2%];
+    @apply w-[92%] lg:w-[90%] max-w-full lg:max-w-[2000px] m-auto py-[1rem] lg:py-[2%];
   }
- .btn-orange {
-  @apply flex items-center justify-center gap-2
-        
-         bg-[#F16935] text-white font-medium
-         rounded-[12px] px-[1.5rem] py-[0.9rem]
-         shadow-[0_6px_15px_rgba(0,0,0,0.1)]
-         transition-all duration-300 ease-out
-         hover:-translate-y-[3px]
-         hover:shadow-[0_8px_18px_rgba(0,0,0,0.15)]
-         hover:bg-[#ff844d]
-         focus:outline-none focus:ring-2 focus:ring-[#F16935]/40
-         active:translate-y-[1px];
-}
- .btn-white {
-  @apply flex items-center justify-center gap-2
-        
-         bg-[white] text-black font-medium
-         rounded-[12px] px-[1.5rem] py-[0.9rem]
-         shadow-[0_6px_15px_rgba(0,0,0,0.1)]
-         transition-all duration-300 ease-out
-         hover:-translate-y-[3px]
-         hover:shadow-[0_8px_18px_rgba(0,0,0,0.15)]
-         hover:bg-[#F16935] hover:text-white
-         focus:outline-none focus:ring-2 focus:ring-[#F16935]/40
-         active:translate-y-[1px];
-}
 
+  .btn-orange {
+    @apply bg-[#F16935] text-white font-medium rounded-[12px] px-6 py-2 drop-shadow-[0_6px_15px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out hover:-translate-y-[3px] hover:drop-shadow-[0_8px_18px_rgba(0,0,0,0.15)] hover:bg-[#ff844d] focus:outline-none focus:ring-2 focus:ring-[#F16935]/40 active:translate-y-[1px];
+  }
+
+  .btn-white {
+    @apply flex items-center justify-center gap-2 bg-white text-black font-medium rounded-[12px] px-6 py-2 drop-shadow-[0_6px_15px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out hover:-translate-y-[3px] lg:text-[0.85vw] 2xl:text-[0.85rem] hover:drop-shadow-[0_8px_18px_rgba(0,0,0,0.15)] hover:bg-[#F16935] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#F16935]/40 active:translate-y-[1px];
+  }
 
   .btn-orange-outline {
-    @apply border-2 border-[#F16935] text-[#F16935] font-medium
-           rounded-[12px] px-[1.2rem] py-[0.9rem]
-           shadow-[0_6px_15px_rgba(0,0,0,0.05)]
-           transition-all duration-300 ease-out
-           hover:bg-[#F16935] hover:text-white
-           hover:-translate-y-[3px] hover:shadow-[0_8px_18px_rgba(0,0,0,0.15)]
-           focus:outline-none focus:ring-2 focus:ring-[#F16935]/40;
+    @apply border-2 border-[#F16935] text-[#F16935] font-medium rounded-[12px] px-6 py-2 drop-shadow-[0_6px_15px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#F16935] hover:text-white hover:-translate-y-[3px] hover:shadow-[0_8px_18px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-[#F16935]/40;
   }
 
   .btn-orange:active,
   .btn-orange-outline:active {
     transform: scale(0.98);
   }
+
   .btn-purple {
-    @apply  text-white bg-[#402F8F] 
-           rounded-[clamp(0.25rem,0.4vw,0.6rem)] px-6 py-3 font-semibold transition-colors duration-300
-           hover:bg-[#5039b6] hover:text-white;
+    @apply text-white bg-[#402F8F] rounded-lg
+ px-6 py-2 font-semibold transition-colors duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#5039b6] hover:text-white;
   }
 
-}
-@media (max-width: 1024px) {
-  .min-h-mobile {
-    min-height: calc(100vh - 240px);
+  .btn-blue {
+    @apply text-white bg-[#2D3F8F] rounded-lg
+ px-6 py-2 font-semibold transition-all duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#5039b6] hover:text-white;
+  }
+
+  .btn-white {
+    @apply bg-white text-[#2D3F8F] rounded-lg
+ px-6 py-2 font-semibold transition-all duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#2D3F8F] hover:text-white;
+  }
+
+  .btn-black {
+     @apply bg-[#131925] text-white rounded-lg
+ px-6 py-2 font-semibold transition-all duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#0b1220] ;
+ }
+
+  h1 {
+    @apply text-[2rem] lg:text-[2.3vw] 2xl:text-[2.5rem] font-bold leading-[120%];
+  }
+
+  h2 {
+    @apply text-[1.2rem] lg:text-[1.7vw] 2xl:text-[2rem] font-bold leading-[120%];
+  }
+
+  h3 {
+    @apply text-[1rem] lg:text-[1.3vw] 2xl:text-[1.6rem] font-bold leading-[120%];
+  }
+
+  h4 {
+    @apply lg:text-[1vw] 2xl:text-[1.3rem] font-bold leading-[120%];
+  }
+
+  h5 {
+    @apply lg:text-[0.8vw] 2xl:text-[1.1rem] font-bold leading-[120%];
+  }
+
+  h6 {
+    @apply lg:text-[0.6vw] 2xl:text-[0.85rem] font-bold leading-[120%];
+  }
+
+  p,
+  .text-body1 {
+    @apply text-[0.7rem] lg:text-[0.7vw] 2xl:text-[0.9rem];
   }
 }
-/* ----------------------------- */
-/* ✅ Reusable Color Utilities */
-/* ----------------------------- */
-@layer utilities {
-  .text-primary { color: var(--color-text-primary); }
-  .text-secondary { color: var(--color-text-secondary); }
-  .bg-main { background-color: var(--color-bg-main); }
-  .bg-accent { background-color: var(--color-accent-light); }
-  .bg-video { background-color: var(--color-video-bg); }
-  .text-cta { color: var(--color-accent-cta); }
+
+button {
+  cursor: pointer;
 }
 
-/* ----------------------------- */
-/* ✅ Responsive Typography & Layout Tweaks */
-/* ----------------------------- */
-@media (max-width: 768px) {
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.5rem; }
-  p { font-size: 0.95rem; }
-  button { font-size: 0.95rem; }
-  .container-global { width: 92%; }
-}
-
-@media (min-width: 1600px) {
-  .container-global { max-width: 1800px; }
-}
-/* Toast container tweaks */
 .Toastify__toast {
   border-radius: 8px;
   color: white;
@@ -246,12 +167,15 @@ body {
 .Toastify__progress-bar--info {
   background: #2980b9;
 }
+
 .Toastify__progress-bar--error {
   background: #c0392b;
 }
+
 .Toastify__progress-bar--warning {
   background: #d4ac0d;
 }
+
 .Toastify__progress-bar--success {
   background: #229954;
 }
