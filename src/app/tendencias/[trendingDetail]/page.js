@@ -72,7 +72,7 @@ export default async function TrendingDetailPage({ params }) {
       <div className="container-global  min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)]">
         {/* LEFT: IMAGE */}
 
-        <div className="items-start  flex-col lg:flex-row flex justify-between gap-x-[6%]">
+        <div className="items-center  flex-col lg:flex-row flex justify-between gap-x-[6%]">
           <div className="w-full lg:w-[47%]">
             <Image
               src={article.mainImage}
