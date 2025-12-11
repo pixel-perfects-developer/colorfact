@@ -32,57 +32,63 @@ const UploadAnImage = () => {
       gender: Yup.string().required("Veuillez sélectionner un genre"),
       subcategory: Yup.string().required("Veuillez sélectionner une catégorie"),
     }),
-    onSubmit: async (values) => {
-      try {
-        if (!values.file) {
-          toast.error("Veuillez téléverser une image");
-          return;
-        }
+ onSubmit: async (values) => {
+  try {
+    if (!values.file) {
+      toast.error("Veuillez téléverser une image");
+      return;
+    }
 
-        if (!values.gender || !values.subcategory) {
-          toast.error("Veuillez sélectionner le genre et la catégorie");
-          return;
-        }
+    if (!values.gender || !values.subcategory) {
+      toast.error("Veuillez sélectionner le genre et la catégorie");
+      return;
+    }
+    setLoading(true);
+    const colorFile = new File([values.file], values.file.name, {
+      type: values.file.type,
+    });
+    const [colors, outfitResponse] = await Promise.all([
+      extractColors(colorFile),
+      getOutfitByImage(
+        values.file,
+        values.subcategory,
+        values.gender === "Homme"
+          ? "H"
+          : values.gender === "Femme"
+            ? "F"
+            : "H/F"
+      ),
+    ]);
+    if (colors && colors.length > 0) {
+      dispatch(setColors(colors));
+    } else {
+      toast.warn("Aucune couleur extraite.");
+    }
 
-        setLoading(true);
+    // ⛔ CASE 1: No outfit recommendations
+    if (!outfitResponse || !outfitResponse?.outfits || outfitResponse.outfits.length === 0) {
+      toast.info("Aucun article assorti trouvé pour votre vêtement.");
+      dispatch(setOutfits([])); // Clear previous recommendations
+      return; // ❌ DO NOT REDIRECT
+    }
 
-        const colorFile = new File([values.file], values.file.name, {
-          type: values.file.type,
-        });
+    // ✅ CASE 2: Outfits found → continue normally
+    dispatch(setImageDetails(outfitResponse));
+    dispatch(setOutfits(outfitResponse.outfits));
 
-        // ⚡ Run both APIs in parallel
-        const [colors, outfitResponse] = await Promise.all([
-          extractColors(colorFile),
-          getOutfitByImage(
-            values.file,
-            values.subcategory,
-            values.gender === "Homme"
-              ? "H"
-              : values.gender === "Femme"
-                ? "F"
-                : "H/F"
-          ),
-        ]);
+    formik.resetForm();
+    setImagePreview(null);
 
-        // 🧠 Process responses
-        if (!colors || colors.length === 0) {
-          toast.warn("Aucune couleur extraite, mais recommandations disponibles.");
-        } else {
-          dispatch(setColors(colors));
-        }
+    router.push("/articles-assortis");
 
-        dispatch(setOutfits([]));
-        dispatch(setImageDetails(outfitResponse));
-        formik.resetForm();
-        setImagePreview(null);
-        router.push("/articles-assortis");
-      } catch (err) {
-        console.error("Erreur d’analyse :", err);
-        toast.error("Échec de l’analyse. Veuillez réessayer.");
-      } finally {
-        setLoading(false);
-      }
-    },
+  } catch (err) {
+    console.error("Erreur d’analyse :", err);
+    toast.error("Échec de l’analyse. Veuillez réessayer.");
+  } finally {
+    setLoading(false);
+  }
+},
+
   });
 
   // 🖼 Handle file selection

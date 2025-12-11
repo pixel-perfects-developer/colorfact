@@ -33,9 +33,9 @@ const TrendingTabs = () => {
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
   return (
-    <div className=" mt-[2rem] lg:mt-[2%]">
+    <div >
       {/* 🔹 Tabs */}
-      <div className="hidden lg:flex flex-wrap gap-4 justify-center items-center">
+      <div className="hidden lg:flex flex-wrap gap-4 justify-center items-center sticky top-[8%] bg-[#F9F3E9] py-[2%]">
         {categories.map((cat) => (
           <button
             key={cat.id}
@@ -74,12 +74,12 @@ const TrendingTabs = () => {
               alt={item.title}
               width={400}
               height={400}
-              className="w-full object-contain "
+              className="w-full h-[16rem] 2xl:h-[16rem] lg:h-[16vw] object-cover "
             />
 
             <div className="p-[4%]">
               <h4 className="mb-[1%]">{item.title}</h4>
-              <p>{item.subtitle}</p>
+              <p className="h-[6rem] lg:h-[6vw] 2xl:h-[9rem]">{item.subtitle}</p>
               <h6 className=" my-[2rem] lg:my-[2%]">BY  <span style={{color:"#F16935"}}>{item.authorName}</span></h6>
            <p >
   {new Date(item.createdAt).toLocaleDateString("en-US", {
