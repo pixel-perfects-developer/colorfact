@@ -1,8 +1,4 @@
 import { Inter, Poppins } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import ReduxProvider from "@/redux/Providers";
 
 /* 🧩 Font Configurations */
 const inter = Inter({
@@ -35,12 +31,7 @@ export default function RootLayout({ children }) {
         <meta name="google" content="notranslate" />
       </head>
       <body className="font-sans scroll-smooth ">
-        {/* ✅ All client logic is wrapped inside ReduxProvider */}
-        <ReduxProvider>
-          <Header />
           {children}
-          <Footer />
-        </ReduxProvider>
       </body>
     </html>
   );

@@ -54,28 +54,39 @@ const ColorPicker = () => {
     setDropdownValues({ gender, subcategory });
   };
 
-  const handleAnalyze = async () => {
-    const { gender, subcategory } = dropdownValues;
-    if (!gender || !subcategory) {
-      toast.error("Veuillez sélectionner le genre et la catégorie du vêtement d’abord.");
-      return;
+const handleAnalyze = async () => {
+  const { gender, subcategory } = dropdownValues;
+  if (!gender || !subcategory) {
+    toast.error("Veuillez sélectionner le genre et la catégorie du vêtement d’abord.");
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const response = await getOutfitByColor({
+      color: hex,
+      clothing_type: subcategory,
+      gender: gender === "Homme" ? "H" : gender === "Femme" ? "F" : "H/F",
+    });
+
+    // ⛔ CASE 1: No outfits found → stay on page + show message
+    if (!response || !response?.outfits || response.outfits.length === 0) {
+      toast.info("Aucun article assorti trouvé pour votre vêtement.");
+      dispatch(setOutfits([]));       // clear previous outfits
+      return;                         // do NOT redirect
     }
 
-    setLoading(true);
-    try {
-      const response = await getOutfitByColor({
-        color: hex,
-        clothing_type: subcategory,
-        gender: gender === "Homme" ? "H" : gender === "Femme" ? "F" : "H/F",
-      });
-      dispatch(setImageDetails(response));
-      router.push("/articles-assortis");
-    } catch (err) {
-      toast.error("Échec de la récupération des recommandations d’outfit.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    // ✅ CASE 2: Outfits found → proceed normally
+    dispatch(setImageDetails(response));
+    router.push("/articles-assortis");
+
+  } catch (err) {
+    toast.error("Échec de la récupération des recommandations d’outfit.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const analyzeDisabled = !dropdownValues.gender || !dropdownValues.subcategory || loading;
 

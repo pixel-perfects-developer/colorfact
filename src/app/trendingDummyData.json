@@ -1,47 +1,112 @@
 {
   "categories": [
-    { "id": 1, "name": "Moda" },
-    { "id": 2, "name": "Inspiración" },
-    { "id": 3, "name": "Colores" },
-    { "id": 4, "name": "Estilo de Vida" }
-  ],
-
-  "trends": [
     {
-      "id": "trend-001",
-      "title": "Las Tendencias de Moda que Marcarán el 2025",
-      "subtitle": "Una mirada a los estilos que dominarán la próxima temporada según expertos del sector.",
-      "category": "Moda",
-      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
-      "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
-      "tags": ["moda", "tendencias 2025", "estilo"],
-      "published": true,
-      "authorName":"HÉLOÏSE SALESSY",
-      "createdAt": "2025-01-15T10:00:00Z",
-      "updatedAt": "2025-01-15T10:00:00Z"
+      "id": 1,
+      "name": "Moda"
     },
     {
-      "id": "trend-701",
-      "title": "Las Tendencias de Moda que Marcarán el 2025",
+      "id": 2,
+      "name": "Inspiración"
+    },
+    {
+      "id": 3,
+      "name": "Colores"
+    },
+    {
+      "id": 4,
+      "name": "Estilo de Vida"
+    }
+  ],
+  "trends": [
+    {
+      "id": "trend-demo-001",
+      "slug": "tendencias-de-moda-2025-demo",
+      "title": "Las Tendencias de Moda que Definirán el 2025",
+      "subtitle": " Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo. Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo. análisis detallado de los estilos, colores y materiales que marcarán la próxima temporada.",
+      "category": "Moda",
+      "authorName": "ELENA MARTÍN",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "tags": [
+        "moda",
+        "2025",
+        "tendencias",
+        "colores",
+        "estilo"
+      ],
+      "published": true,
+      "createdAt": "2025-02-01T09:00:00Z",
+      "updatedAt": "2025-02-01T09:00:00Z",
+      "content": "<h3>Introduction</h3><p>L'année 2025 s'annonce comme une véritable révolution dans le monde de la mode. Entre l'évolution des matériaux, l'impact de l'intelligence artificielle sur la création et la montée en puissance des styles minimalistes et écoresponsables, les tendances de cette année promettent un mélange passionnant d'innovation et de simplicité. Découvrez plus d'informations sur les nouvelles tendances ici : <a href='https://example.com/tendances-2025' target='_blank'>Tendances Mode 2025</a>.</p><h3>1. Les couleurs phares de 2025</h3><p>Les spécialistes de la mode ont identifié plusieurs couleurs dominantes pour la nouvelle saison :</p><ul><li>Vert sauge</li><li>Bleu ardoise</li><li>Beige sable</li><li>Terracotta douce</li></ul><p>Ces couleurs apportent une sensation de calme et de modernité, en parfaite harmonie avec les attentes des consommateurs. Consultez notre guide des couleurs : <a href='https://example.com/guide-couleurs' target='_blank'>Guide des couleurs 2025</a>.</p><h3>2. Le retour du minimalisme moderne</h3><p>Les silhouettes se simplifient encore davantage. On observe des coupes épurées, des lignes droites et des tenues monochromes qui permettent une grande liberté de personnalisation. Les vêtements minimalistes deviennent la base idéale pour créer un style personnel grâce aux accessoires. Explorez des idées de looks minimalistes : <a href='https://example.com/minimalisme' target='_blank'>Looks minimalistes</a>.</p><h3>Pourquoi le minimalisme plaît autant ?</h3><p>Il donne une impression d'élégance naturelle, réduit les décisions quotidiennes et s'adapte à toutes les morphologies. Découvrez les avantages détaillés ici : <a href='https://example.com/avantages-minimalisme' target='_blank'>Avantages du minimalisme</a>.</p><h3>3. Les matières durables au centre des créations</h3><p>La mode responsable continue de gagner en importance. En 2025, les créateurs privilégient :</p><ul><li>Le coton biologique</li><li>Le lin naturel</li><li>Les fibres recyclées</li><li>Le cuir végétal innovant</li></ul><p>Pour explorer des marques écoresponsables, visitez : <a href='https://example.com/mode-durable' target='_blank'>Mode durable 2025</a>.</p><h3>4. L'influence grandissante de l'IA dans la mode</h3><p>L'intelligence artificielle joue un rôle essentiel dans la personnalisation des vêtements, la recommandation de tenues et même la création de nouvelles pièces. Les marques utilisent l'IA pour analyser les préférences des clients et proposer des collections plus adaptées. Plus d'infos sur la mode et l'IA : <a href='https://example.com/ia-mode' target='_blank'>IA & Mode</a>.</p><blockquote>En 2025, la mode n'est plus seulement esthétique : elle devient intelligente, intuitive et profondément personnalisée.</blockquote><h3>5. Les accessoires qui feront la différence</h3><p>Les accessoires deviennent les véritables stars des looks 2025. Les éléments les plus tendance :</p><ul><li>Les sacs géométriques</li><li>Les lunettes rétro revisitées</li><li>Les bijoux minimalistes en argent</li><li>Les chaussures à plateformes souples</li></ul><p>Découvrez notre sélection d’accessoires ici : <a href='https://example.com/accessoires-2025' target='_blank'>Accessoires tendance 2025</a>.</p><h3>Conclusion</h3><p>Les tendances mode 2025 reflètent un équilibre parfait entre innovation technologique et authenticité. Que vous soyez adepte du minimalisme ou amateur de designs avant-gardistes, cette année offre de nombreuses possibilités pour exprimer votre style unique. Explorez nos autres articles : <a href='https://example.com/blog-mode' target='_blank'>Blog Mode</a>.</p><p>Continuez à parcourir notre site pour découvrir plus de conseils, d'idées de tenues et de recommandations personnalisées.</p>"
+    },
+     {
+      "id": "trend-demo-1",
+      "slug": "tendencias-de-moda-2025-demo",
+      "title": "Las Tendencias de Moda que Definiránss el 2025",
+      "subtitle": "Un análisis detallado de los estilos, colores y materiales que marcarán la próxima temporada.",
+      "category": "Moda",
+      "authorName": "ELENA MARTÍN",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "tags": [
+        "moda",
+        "2025",
+        "tendencias",
+        "colores",
+        "estilo"
+      ],
+      "published": true,
+      "createdAt": "2025-02-01T09:00:00Z",
+      "updatedAt": "2025-02-01T09:00:00Z",
+      "content": "<h3>Introduction</h3><p>L'année 2025 s'annonce comme une véritable révolution dans le monde de la mode. Entre l'évolution des matériaux, l'impact de l'intelligence artificielle sur la création et la montée en puissance des styles minimalistes et écoresponsables, les tendances de cette année promettent un mélange passionnant d'innovation et de simplicité. Découvrez plus d'informations sur les nouvelles tendances ici : <a href='https://example.com/tendances-2025' target='_blank'>Tendances Mode 2025</a>.</p><h3>1. Les couleurs phares de 2025</h3><p>Les spécialistes de la mode ont identifié plusieurs couleurs dominantes pour la nouvelle saison :</p><ul><li>Vert sauge</li><li>Bleu ardoise</li><li>Beige sable</li><li>Terracotta douce</li></ul><p>Ces couleurs apportent une sensation de calme et de modernité, en parfaite harmonie avec les attentes des consommateurs. Consultez notre guide des couleurs : <a href='https://example.com/guide-couleurs' target='_blank'>Guide des couleurs 2025</a>.</p><h3>2. Le retour du minimalisme moderne</h3><p>Les silhouettes se simplifient encore davantage. On observe des coupes épurées, des lignes droites et des tenues monochromes qui permettent une grande liberté de personnalisation. Les vêtements minimalistes deviennent la base idéale pour créer un style personnel grâce aux accessoires. Explorez des idées de looks minimalistes : <a href='https://example.com/minimalisme' target='_blank'>Looks minimalistes</a>.</p><h3>Pourquoi le minimalisme plaît autant ?</h3><p>Il donne une impression d'élégance naturelle, réduit les décisions quotidiennes et s'adapte à toutes les morphologies. Découvrez les avantages détaillés ici : <a href='https://example.com/avantages-minimalisme' target='_blank'>Avantages du minimalisme</a>.</p><h3>3. Les matières durables au centre des créations</h3><p>La mode responsable continue de gagner en importance. En 2025, les créateurs privilégient :</p><ul><li>Le coton biologique</li><li>Le lin naturel</li><li>Les fibres recyclées</li><li>Le cuir végétal innovant</li></ul><p>Pour explorer des marques écoresponsables, visitez : <a href='https://example.com/mode-durable' target='_blank'>Mode durable 2025</a>.</p><h3>4. L'influence grandissante de l'IA dans la mode</h3><p>L'intelligence artificielle joue un rôle essentiel dans la personnalisation des vêtements, la recommandation de tenues et même la création de nouvelles pièces. Les marques utilisent l'IA pour analyser les préférences des clients et proposer des collections plus adaptées. Plus d'infos sur la mode et l'IA : <a href='https://example.com/ia-mode' target='_blank'>IA & Mode</a>.</p><blockquote>En 2025, la mode n'est plus seulement esthétique : elle devient intelligente, intuitive et profondément personnalisée.</blockquote><h3>5. Les accessoires qui feront la différence</h3><p>Les accessoires deviennent les véritables stars des looks 2025. Les éléments les plus tendance :</p><ul><li>Les sacs géométriques</li><li>Les lunettes rétro revisitées</li><li>Les bijoux minimalistes en argent</li><li>Les chaussures à plateformes souples</li></ul><p>Découvrez notre sélection d’accessoires ici : <a href='https://example.com/accessoires-2025' target='_blank'>Accessoires tendance 2025</a>.</p><h3>Conclusion</h3><p>Les tendances mode 2025 reflètent un équilibre parfait entre innovation technologique et authenticité. Que vous soyez adepte du minimalisme ou amateur de designs avant-gardistes, cette année offre de nombreuses possibilités pour exprimer votre style unique. Explorez nos autres articles : <a href='https://example.com/blog-mode' target='_blank'>Blog Mode</a>.</p><p>Continuez à parcourir notre site pour découvrir plus de conseils, d'idées de tenues et de recommandations personnalisées.</p>"
+    },
+     {
+      "id": "trend-sdemo-001",
+      "slug": "tendencias-de-moda-2025-demo",
+      "title": "Las Tendencisssas de Moda que Definirán el 2025",
+      "subtitle": "Un análisis detallado de los estilos, colores y materiales que marcarán la próxima temporada.",
+      "category": "Moda",
+      "authorName": "ELENA MARTÍN",
+      "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
+      "tags": [
+        "moda",
+        "2025",
+        "tendencias",
+        "colores",
+        "estilo"
+      ],
+      "published": true,
+      "createdAt": "2025-02-01T09:00:00Z",
+      "updatedAt": "2025-02-01T09:00:00Z",
+      "content": "<h3>Introduction</h3><p>L'année 2025 s'annonce comme une véritable révolution dans le monde de la mode. Entre l'évolution des matériaux, l'impact de l'intelligence artificielle sur la création et la montée en puissance des styles minimalistes et écoresponsables, les tendances de cette année promettent un mélange passionnant d'innovation et de simplicité. Découvrez plus d'informations sur les nouvelles tendances ici : <a href='https://example.com/tendances-2025' target='_blank'>Tendances Mode 2025</a>.</p><h3>1. Les couleurs phares de 2025</h3><p>Les spécialistes de la mode ont identifié plusieurs couleurs dominantes pour la nouvelle saison :</p><ul><li>Vert sauge</li><li>Bleu ardoise</li><li>Beige sable</li><li>Terracotta douce</li></ul><p>Ces couleurs apportent une sensation de calme et de modernité, en parfaite harmonie avec les attentes des consommateurs. Consultez notre guide des couleurs : <a href='https://example.com/guide-couleurs' target='_blank'>Guide des couleurs 2025</a>.</p><h3>2. Le retour du minimalisme moderne</h3><p>Les silhouettes se simplifient encore davantage. On observe des coupes épurées, des lignes droites et des tenues monochromes qui permettent une grande liberté de personnalisation. Les vêtements minimalistes deviennent la base idéale pour créer un style personnel grâce aux accessoires. Explorez des idées de looks minimalistes : <a href='https://example.com/minimalisme' target='_blank'>Looks minimalistes</a>.</p><h3>Pourquoi le minimalisme plaît autant ?</h3><p>Il donne une impression d'élégance naturelle, réduit les décisions quotidiennes et s'adapte à toutes les morphologies. Découvrez les avantages détaillés ici : <a href='https://example.com/avantages-minimalisme' target='_blank'>Avantages du minimalisme</a>.</p><h3>3. Les matières durables au centre des créations</h3><p>La mode responsable continue de gagner en importance. En 2025, les créateurs privilégient :</p><ul><li>Le coton biologique</li><li>Le lin naturel</li><li>Les fibres recyclées</li><li>Le cuir végétal innovant</li></ul><p>Pour explorer des marques écoresponsables, visitez : <a href='https://example.com/mode-durable' target='_blank'>Mode durable 2025</a>.</p><h3>4. L'influence grandissante de l'IA dans la mode</h3><p>L'intelligence artificielle joue un rôle essentiel dans la personnalisation des vêtements, la recommandation de tenues et même la création de nouvelles pièces. Les marques utilisent l'IA pour analyser les préférences des clients et proposer des collections plus adaptées. Plus d'infos sur la mode et l'IA : <a href='https://example.com/ia-mode' target='_blank'>IA & Mode</a>.</p><blockquote>En 2025, la mode n'est plus seulement esthétique : elle devient intelligente, intuitive et profondément personnalisée.</blockquote><h3>5. Les accessoires qui feront la différence</h3><p>Les accessoires deviennent les véritables stars des looks 2025. Les éléments les plus tendance :</p><ul><li>Les sacs géométriques</li><li>Les lunettes rétro revisitées</li><li>Les bijoux minimalistes en argent</li><li>Les chaussures à plateformes souples</li></ul><p>Découvrez notre sélection d’accessoires ici : <a href='https://example.com/accessoires-2025' target='_blank'>Accessoires tendance 2025</a>.</p><h3>Conclusion</h3><p>Les tendances mode 2025 reflètent un équilibre parfait entre innovation technologique et authenticité. Que vous soyez adepte du minimalisme ou amateur de designs avant-gardistes, cette année offre de nombreuses possibilités pour exprimer votre style unique. Explorez nos autres articles : <a href='https://example.com/blog-mode' target='_blank'>Blog Mode</a>.</p><p>Continuez à parcourir notre site pour découvrir plus de conseils, d'idées de tenues et de recommandations personnalisées.</p>"
+    },
+    {
+      "id": "sstrend-701",
+      "title": "Lasss Tendencias de Moda que Marcarán el 2025",
       "subtitle": "Una mirada a los estilos que dominarán la próxima temporada según expertos del sector.",
       "category": "Moda",
       "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
       "content": "<p>El 2025 llega con una revolución estética donde la sostenibilidad, los tonos tierra y los cortes minimalistas vuelven a tomar protagonismo. Diseñadores europeos y casas de alta costura han apostado por tejidos orgánicos, siluetas limpias y combinaciones monocromáticas que evocan elegancia moderna.</p><p>Los accesorios adquieren un papel esencial: bolsos estructurados, joyería dorada y calzado de líneas futuristas completan los looks más destacados de la temporada. La tendencia 'quiet luxury' se mantiene fuerte, priorizando piezas atemporales y de alta calidad.</p>",
-      "tags": ["moda", "tendencias 2025", "estilo"],
+      "tags": [
+        "moda",
+        "tendencias 2025",
+        "estilo"
+      ],
       "published": true,
       "createdAt": "2025-01-15T10:00:00Z",
       "updatedAt": "2025-01-15T10:00:00Z"
     },
     {
-      "id": "trend-4002",
+      "id": "tsrend-4002",
       "title": "Inspiraciones para Bodas Modernas",
       "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
       "category": "Inspiración",
       "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
       "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
-      "tags": ["bodas", "inspiración", "decoración"],
-      "authorName":"HÉLOÏSE SALESSY",
-
+      "tags": [
+        "bodas",
+        "inspiración",
+        "decoración"
+      ],
+      "authorName": "HÉLOÏSE SALESSY",
       "published": true,
       "createdAt": "2025-01-14T11:30:00Z",
       "updatedAt": "2025-01-14T11:30:00Z"
@@ -53,49 +118,64 @@
       "category": "Colores",
       "mainImage": "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92",
       "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
-      "tags": ["colores", "estilo", "tendencias"],
-      "authorName":"HÉLOÏSE SALESSY",
-
+      "tags": [
+        "colores",
+        "estilo",
+        "tendencias"
+      ],
+      "authorName": "HÉLOÏSE SALESSY",
       "published": false,
       "createdAt": "2025-01-13T09:45:00Z",
       "updatedAt": "2025-01-13T09:45:00Z"
     },
-      {
+    {
       "id": "trend-0102",
       "title": "Inspiraciones para Bodas Modernas",
       "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
       "category": "Inspiración",
       "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
       "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
-      "tags": ["bodas", "inspiración", "decoración"],
+      "tags": [
+        "bodas",
+        "inspiración",
+        "decoración"
+      ],
       "published": true,
-      "authorName":"HÉLOÏSE SALESSY",
+      "authorName": "HÉLOÏSE SALESSY",
       "createdAt": "2025-01-14T11:30:00Z",
       "updatedAt": "2025-01-14T11:30:00Z"
     },
-      {
+    {
       "id": "trend-007",
       "title": "Inspiraciones para Bodas Modernas",
       "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
       "category": "Inspiración",
       "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
       "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
-      "tags": ["bodas", "inspiración", "decoración"],
-      "authorName":"HÉLOÏSE SALESSY",
+      "tags": [
+        "bodas",
+        "inspiración",
+        "decoración"
+      ],
+      "authorName": "HÉLOÏSE SALESSY",
       "published": true,
       "createdAt": "2025-01-14T11:30:00Z",
       "updatedAt": "2025-01-14T11:30:00Z"
     },
-          {
+    {
       "id": "trend-0107",
       "title": "Inspiraciones para Bodas Modernas",
       "subtitle": "Ideas frescas para una ceremonia inolvidable: colores, decoración y estilo.",
       "category": "Estilo de Vida",
       "mainImage": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
       "content": "Las bodas actuales priorizan la expresión personal sobre las normas tradicionales. Desde ceremonias íntimas al aire libre hasta recepciones temáticas, las parejas buscan crear experiencias auténticas. Las paletas en tonos arena, blanco roto y verde eucalipto dominan la decoración.En moda nupcial, destacan los vestidos minimalistas, trajes monocromáticos y accesorios vintage renovados. Los arreglos florales con mezcla de flores silvestres y follaje añaden un toque natural y sofisticado.",
-      "tags": ["bodas", "inspiración", "decoración"],
+      "tags": [
+        "bodas",
+        "inspiración",
+        "decoración"
+      ],
       "published": true,
-      "authorName":"HÉLOÏSE SALESSY",
+      "authorName": "HÉLOÏSE SALESSY",
       "createdAt": "2025-01-14T11:30:00Z",
       "updatedAt": "2025-01-14T11:30:00Z"
     }
