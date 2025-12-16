@@ -2,6 +2,7 @@
 import { Search } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import DashboardHeader from "../Header";
 
 const initialUsers = [
   { name: "John Doe", email: "john@example.com", role: "Admin", status: "Active", dateJoined: "2024-11-28" },
@@ -45,13 +46,10 @@ export default function UsersManagement() {
   return (
     <div className="w-full min-h-screen flex font-sans p-[4%]  lg:p-[2%]">
       <div className="w-full max-w-[1800px] min-h-screen m-auto bg-[#faf5e7]  font-sans">
-        <div className="flex justify-between items-center mb-6">
-          <h2>Users Management</h2>
-          <button className="btn-gray">Logout</button>
-        </div>
-
-        <h3>Add Trend Article</h3>
-
+        <DashboardHeader heading="Users Management" />
+        <h3 className="text-md font-medium">
+          Add Trend Article
+        </h3>
         <div className="mb-4">
           <h4 className="my-2">Search Users</h4>
           <div className="flex px-[1%] py-[0.5%] items-center bg-white border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-[#EEA9AB]">
@@ -62,7 +60,7 @@ export default function UsersManagement() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-          <Search className="text-gray-300"/>
+            <Search className="text-gray-300" />
           </div>
         </div>
 

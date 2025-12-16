@@ -1,16 +1,14 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import { User } from "lucide-react";
-import { 
-    accountInfo, 
-    preferencesData, 
-    privacyData, 
-    subscriptionData, 
-    supportData 
+import {
+    preferencesData,
+    privacyData,
+    subscriptionData,
+    supportData
 } from "../Dashboard/Dropdowndata.js";
 import FormSelect from '../FormSelect.jsx';
 import Image from 'next/image.js';
+import DashboardHeader from './Header.jsx';
 
 const Setting = () => {
 
@@ -40,23 +38,14 @@ const Setting = () => {
 
     return (
         <div className="w-full p-[1rem] lg:p-[2%]">
-
-            {/* Header */}
-            <header className="flex justify-between items-center">
-                <h2>Account</h2>
-        <button className="btn-gray w-full sm:w-auto">Logout</button>
-
-            </header>
-
-            {/* Account Info Section */}
+            <DashboardHeader heading="Account" />
             <section className="flex flex-col-reverse md:flex-row items-center justify-between rounded-2xl bg-white p-[1rem] lg:p-[2%] my-[1rem]">
-                
-                {/* Info */}
-                  <div className='w-full md:w-[40%] mt-[1rem] '>
+                <div className='w-full md:w-[40%] mt-[0.5rem] '>
+                    <h4 className='mb-2'>Admin User</h4>
                     {!isEditing ? (
                         <>
-                            <h6>{email}</h6>
-                            <h6>{phone}</h6>
+                            <h6 className='mb-2'>{email}</h6>
+                            <h6 className='mb-2'>{phone}</h6>
                         </>
                     ) : (
                         <>
@@ -76,9 +65,6 @@ const Setting = () => {
                             />
                         </>
                     )}
-
-                    
-                    {/* edit button */}
                     <div className="flex items-center gap-x-[2%] lg:mt-[2%] mt-[1rem] whitespace-nowrap">
                         {!isEditing ? (
                             <button
@@ -96,67 +82,55 @@ const Setting = () => {
                             </button>
                         )}
 
-                        <button className="btn-gray">
+                        <button className="btn-pink">
                             Delete Account
                         </button>
                     </div>
-
                 </div>
-                {/* Icon */}
-                 <div className="w-[9rem] h-[9rem] lg:w-[9vw] lg:h-[9vw] 2xl:w-34 2xl:h-34 bg-[#fff3f3] flex items-center justify-center rounded-2xl">
-                        <Image
-                            src="/Person-icon.png"
-                            alt="Profile icon"
-                            width={72}
-                            height={72}
-                            className='w-[5rem] h-[5rem] lg:w-[5vw] lg:h-[5vw]  2xl:w-20 2xl:h-20'
+                <div className="w-[9rem] h-[9rem] lg:w-[9vw] lg:h-[9vw] 2xl:w-34 2xl:h-34 bg-[#fff3f3] flex items-center justify-center rounded-2xl">
+                    <Image
+                        src="/Person-icon.png"
+                        alt="Profile icon"
+                        width={72}
+                        height={72}
+                        className='w-[5rem] h-[5rem] lg:w-[5vw] lg:h-[5vw]  2xl:w-20 2xl:h-20'
+                    />
+                </div>
+            </section>
+            <section className="my-[1rem] rounded-2xl bg-white p-[1rem] lg:p-[2%]">
+                <h4>Preferences</h4>
+                <div className="flex flex-col gap-x-[2%] md:flex-row md:justify-between">
+                    <div className="w-full">
+                        <h6 className="my-[1%]">Languages</h6>
+                        <FormSelect
+                            ref={languageRef}
+                            open={dropdowns.language.open}
+                            setOpen={(val) => updateDropdown("language", { open: val })}
+                            selectedLabel="Select Language"
+                            MainService={preferencesData.languages}
+                            handleSelectChange={(val) =>
+                                updateDropdown("language", { selected: val, open: false })
+                            }
+                            selectedCategory={dropdowns.language.selected}
                         />
                     </div>
-            </section>
-
-            {/* Preferences Section */}
-            <section className="rounded-2xl bg-white p-[1rem] lg:p-[2%] my-[1rem]">
-                <h4>Preferences</h4>
-
-                <div className="flex flex-col md:flex-row md:justify-between gap-x-[2%]">
-
-                    {/* Language Dropdown */}
-                    <div className='w-full'>
-                    <h6 className='my-[1%]'>Languages</h6>
-                    <FormSelect
-                        ref={languageRef}
-                        open={dropdowns.language.open}
-                        setOpen={(val) => updateDropdown("language", { open: val })}
-                        selectedLabel="Select Language"
-                        MainService={preferencesData.languages}
-                        handleSelectChange={(val) =>
-                            updateDropdown("language", { selected: val, open: false })
-                        }
-                        selectedCategory={dropdowns.language.selected}
-                    />
+                    <div className="w-full">
+                        <h6 className="my-[1%]">Themes</h6>
+                        <FormSelect
+                            ref={themeRef}
+                            open={dropdowns.theme.open}
+                            setOpen={(val) => updateDropdown("theme", { open: val })}
+                            selectedLabel="Select Theme"
+                            MainService={preferencesData.themes}
+                            handleSelectChange={(val) =>
+                                updateDropdown("theme", { selected: val, open: false })
+                            }
+                            selectedCategory={dropdowns.theme.selected}
+                        />
                     </div>
-
-                    {/* Theme Dropdown */}
-                    <div className='w-full'>
-
-                    <h6 className='my-[1%]'>Themes</h6>
-                    <FormSelect
-                        ref={themeRef}
-                        open={dropdowns.theme.open}
-                        setOpen={(val) => updateDropdown("theme", { open: val })}
-                        selectedLabel="Select Theme"
-                        MainService={preferencesData.themes}
-                        handleSelectChange={(val) =>
-                            updateDropdown("theme", { selected: val, open: false })
-                        }
-                        selectedCategory={dropdowns.theme.selected}
-                    />
-                    </div>
-
                 </div>
             </section>
 
-            {/* Privacy Section */}
             <section className="rounded-2xl bg-white p-[1rem] lg:p-[2%] my-[1rem]">
                 <h4>Privacy & Security</h4>
                 {privacyData.map((item, i) => (
@@ -166,11 +140,8 @@ const Setting = () => {
                     </div>
                 ))}
             </section>
-
-            {/* Subscription Section */}
             <section className="rounded-2xl bg-white p-[1rem] lg:p-[2%] my-[1rem]">
                 <h4>Subscription & Billing</h4>
-
                 <div className="flex flex-col md:flex-row md:justify-between my-[1rem]">
                     <div className="w-full md:w-1/2">
                         <h6>Payment Method</h6>
@@ -194,8 +165,6 @@ const Setting = () => {
                     ))}
                 </div>
             </section>
-
-            {/* Support Section */}
             <section className="rounded-2xl bg-white p-[1rem] lg:p-[2%] my-[1rem]">
                 <h4>Support</h4>
 
@@ -210,7 +179,6 @@ const Setting = () => {
 
                 <button className="btn-pink mt-2">{supportData.button}</button>
             </section>
-
         </div>
     );
 };

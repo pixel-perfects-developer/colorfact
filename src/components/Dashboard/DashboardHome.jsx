@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import DashboardHeader from "./Header";
 
 const stats = [
   { label: "Total Articles", value: 42 },
@@ -38,11 +39,7 @@ const recentArticles = [
 export default function DashboardHome() {
   return (
     <div className="w-full h-screen p-[4%]  lg:p-[2%]">
-      {/* HEADER */}
-      <div className="flex justify-between items-center flex-wrap ">
-        <h2>Dashboard Overview</h2>
-        <button className="btn-gray w-full sm:w-auto">Logout</button>
-      </div>
+      <DashboardHeader heading="Dashboard Overview" />
 
       {/* STATS CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-[2%]">

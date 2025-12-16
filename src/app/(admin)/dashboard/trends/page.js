@@ -4,8 +4,8 @@ import React from 'react'
 const Trends = () => {
   return (
     <>
-    <ManageTrends/>
- </>
+      <ManageTrends />
+    </>
   )
 }
 

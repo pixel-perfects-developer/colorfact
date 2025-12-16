@@ -13,7 +13,7 @@ export default function Sidebar({ isCollapsed = false, onTabClick }) {
 
   const btn = [
     { label: "Dashboard", icon: PlayCircle, href: "/dashboard" },
-    { label: "Trends", icon: LineChart, href: "/dashboard/trends" },
+    { label: "Manage Trends", icon: LineChart, href: "/dashboard/trends" },
     { label: "Users", icon: Users, href: "/dashboard/users" },
     { label: "Settings", icon: SettingsIcon, href: "/dashboard/setting" },
   ];
