@@ -5,6 +5,7 @@ import { X, Menu } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/Dashboard/SideBar";
+import Link from "next/link";
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,7 +17,7 @@ export default function AdminLayout({ children }) {
   }, [pathname]);
 
   return (
-    <div className="flex min-h-screen bg-[#faf5e7]">
+    <div className="flex min-h-[50vh] overflow-y-auto bg-[#faf5e7]">
       {/* Mobile Sidebar */}
       <div
         className={`fixed inset-0 z-40 block lg:hidden transition-transform duration-300 ${
@@ -49,22 +50,24 @@ export default function AdminLayout({ children }) {
       >
         <div className="flex items-center justify-between p-4">
           {!isCollapsed && (
+            <Link href="/">  
             <Image
               src="/header.png"
               alt="Logo"
               width={92}
               height={22}
-              className="ml-2"
+              className="ml-2 w-[80%]"
             />
+            </Link>
           )}
-          <button
+          {/* <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="ml-3"
           >
             {isCollapsed ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-text-align-justify-icon lucide-text-align-justify"><path d="M3 5h18"/><path d="M3 12h18"/><path d="M3 19h18"/></svg>
              :
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>}
-          </button>
+          </button> */}
         </div>
         <Sidebar isCollapsed={isCollapsed} />
       </aside>
