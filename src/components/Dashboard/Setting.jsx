@@ -122,6 +122,8 @@ const Setting = () => {
                 <div className="flex flex-col md:flex-row md:justify-between gap-x-[2%]">
 
                     {/* Language Dropdown */}
+                    <div className='w-full'>
+                    <h6 className='my-[1%]'>Languages</h6>
                     <FormSelect
                         ref={languageRef}
                         open={dropdowns.language.open}
@@ -133,8 +135,12 @@ const Setting = () => {
                         }
                         selectedCategory={dropdowns.language.selected}
                     />
+                    </div>
 
                     {/* Theme Dropdown */}
+                    <div className='w-full'>
+
+                    <h6 className='my-[1%]'>Themes</h6>
                     <FormSelect
                         ref={themeRef}
                         open={dropdowns.theme.open}
@@ -146,6 +152,7 @@ const Setting = () => {
                         }
                         selectedCategory={dropdowns.theme.selected}
                     />
+                    </div>
 
                 </div>
             </section>
