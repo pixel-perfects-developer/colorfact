@@ -72,7 +72,7 @@ export default function UsersManagement() {
         </div>
 
         {/* Desktop Table */}
-        <div className="hidden lg:block bg-white rounded-2xl shadow p-[2%] overflow-x-auto">
+        <div className="hidden lg:block bg-white rounded-2xl shadow px-[2%] overflow-x-auto">
           <table className="w-full min-w-max">
             <thead>
               <tr className="border-b border-[#D0D0D0] text-left">

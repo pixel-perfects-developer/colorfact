@@ -74,7 +74,7 @@ export default function DashboardHome() {
           <tbody>
             {recentArticles.map((item, i) => (
               <tr key={i} className="border-b border-[#D0D0D0]">
-                <td className="py-2">{item.title}</td>
+                <td className="py-4">{item.title}</td>
                 <td>{item.category}</td>
                 <td>{item.date}</td>
                 <td className="text-green-600 font-medium">{item.status}</td>
