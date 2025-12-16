@@ -6,7 +6,8 @@ const FormSelect = forwardRef(
     {
       setOpen,
       open,
-      selectedLabel,isBlueDropdown,
+      selectedLabel,
+      isBlueDropdown,
       MainService,
       handleSelectChange,
       selectedCategory,
@@ -24,7 +25,9 @@ const FormSelect = forwardRef(
  } bg-white
                        transition-all duration-200 focus:outline-none flex items-center justify-between`}
           >
-            <h5 className=" font-medium ">{selectedCategory || selectedLabel}</h5>
+            <h5 className=" font-medium ">
+              {selectedCategory || selectedLabel}
+            </h5>
 
             {/* Arrow Icon */}
             <svg
@@ -44,31 +47,67 @@ const FormSelect = forwardRef(
               />
             </svg>
           </button>
-     <div
-  className={`absolute left-0 w-full bg-white rounded-bl-[0.45rem] rounded-br-[0.45rem]
+          <div
+            className={`absolute left-0 w-full bg-white rounded-bl-[0.45rem] rounded-br-[0.45rem]
               shadow-md overflow-y-auto z-[50] transition-all duration-300 origin-top
-              ${open ? "scale-y-100 opacity-100 visible" : "scale-y-0 opacity-0 invisible"}
-              ${MainService?.length > 6 ? "max-h-[25vh]" : "max-h-fit"} [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
->
-  {MainService?.map((item) => (
-    <div
-      key={item.id}
-      onClick={() => {
-        handleSelectChange(item.name);
-        setOpen(false);
-      }}
-      className={`px-[1rem] py-[0.8rem] text-sm cursor-pointer transition-all duration-150
-        ${
-          selectedCategory?.trim().toLowerCase() === item.name.toLowerCase()
-            ? isBlueDropdown?"bg-[#2D3F8F] text-white font-medium":"bg-[#F16935] text-white font-medium"
-            : isBlueDropdown?"hover:bg-[#2d3f8f85] text-black": "hover:bg-orange-50 text-black"
-        }`}
-    >
-      {item.name}
-    </div>
-  ))}
-</div>
+              ${
+                open
+                  ? "scale-y-100 opacity-100 visible"
+                  : "scale-y-0 opacity-0 invisible"
+              }
+              ${
+                MainService?.length > 6 ? "max-h-[25vh]" : "max-h-fit"
+              } [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}
+          >
+            {MainService?.map((item) => {
+              const value = typeof item === "string" ? item : item?.name;
+              const key = typeof item === "string" ? item : item?.id;
 
+              return (
+                <div
+                  key={key}
+                  onClick={() => {
+                    handleSelectChange(value);
+                    setOpen(false);
+                  }}
+                  className={`px-[1rem] py-[0.8rem] text-sm cursor-pointer transition-all duration-150
+        ${
+          selectedCategory?.trim().toLowerCase() === value?.toLowerCase()
+            ? isBlueDropdown
+              ? "bg-[#2D3F8F] text-white font-medium"
+              : "bg-[#F16935] text-white font-medium"
+            : isBlueDropdown
+            ? "hover:bg-[#2d3f8f85] text-black"
+            : "hover:bg-orange-50 text-black"
+        }`}
+                >
+                  {value}
+                </div>
+              );
+            })}
+
+            {/* {MainService?.map((item) => (
+  <div
+    key={item}
+    onClick={() => {
+      handleSelectChange(item);
+      setOpen(false);
+    }}
+    className={`px-[1rem] py-[0.8rem] text-sm cursor-pointer transition-all duration-150
+      ${
+        selectedCategory?.trim().toLowerCase() === item.toLowerCase()
+          ? isBlueDropdown
+            ? "bg-[#2D3F8F] text-white font-medium"
+            : "bg-[#F16935] text-white font-medium"
+          : isBlueDropdown
+          ? "hover:bg-[#2d3f8f85] text-black"
+          : "hover:bg-orange-50 text-black"
+      }`}
+  >
+    {item}
+  </div>
+))} */}
+          </div>
         </div>
       </div>
     );
