@@ -1,5 +1,5 @@
 import { Inter, Poppins } from "next/font/google";
-
+import "./globals.css";
 /* 🧩 Font Configurations */
 const inter = Inter({
   subsets: ["latin"],

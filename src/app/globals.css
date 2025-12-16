@@ -68,6 +68,7 @@ body {
     @apply bg-[#F16935] text-white lg:text-[0.85vw] 2xl:text-[0.85rem] font-medium rounded-[12px] px-6 py-2 drop-shadow-[0_6px_15px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out hover:-translate-y-[3px] hover:drop-shadow-[0_8px_18px_rgba(0,0,0,0.15)] hover:bg-[#ff844d] focus:outline-none focus:ring-2 focus:ring-[#F16935]/40 active:translate-y-[1px];
   }
 
+
   .btn-white {
     @apply flex items-center justify-center gap-2 bg-white text-black font-medium rounded-[12px] px-6 py-2 drop-shadow-[0_6px_15px_rgba(0,0,0,0.1)] transition-all duration-300 ease-out hover:-translate-y-[3px] lg:text-[0.85vw] 2xl:text-[0.85rem] hover:drop-shadow-[0_8px_18px_rgba(0,0,0,0.15)] hover:bg-[#F16935] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#F16935]/40 active:translate-y-[1px];
   }
@@ -101,6 +102,19 @@ body {
  px-6 py-2 font-semibold transition-all duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#0b1220] ;
  }
 
+
+ .btn-gray {
+     @apply bg-[#f7f7f9] text-black rounded-lg
+ px-6 py-2 font-semibold transition-all duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#b6bbc93d] ;
+ }
+
+  .btn-pink {
+     @apply bg-[#eea9ab] text-white rounded-lg
+ px-6 py-2 font-semibold transition-all duration-300 lg:text-[0.85vw] 2xl:text-[0.85rem] hover:bg-[#e48a8d] ;
+ }
+
+
+
   h1 {
     @apply text-[2rem] lg:text-[2.3vw] 2xl:text-[2.5rem] font-bold leading-[120%];
   }
@@ -114,15 +128,15 @@ body {
   }
 
   h4 {
-    @apply lg:text-[1vw] 2xl:text-[1.3rem] font-bold leading-[120%];
+    @apply lg:text-[1vw] font-semibold 2xl:text-[1.3rem];
   }
 
   h5 {
-    @apply lg:text-[0.8vw] 2xl:text-[1.1rem] font-bold leading-[120%];
+    @apply lg:text-[0.8vw] font-semibold 2xl:text-[1.1rem] ;
   }
 
   h6 {
-    @apply lg:text-[0.6vw] 2xl:text-[0.85rem] font-bold leading-[120%];
+    @apply lg:text-[0.6vw] font-semibold 2xl:text-[0.85rem] ;
   }
 
   p,
@@ -134,7 +148,7 @@ body {
 button {
   cursor: pointer;
 }
-.rich-content h1,h2,h3,h4,h5,h6,p{
+.rich-content :is(h1, h2, h3, h4, h5, h6, p) {
   margin-bottom: 1%;
   margin-top: 1%;
 }

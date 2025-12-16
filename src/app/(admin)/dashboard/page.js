@@ -1,11 +1,5 @@
-import Banner from "@/components/Banner";
-import SideBar from "@/components/Dashboard/SideBar";
-export default function Dashboard() {
+import DashboardHome from "@/components/Dashboard/DashboardHome";
 
-  return (
-    <>
-    <SideBar/>
-    </>
-  );
+export default function Dashboard() {
+  return <DashboardHome />;
 }
-  
