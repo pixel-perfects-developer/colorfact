@@ -41,12 +41,7 @@ export default function DashboardHome() {
       {/* HEADER */}
       <div className="flex justify-between items-center flex-wrap ">
         <h2>Dashboard Overview</h2>
-        <Link
-          href={""}
-          className="bg-white  py-[0.5%] px-[2%] rounded-md shadow text-black hover:bg-gray-100"
-        >
-          <p>Logout</p>
-        </Link>
+        <button className="btn-gray w-full sm:w-auto">Logout</button>
       </div>
 
       {/* STATS CARDS */}
@@ -54,10 +49,10 @@ export default function DashboardHome() {
         {stats.map((item, i) => (
           <div
             key={i}
-            className="bg-white rounded-xl p-6 shadow flex flex-col gap-2"
+            className="bg-white rounded-xl p-6 shadow flex flex-col gap-6"
           >
             <h5>{item.label}</h5>
-            <h5>{String(item.value).padStart(2, "0")}</h5>
+            <h5 className="font-bold text-2xl">{String(item.value).padStart(2, "0")}</h5>
           </div>
         ))}
       </div>
@@ -87,37 +82,37 @@ export default function DashboardHome() {
             ))}
           </tbody>
         </table>
-      </div>    
+      </div>
 
 
-        {/* Mobile Cards */}
-        <div className="md:hidden space-y-4 ">
-          {recentArticles.map((item, i) => (
-            <div
-              key={i}
-              className="bg-[#fafafa] p-4 rounded-lg shadow flex flex-col gap-2"
-            >
-              <div className="flex justify-between">
-                <span className="font-semibold">Title:</span>
-                <span>{item.title}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Category:</span>
-                <span>{item.category}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Date:</span>
-                <span>{item.date}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Status:</span>
-                <span className="text-green-600 font-medium">
-                  {item.status}
-                </span>
-              </div>
+      {/* Mobile Cards */}
+      <div className="md:hidden space-y-4 ">
+        {recentArticles.map((item, i) => (
+          <div
+            key={i}
+            className="bg-[#fafafa] p-4 rounded-lg shadow flex flex-col gap-2"
+          >
+            <div className="flex justify-between">
+              <span className="font-semibold">Title:</span>
+              <span>{item.title}</span>
             </div>
-          ))}
-        </div>
+            <div className="flex justify-between">
+              <span className="font-semibold">Category:</span>
+              <span>{item.category}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-semibold">Date:</span>
+              <span>{item.date}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-semibold">Status:</span>
+              <span className="text-green-600 font-medium">
+                {item.status}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

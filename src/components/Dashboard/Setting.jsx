@@ -44,9 +44,8 @@ const Setting = () => {
             {/* Header */}
             <header className="flex justify-between items-center">
                 <h2>Account</h2>
-                <Link href={""} className="bg-white py-[0.5%] px-[2%] rounded-md shadow text-black hover:bg-gray-100">
-                    <p>Logout</p>
-                </Link>
+        <button className="btn-gray w-full sm:w-auto">Logout</button>
+
             </header>
 
             {/* Account Info Section */}
