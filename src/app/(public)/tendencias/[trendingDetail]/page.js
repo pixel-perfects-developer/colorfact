@@ -120,7 +120,7 @@ export default async function TrendingDetailPage({ params }) {
           {/* CONTENT SECTION */}
           <div className="flex items-start justify-between">
           <p
-            className="w-[85%] md:w-[90%] lg:w-[47%] mt-[2%] rich-content"
+            className="w-[85%] md:w-[90%] lg:w-[67%] mt-[2%] rich-content"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         {/* CLOSE FLEX CONTAINER */}
