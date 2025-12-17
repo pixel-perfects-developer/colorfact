@@ -75,34 +75,7 @@ const Header = () => {
             <Palette className="w-4 h-4" />
             Couleur
           </Link>
-              <Link
-            href={"/dashboard"}
-            className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
-          >
-            <svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 24 24"
-  className="
-    w-4 h-4
-    text-white
-    transition-all duration-300
-    hover:text-[#007AEC]
-    hover:scale-110
-  "
-  fill="none"
-  stroke="currentColor"
-  strokeWidth="1.8"
-  strokeLinecap="round"
-  strokeLinejoin="round"
->
-  <rect x="3" y="3" width="8" height="8" rx="2" />
-  <rect x="13" y="3" width="8" height="5" rx="2" />
-  <rect x="13" y="10" width="8" height="11" rx="2" />
-  <rect x="3" y="13" width="8" height="8" rx="2" />
-</svg>
-
-            Panel
-          </Link>
+         
         </div>
 
         {/* 🍔 Burger menu (mobile) */}
@@ -166,7 +139,7 @@ const Header = () => {
             <Link href="/our-story" onClick={() => setDrawerOpen(false)}>
               Notre Histoire
             </Link>
-            <Link  href={"/tendencias"} onClick={() => setDrawerOpen(false)}>
+            <Link href={"/tendencias"} onClick={() => setDrawerOpen(false)}>
               Tendances
             </Link>
 
