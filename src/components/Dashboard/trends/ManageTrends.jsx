@@ -1,6 +1,7 @@
 "use client";
 // app/manage-trends/page.js
 import React, { useEffect, useRef, useState } from "react";
+import DashboardHeader from "../Header";
 // import { IoChevronDown } from "react-icons/io5";
 
 export default function ManageTrends() {
@@ -28,20 +29,10 @@ export default function ManageTrends() {
 
   return (
     <div className="w-full min-h-screen p-[4%]  lg:p-[2%] bg-[#faf5e7] font-sans">
-      {/* Header */}
-      <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-3">
-        <h1 className="text-2xl sm:text-3xl font-bold text-black">
-          Manage Trends
-        </h1>
-        <button className="btn-gray w-full sm:w-auto">Logout</button>
-      </header>
-
-      {/* Add Article Section */}
+      <DashboardHeader heading="Manage Trends" />
       <section className="w-full pb-10 border-b border-b-[#d0d0d0]">
         <h4 className="mb-4 text-black text-lg">Add Trend Article</h4>
-
         <form className="space-y-6">
-          {/* Title */}
           <div>
             <h6 className="mb-2 text-black">Title</h6>
             <input
@@ -51,8 +42,6 @@ export default function ManageTrends() {
               focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Sub title */}
           <div>
             <h6 className="mb-2 text-black">Sub-title / Short Intro</h6>
             <input
@@ -62,33 +51,38 @@ export default function ManageTrends() {
               focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Category + Tags */}
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Category */}
             <div className="w-full md:w-1/2 relative" ref={dropdownRef}>
               <h6 className="mb-2 text-black">Category</h6>
-
               <div
                 onClick={() => setOpen(!open)}
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md 
-                flex justify-between items-center cursor-pointer select-none"
+                className="
+      w-full px-3 py-2 bg-white border border-gray-300 rounded-md
+      flex justify-between items-center cursor-pointer select-none
+    "
               >
                 <span className="text-gray-700">{selected}</span>
-                {/* <IoChevronDown
-                  className={`text-xl transition-transform duration-300 ${open ? "rotate-180" : ""
-                    }`}
-                /> */}
-              </div>
 
+                {/* ARROW ICON */}
+                <svg
+                  className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
+                    }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
               <ul
                 className={`
                             absolute left-0 right-0 bg-white border border-gray-300 rounded-md
                             mt-1 shadow-md z-20 overflow-hidden
                             transition-all duration-300 ease-in-out
                             ${open
-                                            ? 'max-h-60 opacity-100 translate-y-0'
-                                            : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none'}
+                    ? 'max-h-60 opacity-100 translate-y-0'
+                    : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none'}
                           `}
               >
                 {options.map((option, index) => (
@@ -104,10 +98,7 @@ export default function ManageTrends() {
                   </li>
                 ))}
               </ul>
-
             </div>
-
-            {/* Tags */}
             <div className="w-full md:w-1/2">
               <h6 className="mb-2 text-black">Tags</h6>
               <input
@@ -118,13 +109,9 @@ export default function ManageTrends() {
               />
             </div>
           </div>
-
-          {/* Image + Publish Switch */}
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Image */}
             <div className="w-full md:w-1/2">
               <h6 className="mb-2 text-black">Image</h6>
-
               <div className="w-full flex items-center bg-white border border-gray-300 rounded-md">
                 <input
                   type="text"
@@ -141,8 +128,6 @@ export default function ManageTrends() {
                 </button>
               </div>
             </div>
-
-            {/* Publish Switch */}
             <div className="flex flex-col">
               <h6 className="text-gray-800 mb-3">Publish</h6>
 
@@ -160,11 +145,7 @@ export default function ManageTrends() {
           </div>
         </form>
       </section>
-
-      {/* All Articles */}
       <h4 className="my-4 text-lg">All Articles</h4>
-
-      {/* Desktop Table */}
       <div className="hidden md:block bg-white rounded-lg shadow-md overflow-x-auto">
         <table className="w-full min-w-[600px]">
           <thead>
@@ -176,7 +157,6 @@ export default function ManageTrends() {
               <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             <tr className="border-t border-gray-200">
               <td className="px-6 py-4 text-gray-900">
@@ -195,8 +175,6 @@ export default function ManageTrends() {
           </tbody>
         </table>
       </div>
-
-      {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
         <div className="bg-white shadow-md rounded-lg p-4">
           <div className="flex justify-between items-start">
