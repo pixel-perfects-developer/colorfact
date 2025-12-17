@@ -1,15 +1,29 @@
-import React from 'react'
+import React from "react";
 
 const DashboardHeader = ({ heading }) => {
-    return (
-        <div>
-            {/* HEADER */}
-            <div className="flex justify-between items-center mb-6">
-                <h2>{heading}</h2>
-                <button className="btn-gray w-full sm:w-auto">Logout</button>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="mb-6">
+      <div className="flex items-center justify-between">
+        
+        {/* Heading */}
+        <h2 className="text-lg font-semibold leading-none">
+          {heading}
+        </h2>
 
-export default DashboardHeader
+        {/* Logout Button */}
+        <button
+          className="btn-gray h-[36px] px-4 flex items-center justify-center"
+          onClick={() => {
+            localStorage.removeItem("isLogin");
+            window.location.href = "/authentication/login";
+          }}
+        >
+          Logout
+        </button>
+
+      </div>
+    </div>
+  );
+};
+
+export default DashboardHeader;
