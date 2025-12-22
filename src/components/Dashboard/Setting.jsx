@@ -138,7 +138,7 @@ const Setting = () => {
       </section>
 
       {/* ================= PRIVACY ================= */}
-      <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
+      {/* <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
         <h4>Privacy & Security</h4>
         {privacyData.map((item, i) => (
           <div key={i} className={i > 0 ? "my-4" : "mt-2"}>
@@ -146,10 +146,10 @@ const Setting = () => {
             <p className="text-sm text-gray-600">{item.desc}</p>
           </div>
         ))}
-      </section>
+      </section> */}
 
       {/* ================= SUBSCRIPTION ================= */}
-      <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
+      {/* <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
         <h4>Subscription & Billing</h4>
 
         <div className="flex flex-col md:flex-row md:justify-between my-4 gap-4">
@@ -181,10 +181,10 @@ const Setting = () => {
             </button>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* ================= SUPPORT ================= */}
-      <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
+      {/* <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
         <h4>Support</h4>
 
         <div className="flex flex-col md:flex-row md:justify-between my-4 gap-4">
@@ -199,7 +199,7 @@ const Setting = () => {
         <button className="btn-pink mt-2">
           {supportData.button}
         </button>
-      </section>
+      </section> */}
     </div>
   );
 };
