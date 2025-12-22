@@ -119,7 +119,7 @@ const ProductPage = ({ id }) => {
   }
 
   return (
-    <div className="bg-[#faf5e7] min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] py-10">      <div className="container-global">
+    <div className="bg-[#faf5e7] min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] py-10">      <div className="container-global">
         <div className="relative w-full mb-6">
           <button
             onClick={() => router.back()}

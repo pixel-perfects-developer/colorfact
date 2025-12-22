@@ -1,19 +1,16 @@
-"use client";
-import { useFadeNavigation } from "@/lib/UseFadeNavigationHook";
 import { Upload, Palette } from "lucide-react"; // 🆕 icons
+import Link from "next/link";
 
 const Banner = () => {
-  const { sectionRef, handleNavigation } = useFadeNavigation();
 
   return (
     <section
-      ref={sectionRef}
-      className="relative w-full min-h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
+      className="relative w-full min-h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
     >
       {/* Background Video */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 ">
         <video
-          className="hidden md:block w-full min-h-screen object-cover"
+          className="hidden md:block w-full h-[85vh]  object-cover"
           src="/BannerDesktop.mp4"
           autoPlay
           loop
@@ -21,7 +18,7 @@ const Banner = () => {
           playsInline
         />
         <video
-          className="block md:hidden w-full min-h-screen object-cover"
+          className="block md:hidden w-full  h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)]  object-cover"
           src="/BannerMobile.mp4"
           autoPlay
           loop
@@ -37,16 +34,23 @@ const Banner = () => {
       <div className="relative z-10 flex flex-col items-center text-center">
 
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">
-          <button onClick={() => handleNavigation("/image-search")} className="btn-orange items-center flex justify-center gap-x-[4%] w-[16rem] lg:w-[16vw] py-[1rem] lg:py-[3%] 2xl:w-[13rem]">
-            <Upload className="w-5 h-5 lg:w-[0.85vw] lg:h-[0.85vw] 2xl:w-[0.85rem] 2xl:h-[0.85rem]" />
-            Importer un Article
-          </button>
+  <Link
+    href={"/image-search"}
+    className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
+  >
+    <Upload className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+    Importer un Article
+  </Link>
 
-          <button onClick={() => handleNavigation("/color-search")} className="btn-orange items-center flex justify-center gap-x-[4%] w-[16rem] lg:w-[16vw] py-[1rem] lg:py-[3%]  2xl:w-[13rem]">
-            <Palette className="w-5 h-5 lg:w-[0.85vw] lg:h-[0.85vw] 2xl:w-[0.85rem] 2xl:h-[0.85rem]" />
-            Choisir une Couleur
-          </button>
-        </div>
+  <Link
+    href={"/color-search"}
+    className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
+  >
+    <Palette className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+    Choisir une Couleur
+  </Link>
+</div>
+
       </div>
     </section>
 

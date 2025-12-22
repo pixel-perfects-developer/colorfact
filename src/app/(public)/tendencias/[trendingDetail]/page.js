@@ -72,8 +72,8 @@ export default async function TrendingDetailPage({ params }) {
       <div className="container-global  min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)]">
         {/* LEFT: IMAGE */}
 
-        <div className="items-center  flex-col lg:flex-row flex justify-between gap-x-[6%]">
-          <div className="w-full lg:w-[47%]">
+        <div className="items-center  flex-col-reverse md:flex-row flex justify-between gap-x-[6%]">
+          <div className="w-full md:w-[47%] mt-[1rem] lg:mt-0">
             <Image
               src={article.mainImage}
               width={800}
@@ -84,7 +84,7 @@ export default async function TrendingDetailPage({ params }) {
           </div>
 
           {/* RIGHT: CONTENT */}
-          <div className="w-[85%] md:w-[90%] lg:w-[47%] flex flex-col gap-[0.5rem] lg:gap-4 mt-[1rem] lg:mt-0">
+          <div className="text-center md:text-left  md:w-[47%] flex flex-col gap-[0.5rem] lg:gap-4 mt-[1rem] lg:mt-0">
             {/* Category */}
             <p className=" text-pink-600 font-medium">{article.category}</p>
 
@@ -95,7 +95,7 @@ export default async function TrendingDetailPage({ params }) {
             <p>{article.subtitle}</p>
 
             {/* Author + Date */}
-            <div className="flex items-center gap-x-3 ">
+            <div className="flex justify-center md:justify-start items-center gap-x-3 ">
               <h6>
                 BY{" "}
                 <span style={{ color: "#F16935" }}>{article.authorName}</span>
@@ -110,7 +110,7 @@ export default async function TrendingDetailPage({ params }) {
             </div>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-x-[2%]">
+            <div className="flex flex-wrap justify-center md:justify-start gap-x-[2%]">
               {article.tags?.map((tag) => (
                 <p key={tag}>#{tag}</p>
               ))}
@@ -127,7 +127,7 @@ export default async function TrendingDetailPage({ params }) {
         <div className="w-[26%] sticky top-[14%] mt-[1%] hidden lg:block">
           <MostRead mostRead={mostRead} />
         </div>
-          <div className="lg:hidden w-[7.9%] md:w-[5%] z-40  sticky mt-[-17rem] md:mt-[-13.7rem] top-[12%] md:top-[10%]">
+          <div className="lg:hidden w-[7.9%] md:w-[5%] z-40  sticky mt-[1rem]  top-[12%] md:top-[10%]">
           <TrendingDrawerMobile mostRead={mostRead} />
         </div>
           </div>

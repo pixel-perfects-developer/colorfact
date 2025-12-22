@@ -1,24 +1,12 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
-import { Upload, Palette } from "lucide-react"; // CTA icons
+import React, { useState } from "react";
+import { Upload, Palette } from "lucide-react"; 
 
 const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [isSearchOpen, setSearchOpen] = useState(false);
-  const searchRef = useRef(null);
 
-  // Close search bar if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setSearchOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] py-[1.5rem] lg:py-[0.5%] shadow-sm">
@@ -32,7 +20,7 @@ const Header = () => {
               width={120}
               height={120}
               priority
-              className="object-contain w-[80px] md:w-[70px] lg:w-[120px]"
+              className="object-contain w-[80px] md:w-[70px] lg:w-[6vw] 2xl:w-[120px]"
             />
           </Link>
         </div>
@@ -43,36 +31,35 @@ const Header = () => {
             href={"#"}
             className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-            Notre Histoire
+           <p> Notre Histoire</p>
           </Link>
           <Link
             href={"/tendencias"}
 
             className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-            Tendances
+            <p> Tendances</p>
           </Link>
         </nav>
 
         {/* 🔵 Right (Search Bar + CTAs) */}
         <div
           className="hidden lg:flex items-center justify-end w-1/3 gap-3"
-          ref={searchRef}
         >
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
             href="/image-search"
-            className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
+            className="btn-orange  flex items-center gap-1 whitespace-nowrap"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="size-5 lg:size-[0.85vw] 2xl:size-[0.85rem]" />
             Importer
           </Link>
 
           <Link
             href="/color-search"
-            className="btn-orange !text-[0.8rem] !px-3 !py-1.5 flex items-center gap-1 whitespace-nowrap"
+            className="btn-orange  flex items-center gap-1 whitespace-nowrap"
           >
-            <Palette className="w-4 h-4" />
+            <Palette className="size-5 lg:size-[0.85vw] 2xl:size-[0.85rem]"/>
             Couleur
           </Link>
          
@@ -82,7 +69,7 @@ const Header = () => {
         <div className="flex items-center justify-end w-1/3 lg:hidden">
           <button onClick={() => setDrawerOpen(!isDrawerOpen)}>
             <svg
-              className="w-7 h-7 text-[#333]"
+              className="size-7 text-[#333]"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -112,14 +99,14 @@ const Header = () => {
 
         {/* Drawer Panel */}
         <div
-          className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
+          className={`absolute top-0 right-0 h-full w-[80%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${isDrawerOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
           {/* Close Button */}
           <div className="flex justify-end mb-6">
             <button onClick={() => setDrawerOpen(false)}>
               <svg
-                className="w-6 h-6 text-[#333]"
+                className="size-6 text-[#333]"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -144,7 +131,7 @@ const Header = () => {
             </Link>
 
             {/* 🧡 Mobile CTA Buttons */}
-            <div className="flex flex-col gap-3 mt-6">
+            <div className="flex  flex-col gap-3 mt-6">
               <Link
                 href="/image-search"
                 className="btn-orange flex items-center justify-center gap-2 !py-2"
