@@ -1,8 +1,29 @@
-const { Pool } = require("pg");
+import { Pool } from "pg";
 
 const pool = new Pool({
-  connectionString:
-    "postgresql://avnadmin:8QJdwAjI102U4gSrbxhe@postgresql-1676600c-ob39b2c3c.database.cloud.ovh.net:20184/defaultdb?sslmode=require"
+  host: process.env.DATABASE_HOST,
+  port: Number(process.env.DATABASE_PORT),
+  database: process.env.DATABASE_NAME,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+
+  // OVH PostgreSQL SSL (required)
+  ssl: {
+    require: true,
+    rejectUnauthorized: false,
+  },
+
+  // VERY IMPORTANT FOR OVH
+  max: 1,                    // ⬅️ MUST be 1
+  idleTimeoutMillis: 10000,
+  connectionTimeoutMillis: 5000,
+
+  // ❌ REMOVE keepAlive completely
 });
 
-module.exports = pool;
+// DO NOT crash app on pool error
+pool.on("error", (err) => {
+  console.error("❌ PG Pool error:", err.message);
+});
+
+export default pool;
