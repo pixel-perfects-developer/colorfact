@@ -64,15 +64,11 @@ const UploadAnImage = () => {
     } else {
       toast.warn("Aucune couleur extraite.");
     }
-
-    // ⛔ CASE 1: No outfit recommendations
     if (!outfitResponse || !outfitResponse?.outfits || outfitResponse.outfits.length === 0) {
       toast.info("Aucun article assorti trouvé pour votre vêtement.");
-      dispatch(setOutfits([])); // Clear previous recommendations
-      return; // ❌ DO NOT REDIRECT
+      dispatch(setOutfits([])); 
+      return; 
     }
-
-    // ✅ CASE 2: Outfits found → continue normally
     dispatch(setImageDetails(outfitResponse));
     dispatch(setOutfits(outfitResponse.outfits));
 
@@ -92,17 +88,37 @@ const UploadAnImage = () => {
   });
 
   // 🖼 Handle file selection
-  const handleFileSelect = async (file) => {
-    if (!file) return;
-    setImagePreview(URL.createObjectURL(file));
-    formik.setFieldValue("file", file);
-  };
+  const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"];
+
+const handleFileSelect = (file) => {
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    toast.error("Format invalide (JPG / PNG uniquement)");
+    return;
+  }
+
+  if (file.size > MAX_SIZE) {
+    toast.error("Image trop lourde (max 5MB)");
+    return;
+  }
+
+  formik.setFieldTouched("file", true);
+  formik.setFieldValue("file", file);
+  setImagePreview(URL.createObjectURL(file));
+};
 
   // 🧹 Reset state when coming back to page
   useEffect(() => {
     formik.resetForm();
     setImagePreview(null);
   }, []);
+useEffect(() => {
+  return () => {
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+  };
+}, [imagePreview]);
 
   // 📂 File input handler
   const handleFileChange = (e) => {
@@ -119,10 +135,13 @@ const UploadAnImage = () => {
   const handleDragOver = (e) => e.preventDefault();
 
   // 🔽 Dropdown updates
-  const handleDropdownSelect = ({ gender, subcategory }) => {
-    formik.setFieldValue("gender", gender);
-    formik.setFieldValue("subcategory", subcategory);
-  };
+const handleDropdownSelect = ({ gender, subcategory }) => {
+  formik.setFieldTouched("gender", true);
+  formik.setFieldTouched("subcategory", true);
+
+  formik.setFieldValue("gender", gender);
+  formik.setFieldValue("subcategory", subcategory);
+};
 
   const analyzeDisabled =
     !formik.values.file ||
@@ -137,37 +156,39 @@ const UploadAnImage = () => {
       encType="multipart/form-data"
     >
       
-      <div className="container-global lg:w-[60%]  min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)] flex flex-col items-center justify-center">
+      <div className="container-global lg:w-[60%]  min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
-            ? "border-orange-400 opacity-60"
+            ? "border-orange-400 opacity-60 pointer-events-none"
             : "border-gray-400 hover:border-orange-400"
             }`}
           onClick={() => !loading && fileInputRef.current.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
-          <div className="flex justify-center">
-            {imagePreview ? (
-              <Image
-                src={imagePreview}
-                alt="vêtement téléversé"
-                width={400}
-                height={400}
-                className="w-[60%] md:w-[30%] lg:w-[20%]"
-              />
-            ) : (
-              <Image
-                src="/draganddrop.svg"
-                alt="téléversement d’image"
-                width={400}
-                height={400}
-                className="[30%] lg:w-[15%]"
-              />
-            )}
-          </div>
-          <p className="text-center mt-[2rem] lg:mt-[2%] w-[80%] lg:w-[40%] mx-auto text-gray-700">
+  <div className="flex justify-center">
+  <div className="relative w-[40%] md:w-[30%] lg:w-[20%] h-[150px] md:h-[220px]">
+    {imagePreview ? (
+      <Image
+        src={imagePreview}
+        unoptimized
+        alt="vêtement téléversé"
+        fill
+        className="object-contain"
+      />
+    ) : (
+      <Image
+        src="/draganddrop.svg"
+        alt="téléversement d’image"
+        fill
+        className="object-contain opacity-70"
+      />
+    )}
+  </div>
+</div>
+
+          <p className="text-center  w-[80%] lg:w-[40%] mx-auto text-gray-700">
             {!imagePreview &&
               "Glissez-déposez une photo de votre vêtement préféré et découvrez comment l’associer !"}
           </p>
@@ -181,19 +202,19 @@ const UploadAnImage = () => {
         </div>
 
         {/* ⚠️ Error Display */}
-        {formik.touched.file && formik.errors.file && (
-          <p className="text-red-500 text-sm mb-2">{formik.errors.file}</p>
-        )}
-
+    
         {/* 🔸 Dropdown Section */}
         <DropDownMenu onSelect={handleDropdownSelect} />
+    {formik.touched.file && formik.errors.file && (
+          <p className="text-red-500 mt-1">{formik.errors.file}</p>
+        )}
 
         {/* ⚠️ Dropdown Errors */}
         {formik.touched.gender && formik.errors.gender && (
-          <p className="text-red-500 text-sm mt-1">{formik.errors.gender}</p>
+          <p className="text-red-500 mt-1">{formik.errors.gender}</p>
         )}
         {formik.touched.subcategory && formik.errors.subcategory && (
-          <p className="text-red-500 text-sm mt-1">{formik.errors.subcategory}</p>
+          <p className="text-red-500  mt-1">{formik.errors.subcategory}</p>
         )}
 
         {/* 🔘 CTA */}

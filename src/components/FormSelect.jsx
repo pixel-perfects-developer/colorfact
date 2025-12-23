@@ -19,15 +19,15 @@ const FormSelect = forwardRef(
         <div ref={ref} className="relative w-full">
           <button
             onClick={() => setOpen(!open)}
-            className={`w-full text-left border-2 border-[#A6A6A6] text-[black] px-[1rem] py-[0.8rem]
+            className={`w-full text-left border-2 border-[#A6A6A6] text-[black] px-[1rem] py-[0.8rem] lg:px-[0.8vw] lg:py-[0.6vw] 2xl:px-[1rem] 2xl:py-[0.8rem]
  ${
    open ? "rounded-tl-[0.45rem] rounded-tr-[0.45rem]" : "rounded-[0.45rem]"
  } bg-white
                        transition-all duration-200 focus:outline-none flex items-center justify-between`}
           >
-            <h5 className=" font-medium ">
+            <h6 className=" font-medium ">
               {selectedCategory || selectedLabel}
-            </h5>
+            </h6>
 
             {/* Arrow Icon */}
             <svg
@@ -70,7 +70,7 @@ const FormSelect = forwardRef(
                     handleSelectChange(value);
                     setOpen(false);
                   }}
-                  className={`px-[1rem] py-[0.8rem] text-sm cursor-pointer transition-all duration-150
+                  className={`text-[0.7rem] lg:text-[0.6vw] font-semibold 2xl:text-[0.85rem] px-[1rem] py-[0.8rem] lg:px-[1vw] lg:py-[0.8vw] 2xl:px-[1rem] 2xl:py-[0.8rem] cursor-pointer transition-all duration-150
         ${
           selectedCategory?.trim().toLowerCase() === value?.toLowerCase()
             ? isBlueDropdown

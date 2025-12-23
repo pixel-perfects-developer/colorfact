@@ -1,30 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import {
-  preferencesData,
-  privacyData,
-  subscriptionData,
-  supportData,
-} from "../Dashboard/Dropdowndata.js";
-import FormSelect from "../FormSelect.jsx";
-import Image from "next/image.js";
+import Image from "next/image";
 import DashboardHeader from "./Header.jsx";
+import { Formik, Form, Field } from "formik";
+
+const DEFAULT_AVATAR = "/Person-icon.png";
 
 const Setting = () => {
-  // Dropdown States
-  const [dropdowns, setDropdowns] = useState({
-    language: { open: false, selected: preferencesData.language },
-    theme: { open: false, selected: preferencesData.theme },
-  });
-
   const [isEditing, setIsEditing] = useState(false);
-  const [email, setEmail] = useState("admin@example.com");
-  const [phone, setPhone] = useState("+9267856567877");
+  const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
 
   const emailRef = useRef(null);
-  const languageRef = useRef(null);
-  const themeRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (isEditing && emailRef.current) {
@@ -32,176 +20,209 @@ const Setting = () => {
     }
   }, [isEditing]);
 
-  const updateDropdown = (key, value) =>
-    setDropdowns((prev) => ({
-      ...prev,
-      [key]: { ...prev[key], ...value },
-    }));
+  const handleAvatarChange = (e, setFieldValue) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setFieldValue("avatar", file);
+    setAvatarPreview(URL.createObjectURL(file));
+  };
 
   return (
-    <div className="w-full p-4 lg:p-[2%]">
+    <>
       <DashboardHeader heading="Account" />
 
-      {/* ================= PROFILE ================= */}
       <section
         className="
           flex flex-col-reverse md:flex-row
           items-start md:items-center
           justify-between
           rounded-2xl bg-white
-          p-4 lg:p-[2%]
-          my-4
+          p-4 lg:p-[1%]
           gap-4 md:gap-0
         "
       >
         {/* LEFT */}
         <div className="w-full md:w-[40%]">
-          <h4 className="mb-1 text-base sm:text-lg font-semibold">
-            Admin User
-          </h4>
+          <h4 className="mb-[0.5rem] lg:mb-[1%]">Admin User</h4>
 
-          {!isEditing ? (
-            <>
-              <h6 className="mb-1 text-sm text-gray-700">{email}</h6>
-              <h6 className="mb-2 text-sm text-gray-700">{phone}</h6>
-            </>
-          ) : (
-            <>
-              <input
-                ref={emailRef}
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border-b border-gray-300 focus:outline-none py-1 text-sm"
-              />
-              <input
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full border-b border-gray-300 focus:outline-none py-1 mt-2 text-sm"
-              />
-            </>
-          )}
-
-          {/* ACTION BUTTONS */}
-          <div
-            className="
-              flex flex-col sm:flex-row
-              gap-2 sm:gap-x-[2%]
-              mt-4
-            "
+          <Formik
+            initialValues={{
+              email: "admin@example.com",
+              phone: "+9267856567877",
+              avatar: null,
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log("FORM VALUES:", values);
+              setTimeout(() => {
+                setSubmitting(false);
+                setIsEditing(false);
+              }, 600);
+            }}
           >
-            {!isEditing ? (
-              <button
-                className="btn-gray"
-                onClick={() => setIsEditing(true)}
-              >
-                Edit Profile
-              </button>
-            ) : (
-              <button
-                className="btn-pink"
-                onClick={() => setIsEditing(false)}
-              >
-                Save Changes
-              </button>
-            )}
+            {({
+              values,
+              dirty,
+              isSubmitting,
+              setFieldValue,
+              resetForm,
+            }) => (
+              <Form>
+                {!isEditing ? (
+                  <>
+                    <h6 className="mb-[0.5rem] lg:mb-[1%]">
+                      {values.email}
+                    </h6>
+                    <h6>{values.phone}</h6>
+                  </>
+                ) : (
+                  <>
+                    <Field
+                      innerRef={emailRef}
+                      name="email"
+                      type="email"
+                      className="
+                        w-full mb-[1rem]
+                        px-[0.5rem] py-[0.7rem]
+                        text-[0.8rem]
+                        bg-white
+                        rounded-md ring-2 ring-gray-300
+                        focus:ring-[#F16935] outline-none
+                      "
+                    />
 
-            <button className="btn-pink">Delete Account</button>
-          </div>
+                    <Field
+                      name="phone"
+                      type="text"
+                      className="
+                        w-full
+                        px-[0.5rem] py-[0.7rem]
+                        text-[0.8rem]
+                        bg-white
+                        rounded-md ring-2 ring-gray-300
+                        focus:ring-[#F16935] outline-none
+                      "
+                    />
+                  </>
+                )}
+
+                {/* ACTION BUTTONS */}
+                <div className="flex flex-row gap-2 mt-4">
+                  {!isEditing ? (
+                    <button
+                      type="button"
+                      className="btn-gray"
+                      onClick={() => setIsEditing(true)}
+                    >
+                      Edit Profile
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        type="submit"
+                        disabled={!dirty || isSubmitting}
+                        className="btn-pink disabled:opacity-50"
+                      >
+                        Save Changes
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn-gray"
+                        onClick={() => {
+                          resetForm();
+                          setAvatarPreview(DEFAULT_AVATAR);
+                          setIsEditing(false);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
+
+                  <button type="button" className="btn-pink">
+                    Delete Account
+                  </button>
+                </div>
+
+                {/* AVATAR (MOBILE CENTERED) */}
+                <div className="flex justify-center md:hidden mt-6">
+                  <Avatar
+                    avatarPreview={avatarPreview}
+                    fileInputRef={fileInputRef}
+                    onChange={(e) =>
+                      handleAvatarChange(e, setFieldValue)
+                    }
+                  />
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
 
-        {/* RIGHT - AVATAR */}
-        <div
-          className="
-            w-24 h-24
-            md:w-[9rem] md:h-[9rem]
-            lg:w-[9vw] lg:h-[9vw]
-            bg-[#fff3f3]
-            flex items-center justify-center
-            rounded-2xl
-          "
-        >
-          <Image
-            src="/Person-icon.png"
-            alt="Profile icon"
-            width={72}
-            height={72}
-            className="
-              w-16 h-16
-              md:w-[5rem] md:h-[5rem]
-              lg:w-[5vw] lg:h-[5vw]
-              2xl:w-20 2xl:h-20
-            "
+        {/* RIGHT - AVATAR (DESKTOP) */}
+        <div className="hidden md:flex justify-center">
+          <Avatar
+            avatarPreview={avatarPreview}
+            fileInputRef={fileInputRef}
+            onChange={(e) =>
+              handleAvatarChange(e, () => {})
+            }
           />
         </div>
       </section>
-
-      {/* ================= PRIVACY ================= */}
-      <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
-        <h4>Privacy & Security</h4>
-        {privacyData.map((item, i) => (
-          <div key={i} className={i > 0 ? "my-4" : "mt-2"}>
-            <h6>{item.title}</h6>
-            <p className="text-sm text-gray-600">{item.desc}</p>
-          </div>
-        ))}
-      </section>
-
-      {/* ================= SUBSCRIPTION ================= */}
-      <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
-        <h4>Subscription & Billing</h4>
-
-        <div className="flex flex-col md:flex-row md:justify-between my-4 gap-4">
-          <div className="w-full md:w-1/2">
-            <h6>Payment Method</h6>
-            <p>{subscriptionData.payment.method}</p>
-            <p className="text-sm text-gray-600">
-              Expires {subscriptionData.payment.expires}
-            </p>
-          </div>
-
-          <div className="w-full md:w-1/2">
-            <h6>Billing History</h6>
-            {subscriptionData.history.map((h, i) => (
-              <p key={i} className="text-sm text-gray-600">
-                {h}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4">
-          {subscriptionData.buttons.map((btn, i) => (
-            <button
-              key={i}
-              className={i === 0 ? "btn-gray" : "btn-pink"}
-            >
-              {btn}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* ================= SUPPORT ================= */}
-      <section className="rounded-2xl bg-white p-4 lg:p-[2%] my-4">
-        <h4>Support</h4>
-
-        <div className="flex flex-col md:flex-row md:justify-between my-4 gap-4">
-          {supportData.sections.map((sec, i) => (
-            <div key={i} className="w-full md:w-1/2">
-              <h6>{sec.title}</h6>
-              <p className="text-sm text-gray-600">{sec.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        <button className="btn-pink mt-2">
-          {supportData.button}
-        </button>
-      </section>
-    </div>
+    </>
   );
 };
+
+/* ================= AVATAR COMPONENT ================= */
+
+const Avatar = ({ avatarPreview, onChange, fileInputRef }) => (
+  <div
+    className="
+      bg-[#fff3f3]
+      p-[1.5rem] lg:p-[2vw]
+      flex items-center justify-center
+      rounded-2xl
+      cursor-pointer
+      overflow-hidden
+      group relative
+    "
+  >
+    <div
+      className="size-24 md:size-[5rem] lg:size-[5vw] relative"
+      onClick={() => fileInputRef.current.click()}
+    >
+      <Image
+        src={avatarPreview}
+        alt="Profile avatar"
+        fill
+        unoptimized
+        className="object-cover"
+      />
+    </div>
+
+    {/* Hover Overlay */}
+    <div
+      className="
+        absolute inset-0
+        bg-black/40
+        flex items-center justify-center
+        opacity-0 group-hover:opacity-100
+        transition
+      "
+    >
+      <span className="text-white text-xs">Change</span>
+    </div>
+
+    <input
+      ref={fileInputRef}
+      type="file"
+      accept="image/*"
+      className="hidden"
+      onChange={onChange}
+    />
+  </div>
+);
 
 export default Setting;

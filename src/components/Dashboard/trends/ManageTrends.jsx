@@ -1,204 +1,234 @@
 "use client";
-// app/manage-trends/page.js
-import React, { useEffect, useRef, useState } from "react";
-import DashboardHeader from "../Header";
-// import { IoChevronDown } from "react-icons/io5";
 
+import React, { useEffect, useRef, useState } from "react";
+import {
+  HtmlEditor,
+  Image,
+  Inject,
+  Link,
+  QuickToolbar,
+  RichTextEditorComponent,
+  Toolbar
+} from "@syncfusion/ej2-react-richtexteditor";
+import DashboardHeader from "../Header";
+import FormSelect from "@/components/FormSelect";
+import '@syncfusion/ej2-base/styles/material.css';
+import '@syncfusion/ej2-icons/styles/material.css';
+import '@syncfusion/ej2-buttons/styles/material.css';
+import '@syncfusion/ej2-splitbuttons/styles/material.css';
+import '@syncfusion/ej2-inputs/styles/material.css';
+import '@syncfusion/ej2-lists/styles/material.css';
+import '@syncfusion/ej2-navigations/styles/material.css';
+import '@syncfusion/ej2-popups/styles/material.css';
+import '@syncfusion/ej2-richtexteditor/styles/material.css';
+
+/* ---------------- EDITOR TOOLBAR ---------------- */
+
+
+/* ---------------- MAIN PAGE ---------------- */
 export default function ManageTrends() {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("Select");
+  const [selected, setSelected] = useState("Select Category");
   const [isOn, setIsOn] = useState(false);
   const dropdownRef = useRef(null);
+  const editorRef = useRef(null);
+  const fileRef = useRef(null);
+  const [fileName, setFileName] = useState("");
 
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setFileName(file.name);
+
+    // 🔹 Yahan future mein:
+    // - upload to S3 / Firebase
+    // - preview
+    // - validation
+  };
   const options = ["Fashion", "Style", "Travel", "Tech"];
-
-  const handleToggle = () => {
-    setIsOn((prev) => !prev);
+  const toolbarSettings = {
+    items: [
+      "Bold", "Italic", "Underline", "StrikeThrough",
+      "FontName", "FontSize", "FontColor", "BackgroundColor",
+      "LowerCase", "UpperCase",
+      "|",
+      "Formats", "Alignments",
+      "OrderedList", "UnorderedList",
+      "|",
+      "CreateLink", "Image",
+      "|",
+      "ClearFormat",
+      "SourceCode",
+      "Undo", "Redo"
+    ]
   };
 
+
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (e) => {
+      if (!dropdownRef.current) return;
+      if (dropdownRef.current.contains(e.target)) return;
+      setOpen(false);
+    };
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () =>
+      document.removeEventListener("pointerdown", handleClickOutside);
   }, []);
+  useEffect(() => {
+    const hideSyncfusionTrialBanner = () => {
+      const divs = document.querySelectorAll("div");
 
+      divs.forEach((div) => {
+        const text = div.innerText || "";
+        const style = div.getAttribute("style") || "";
+
+        // 🎯 EXACT MATCH CONDITIONS
+        const isSyncfusionBanner =
+          text.includes("trial version of Syncfusion") ||
+          text.includes("Essential Studio") ||
+          text.includes("Claim your free account") ||
+          text.includes("Free and unlimited access to Syncfusion") ||
+          (
+            style.includes("position: fixed") &&
+            style.includes("z-index: 999999999") &&
+            style.includes("background: #EEF2FF")
+          );
+
+        if (isSyncfusionBanner) {
+          div.style.display = "none";
+          div.style.visibility = "hidden";
+          div.style.height = "0";
+          div.style.padding = "0";
+          div.style.margin = "0";
+        }
+      });
+    };
+
+    // Initial run
+    hideSyncfusionTrialBanner();
+
+    // 🔥 Observe DOM (Syncfusion injects later)
+    const observer = new MutationObserver(hideSyncfusionTrialBanner);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
   return (
-    <div className="w-full min-h-screen p-[4%]  lg:p-[2%] bg-[#faf5e7] font-sans">
+    <>
       <DashboardHeader heading="Manage Trends" />
-      <section className="w-full pb-10 border-b border-b-[#d0d0d0]">
-        <h4 className="mb-4 text-black text-lg">Add Trend Article</h4>
-        <form className="space-y-6">
+      <section className="w-full border-b-2 border-[#d0d0d0] pb-[1rem] lg:pb-[2%]">
+        <h4 className=" mb-[0.5rem] lg:mb-[1%]">Add Trend Article</h4>
+
+        <form
+          className="space-y-[1rem] lg:space-y-[1%]"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          {/* TITLE */}
           <div>
-            <h6 className="mb-2 text-black">Title</h6>
-            <input
-              type="text"
-              id="title"
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <h6 className=" mb-[0.5rem] lg:mb-[0.5%]">Title</h6>
+            <input className="w-full px-[0.5rem] py-[0.7rem] lg:px-[1%] lg:py-[0.5%] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem] bg-white transition-all duration-300 rounded-md ring-2 ring-gray-300 focus:ring-[#F16935] outline-none" />
+          </div>
+
+          {/* SUBTITLE */}
+          <div>
+            <h6 className=" mb-[0.5rem] lg:mb-[0.5%]">Sub-title / Short Intro</h6>
+            <input className="w-full  px-[0.5rem] py-[0.7rem] lg:px-[1%] lg:py-[0.5%] bg-white text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem] transition-all duration-300 rounded-md ring-2 ring-gray-300 focus:ring-[#F16935] outline-none" />
+          </div>
+
+          {/* EDITOR */}
+          <div>
+            <h6 className=" mb-[0.5rem] lg:mb-[0.5%]">Article Content</h6>
+            <div className="rounded-md overflow-hidden">
+            <RichTextEditorComponent
+            ref={editorRef}
+            height={450}
+            toolbarSettings={toolbarSettings}
+          >
+            <Inject services={[Toolbar, Image, Link, HtmlEditor, QuickToolbar]} />
+          </RichTextEditorComponent>
+
+            </div>
+          </div>
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          {/* CATEGORY */}
+          <div ref={dropdownRef}>
+            <h6 className=" mb-[0.5rem] lg:mb-[0.8%]">Category</h6>
+            <FormSelect
+              open={open}
+              setOpen={setOpen}
+              selectedLabel="Select Category"
+              MainService={options.map((cat, i) => ({
+                id: i,
+                name: cat,
+              }))}
+              handleSelectChange={(v) => {
+                setSelected(v);
+                setOpen(false);
+              }}
+              selectedCategory={selected}
             />
           </div>
           <div>
-            <h6 className="mb-2 text-black">Sub-title / Short Intro</h6>
-            <input
-              type="text"
-              id="subtitle"
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <h6 className="mb-[0.5rem] lg:mb-[1%]">Tags</h6>
+            <input className="w-full  px-[0.8rem] py-[0.9rem] lg:px-[1%] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem] lg:py-[1.6%] transition-all duration-300 bg-white rounded-md ring-2 ring-gray-300 focus:ring-[#F16935] outline-none" />
           </div>
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="w-full md:w-1/2 relative" ref={dropdownRef}>
-              <h6 className="mb-2 text-black">Category</h6>
-              <div
-                onClick={() => setOpen(!open)}
-                className="
-      w-full px-3 py-2 bg-white border border-gray-300 rounded-md
-      flex justify-between items-center cursor-pointer select-none
-    "
-              >
-                <span className="text-gray-700">{selected}</span>
+       </div>
+       <div className="grid grid-cols-5 lg:grid-cols-2   gap-x-6 items-center">
+          <div className=" col-span-4 lg:col-span-1">
+            <h6 className="mb-[0.5rem] lg:mb-[1%]">Image</h6>
+ <div className="w-full flex items-center  bg-white rounded-md ring-2 ring-gray-300  transition-all duration-300">
 
-                {/* ARROW ICON */}
-                <svg
-                  className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
-                    }`}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+      {/* READ-ONLY INPUT (shows filename) */}
+      <input
+        type="text"
+        placeholder="Upload image"
+        value={fileName}
+        readOnly
+        className="flex-1 text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]  px-[0.5rem] py-[0.7rem] lg:px-[1%] lg:py-[0.5%] bg-transparent outline-none "
+      />
+
+      {/* HIDDEN FILE INPUT */}
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/*"
+        hidden className="text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]"
+        onChange={handleFileChange}
+      />
+
+      {/* BROWSE BUTTON */}
+      <button
+        type="button"
+        onClick={() => fileRef.current.click()}
+        className="btn-gray"
+      >
+        Browse
+      </button>
+    </div>
               </div>
-              <ul
-                className={`
-                            absolute left-0 right-0 bg-white border border-gray-300 rounded-md
-                            mt-1 shadow-md z-20 overflow-hidden
-                            transition-all duration-300 ease-in-out
-                            ${open
-                    ? 'max-h-60 opacity-100 translate-y-0'
-                    : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none'}
-                          `}
-              >
-                {options.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setSelected(option);
-                      setOpen(false);
-                    }}
-                    className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
-                  >
-                    {option}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="w-full md:w-1/2">
-              <h6 className="mb-2 text-black">Tags</h6>
-              <input
-                type="text"
-                id="tags"
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md 
-                focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          {/* PUBLISH */}
+          <div >
+            <h6 className="mb-[0.5rem] lg:mb-[1%]">Publish</h6>
+           <div
+  onClick={() => setIsOn((p) => !p)}
+  className={`relative w-14 h-7 rounded-full cursor-pointer
+    transition-colors duration-300 ease-in-out
+    ${isOn ? "bg-[#446dbc]" : "bg-gray-300"}
+  `}
+>
+  <div
+    className={`absolute top-0.5 left-0.5 h-6 w-6 bg-white rounded-full shadow-md
+      transform transition-transform duration-300 ease-in-out
+      ${isOn ? "translate-x-7" : "translate-x-0"}
+    `}
+  />
+</div>
+
           </div>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="w-full md:w-1/2">
-              <h6 className="mb-2 text-black">Image</h6>
-              <div className="w-full flex items-center bg-white border border-gray-300 rounded-md">
-                <input
-                  type="text"
-                  id="image"
-                  placeholder="Upload"
-                  className="flex-1 px-3 py-2"
-                  readOnly
-                />
-                <button
-                  type="button"
-                  className="ml-2 px-4 py-2 bg-[#f7f7f9] rounded-md text-sm text-gray-700 hover:bg-gray-50"
-                >
-                  Browse
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h6 className="text-gray-800 mb-3">Publish</h6>
-
-              <div
-                onClick={handleToggle}
-                className={`w-14 h-7 flex items-center rounded-full cursor-pointer transition-colors duration-300 ${isOn ? "bg-[#446dbc]" : "bg-gray-300"
-                  }`}
-              >
-                <div
-                  className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${isOn ? "translate-x-7" : "translate-x-1"
-                    }`}
-                />
-              </div>
-            </div>
           </div>
         </form>
       </section>
-      <h4 className="my-4 text-lg">All Articles</h4>
-      <div className="hidden md:block bg-white rounded-lg shadow-md overflow-x-auto">
-        <table className="w-full min-w-[600px]">
-          <thead>
-            <tr className="text-left text-gray-700">
-              <th className="px-6 py-3">Title</th>
-              <th className="px-6 py-3">Category</th>
-              <th className="px-6 py-3">Date</th>
-              <th className="px-6 py-3">Status</th>
-              <th className="px-6 py-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-t border-gray-200">
-              <td className="px-6 py-4 text-gray-900">
-                Fall Fashion Trends
-              </td>
-              <td className="px-6 py-4 text-gray-900">Style</td>
-              <td className="px-6 py-4 text-gray-900">April 20, 2023</td>
-              <td className="px-6 py-4 text-gray-900">Published</td>
-              <td className="px-6 py-4">
-                <div className="flex space-x-2">
-                  <button className="btn-gray">Edit</button>
-                  <button className="btn-pink">Delete</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="md:hidden space-y-4">
-        <div className="bg-white shadow-md rounded-lg p-4">
-          <div className="flex justify-between items-start">
-            <div>
-              <h5 className="text-gray-900 font-medium text-base">
-                Fall Fashion Trends
-              </h5>
-              <p className="text-sm text-gray-500">Category: Style</p>
-              <p className="text-sm text-gray-500">
-                Date: April 20, 2023
-              </p>
-              <p className="text-sm text-gray-500">Status: Published</p>
-            </div>
-            <div className="flex space-x-2 mt-2">
-              <button className="btn-gray text-xs px-2 py-1">
-                Edit
-              </button>
-              <button className="btn-pink text-xs px-2 py-1">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }

@@ -12,13 +12,16 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setError("");
 
     // Dummy credentials
     const DUMMY_EMAIL = "mark@gmail.com";
     const DUMMY_PASSWORD = "mark@123";
 
     if (email === DUMMY_EMAIL && password === DUMMY_PASSWORD) {
-      localStorage.setItem("isLogin", "true");
+      // ✅ COOKIE SET (middleware read karegi)
+      document.cookie = "isLogin=true; path=/";
+
       router.push("/dashboard");
     } else {
       setError("Invalid email or password");
@@ -33,7 +36,7 @@ const Login = () => {
           <h2 className="text-xl font-semibold text-gray-800">
             Admin Portal Login
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-gray-500 mt-1">
             Sign in to continue
           </p>
         </div>
@@ -80,7 +83,7 @@ const Login = () => {
             />
           </div>
 
-          {/* Error message */}
+          {/* Error */}
           {error && (
             <p className="text-sm text-red-500">{error}</p>
           )}
