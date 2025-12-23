@@ -1,5 +1,5 @@
 "use client";
-import { Search } from "lucide-react";
+import { Pencil, Search, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import DashboardHeader from "../Header";
@@ -11,7 +11,37 @@ const initialUsers = [
   { name: "John Doe", email: "john@example.com", role: "Admin", status: "Active", dateJoined: "2024-11-30" },
   { name: "David Lee", email: "david@example.com", role: "Admin", status: "Suspended", dateJoined: "2024-11-30" },
 ];
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Active":
+        return "bg-[#dbfce7] text-[#238236]";
+      case "Inactive":
+        return "bg-[#ffe2e2] text-[#ed270b]";
+      case "Suspended":
+        return "bg-orange-100 text-orange-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
+  const SectionCardsMobile=({label,value,isStatus})=>{
+    return(
+          <div className="flex justify-between items-center text-[0.8rem]">
+              <span className="font-bold">{label}</span>
+  {isStatus ? (
+        <span
+          className={`px-4 py-2 rounded-md text-xs font-bold  text-center
+            ${getStatusColor(value)}
+          `}
+        >
+          {value}
+        </span>
+      ) : (
+        <span>{value}</span>
+      )}
+            </div>
+    )
+  }
 export default function UsersManagement() {
   const [users, setUsers] = useState(initialUsers);
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,102 +60,105 @@ export default function UsersManagement() {
     alert(`Editing user with email: ${email}`);
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Active":
-        return "bg-[#dbfce7] text-[#238236]";
-      case "Inactive":
-        return "bg-[#ffe2e2] text-[#ed270b]";
-      case "Suspended":
-        return "bg-orange-100 text-orange-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+
 
   return (
-    <div className="w-full min-h-screen flex font-sans p-[4%]  lg:p-[2%]">
-      <div className="w-full max-w-[1800px] min-h-screen m-auto bg-[#faf5e7]  font-sans">
+      < >
         <DashboardHeader heading="Users Management" />
-        <h3 className="text-md font-medium">
-          Add Trend Article
-        </h3>
-        <div className="mb-4">
-          <h4 className="my-2">Search Users</h4>
-          <div className="flex px-[1%] py-[0.5%] items-center bg-white border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-[#EEA9AB]">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full outline-none"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Search className="text-gray-300" />
-          </div>
-        </div>
 
-        <div className="bg-[#faf5e7] flex justify-between items-center mb-[2%]">
+               <h4 >
+         Search Users
+        </h4>
+      <div
+ className="
+    w-full my-[0.5rem] lg:my-[1%]
+    px-[0.5rem] py-[0.7rem]
+    lg:px-[1%] lg:py-[0.5%]
+    bg-white
+    text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]
+    flex items-center justify-between
+    rounded-md
+    border-2 border-gray-300
+    focus-within:border-[#F16935]
+    transition-all duration-300
+  "
+>
+  <input
+    type="text"
+    placeholder="Search..."
+    className="w-full bg-transparent outline-none"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+
+  <Search className="text-gray-400 lg:size-[1.2vw] 2xl:size-6" />
+</div>
+
+        <div className="flex justify-between items-center mb-[0.5rem] lg:mb-[1%] ">
           <h3>All Users</h3>
           <button className="btn-pink">+ Add Users</button>
         </div>
 
+      <div className="bg-white hidden lg:block rounded-xl shadow p-[1%] overflow-x-auto">
         {/* Desktop Table */}
-        <div className="hidden lg:block bg-white rounded-2xl shadow px-[2%] overflow-x-auto">
-          <table className="w-full min-w-max">
-            <thead>
-              <tr className="border-b border-[#D0D0D0] text-left">
-                <th className="px-6 py-4 w-1/6"><h5>Name</h5></th>
-                <th className="px-6 py-4 w-1/6"><h5>Email</h5></th>
-                <th className="px-6 py-4 w-1/6"><h5>Role</h5></th>
-                <th className="px-6 py-4 w-1/6"><h5>Status</h5></th>
-                <th className="px-6 py-4 w-1/6"><h5>Date Joined</h5></th>
-                <th className="px-6 py-4 w-1/6"><h5>Actions</h5></th>
-              </tr>
-            </thead>
+<table className="w-full ">
+  <thead>
+    <tr className="text-left border-b border-[#D0D0D0]">
+    {["Name","Email","Role","Status","Date Joined","Actions"].map((item) => (
+  <th key={item} className="pb-[1%] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]">{item}</th>))}    
+    </tr>
+  </thead>
 
-            <tbody>
-              {filteredUsers.map((user, index) => (
-                <tr key={index} className="border-b border-[#D0D0D0]">
-                  <td className="px-6 py-4 font-medium text-gray-900"><h6>{user.name}</h6></td>
-                  <td className="px-6 py-4 text-gray-600"><h6>{user.email}</h6></td>
-                  <td className="px-6 py-4 text-gray-600"><h6>{user.role}</h6></td>
-                  <td className="px-6 py-4">
-                    <div className={`px-3 py-1 inline-block rounded-full ${getStatusColor(user.status)}`}>
-                      <h6>{user.status}</h6>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-gray-600"><h6>{user.dateJoined}</h6></td>
-                  <td className="px-6 py-4 flex gap-3">
-                    <button className="btn-gray px-3 py-1 rounded-lg"><h6>Edit</h6></button>
-                    <button className="btn-pink px-3 py-1 rounded-lg"><h6>Delete</h6></button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+  <tbody>
+    {filteredUsers?.map((item,index) => (
+      <tr key={index} className="border-b border-[#D0D0D0] space-y-[1%]    lg:text-[0.6vw] 2xl:text-[0.85rem] ">
+        <td className=" font-[600] py-[1%] w-[20%]">{item.name}</td>
+        <td className="w-[20%]">{item.email}</td>
+        <td className="w-[20%]">{item.role}</td>
+        <td className="w-[20%]">{item.status}</td>
+        <td className="w-[20%]">{item.dateJoined}</td>
+ <td>
+  <div className="flex items-center  gap-x-[1.5%] ">
+    <button className="btn-gray">
+      Edit
+    </button>
+    <button className="btn-pink">
+    Delete
+    </button>
+  </div>
+</td>
 
-        {/* Mobile Cards */}
-        <div className="lg:hidden grid gap-4">
-          {filteredUsers.map((user, index) => (
-            <div key={index} className="bg-white p-4 rounded-2xl shadow-md flex flex-col gap-2">
-              <div className="flex justify-between items-center">
-                <h5 className="font-medium text-gray-900">{user.name}</h5>
-                <h5 className={`px-3 py-1 rounded-full ${getStatusColor(user.status)}`}>
-                  {user.status}
-                </h5>
-              </div>
-              <p>{user.email}</p>
-              <p>Role: {user.role}</p>
-              <p>Joined: {user.dateJoined}</p>
-              <div className="flex gap-2 mt-2">
-                <button onClick={() => handleEdit(user.email)} className="btn-gray">Edit</button>
-                <button onClick={() => handleDelete(user.email)} className="btn-pink">Delete</button>
-              </div>
-            </div>
-          ))}
-        </div>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
       </div>
-    </div>
+        {/* Mobile Cards */}
+      <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-6 ">
+        {filteredUsers.map((item, i) => (
+          <div
+            key={i}
+            className="bg-[#fafafa] p-4 rounded-lg shadow flex flex-col gap-2"
+          >
+            <SectionCardsMobile label="Title" value={item.name} />
+            <SectionCardsMobile label="Email" value={item.email} />
+            <SectionCardsMobile label="Role" value={item.role} />
+            <SectionCardsMobile isStatus label="Status" value={item.status} />
+            <SectionCardsMobile  label="Date Joined" value={item.dateJoined} />
+            <SectionCardsMobile  label="Actions" value={  <div className="flex items-center  gap-x-6 ">
+ <button >
+  <Trash2 size={16} />
+</button> <button >
+  <Pencil size={16} />
+</button>
+
+
+
+  </div>} />
+          </div>
+        ))}
+      </div>
+      </>
   );
 }

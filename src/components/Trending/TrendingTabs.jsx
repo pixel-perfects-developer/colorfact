@@ -61,7 +61,7 @@ const TrendingTabs = () => {
       <div className="block lg:hidden mt-[1rem] w-full sticky z-20 top-24 " ref={openDropdownRef}>
         <FormSelect
           isBlueDropdown={true}
-          open={open}
+          open={open} ref={openDropdownRef}
           setOpen={setOpen}
           selectedLabel="Sélectionner le type de vêtement"
           MainService={categories.map((cat, i) => ({
