@@ -3,12 +3,12 @@
 /* ----------------------------- */
 @import "tailwindcss";
 
-/* ----------------------------- */
-/* ✅ Root Variables & Theme */
-/* ----------------------------- */
+@theme {
+ --breakpoint-xl3: 1680px;  }
+
 :root {
   --font-inter: "Inter", sans-serif;
-  --: "Poppins", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
   --color-text-primary: #333333;
   --color-video-bg: #FFFFFF;
 }
