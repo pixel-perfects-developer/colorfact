@@ -1,4 +1,4 @@
-import trendingData from "@/app/trendingDummyData.json";
+import { recentArticles } from "@/components/Dashboard/trends/DummyArticles";
 import TrendingDrawerMobile from "@/components/Trending/TrendingDrawerMobile";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,20 +10,21 @@ const slugify = (text) =>
     .replace(/[^\w-]+/g, "");
 
 export function generateStaticParams() {
-  if (!trendingData?.trends) return [];
+  if (!recentArticles) return [];
 
-  return trendingData.trends.map((item) => ({
+  return recentArticles.map((item) => ({
     trendingDetail: slugify(item.title),
   }));
 }
-// MOST READ COMPONENT
+
+
 function MostRead({ mostRead }) {
   return (
     <>
       <h3 className="text-lg font-semibold">Most Read</h3>
 
-      <div className="mt-[2%] border-t border-black">
-        {mostRead.map((item, index) => (
+      <div className="mt-[2%] border-t border-black  h-[25rem] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overflow-y-auto">
+        {mostRead.map((item,index) => (
           <Link key={index} href={`/tendencias/${slugify(item.title)}`}>
             <div className="py-6 border-b border-gray-300 flex gap-4 cursor-pointer">
               <Image
@@ -49,27 +50,24 @@ function MostRead({ mostRead }) {
     </>
   );
 }
-
 export default async function TrendingDetailPage({ params }) {
-  const { trendingDetail } = await params;
-  const article = trendingData?.trends?.find(
+  const { id } = await params;
+  const  trendingDetail = id;
+  const article = recentArticles?.find(
     (item) => slugify(item.title) === trendingDetail
   );
   if (!article) {
     return <div>Artículo no encontrado</div>;
   }
-  const mostRead = trendingData?.trends
+  const mostRead = recentArticles
     ?.filter(
       (item) =>
         item.category === article.category &&
         slugify(item.title) !== trendingDetail
     )
-    .slice(0, 3);
 
   return (
-    <section className="bg-[#F9F3E9]">
-      <div className="container-global  min-h-[calc(100vh-264.61px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-130px)] xl:min-h-[calc(100vh-147.09px)]  2xl:min-h-[calc(100vh-163px)]">        {/* LEFT: IMAGE */}
-
+<>
         <div className="items-center  flex-col-reverse md:flex-row flex justify-between gap-x-[6%]">
           <div className="w-full md:w-[47%] mt-[1rem] lg:mt-0">
             <Image
@@ -90,13 +88,13 @@ export default async function TrendingDetailPage({ params }) {
             <h1>{article.title}</h1>
 
             {/* Subtitle */}
-            <p>{article.subtitle}</p>
+            <p>{article.shortIntro}</p>
 
             {/* Author + Date */}
             <div className="flex justify-center md:justify-start items-center gap-x-3 ">
               <h6>
                 BY{" "}
-                <span style={{ color: "#F16935" }}>{article.authorName}</span>
+                <span style={{ color: "#F16935" }}>{article.author.name}</span>
               </h6>
               <p className="flex items-center gap-x-2 text-gray-600">
                 <svg width="10" height="10" viewBox="0 0 10 10">
@@ -122,15 +120,15 @@ export default async function TrendingDetailPage({ params }) {
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         {/* CLOSE FLEX CONTAINER */}
-        <div className="w-[26%] sticky top-[14%] mt-[1%] hidden lg:block">
+       {mostRead?.length>0 &&  <div className="w-[26%] sticky top-[14%] mt-[1%] hidden lg:block">
           <MostRead mostRead={mostRead} />
         </div>
-          <div className="lg:hidden w-[7.9%] md:w-[5%] z-40  sticky mt-[1rem]  top-[12%] md:top-[10%]">
+        }
+           {mostRead?.length>0 &&   <div className="lg:hidden w-[7.9%] md:w-[5%] z-40  sticky mt-[1rem]  top-[12%] md:top-[10%]">
           <TrendingDrawerMobile mostRead={mostRead} />
         </div>
+            }
           </div>
-
-      </div>
-    </section>
+</>
   );
 }

@@ -1,10 +1,10 @@
-import ManageTrends from '@/components/Dashboard/trends/ManageTrends'
+import AllTrends from '@/components/Dashboard/trends/AllTrends'
 import React from 'react'
 
 const Trends = () => {
   return (
     <>
-      <ManageTrends />
+      <AllTrends />
     </>
   )
 }

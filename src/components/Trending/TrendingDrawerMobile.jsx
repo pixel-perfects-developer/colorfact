@@ -70,9 +70,9 @@ const TrendingDrawerMobile = ({ mostRead }) => {
     <div>
            <h3 className="text-lg font-semibold">Most Read</h3>
 
-      <div className="mt-[2%] border-t border-black">
-        {mostRead.map((item) => (
-          <Link key={item.id} href={`/tendencias/${slugify(item.title)}`}>
+      <div className="mt-[2%] border-t border-black overflow-y-auto h-[50rem] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]s">
+        {mostRead.map((item,index) => (
+          <Link key={index} href={`/tendencias/${slugify(item.title)}`}>
             <div className="py-6 border-b border-gray-300 flex gap-4 cursor-pointer">
               <Image
                 src={item.mainImage}
