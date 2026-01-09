@@ -102,6 +102,7 @@ const adjustColor = (hex, percent = 50) => {
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
+  
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {}
   );
@@ -114,8 +115,8 @@ const OutfitFilterPage = () => {
   const colors = Array.isArray(colorData)
     ? colorData.map((c) => ({ hex: c }))
     : colorData
-    ? [{ hex: colorData }]
-    : [];
+      ? [{ hex: colorData }]
+      : [];
 
   const [openSection, setOpenSection] = useState("color");
   const [showFilters, setShowFilters] = useState(false);
@@ -185,35 +186,35 @@ const OutfitFilterPage = () => {
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
           ? colorData
-              .map((c, i) => {
-                let hexValue = typeof c === "object" && c.hex ? c.hex : c;
+            .map((c, i) => {
+              let hexValue = typeof c === "object" && c.hex ? c.hex : c;
 
-                // ✅ Ensure starts with #
-                if (!hexValue.startsWith("#")) {
-                  hexValue = "#" + hexValue.replace(/^#*/, "");
-                }
+              // ✅ Ensure starts with #
+              if (!hexValue.startsWith("#")) {
+                hexValue = "#" + hexValue.replace(/^#*/, "");
+              }
 
-                // ✅ Normalize shorthand (#ABC → #AABBCC)
-                if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
-                  hexValue =
-                    "#" +
-                    hexValue
-                      .slice(1)
-                      .split("")
-                      .map((ch) => ch + ch)
-                      .join("");
-                }
+              // ✅ Normalize shorthand (#ABC → #AABBCC)
+              if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
+                hexValue =
+                  "#" +
+                  hexValue
+                    .slice(1)
+                    .split("")
+                    .map((ch) => ch + ch)
+                    .join("");
+              }
 
-                // ✅ Uppercase + length check
-                hexValue = hexValue.toUpperCase();
-                if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
-                  console.warn("Skipping invalid color:", hexValue);
-                  return null;
-                }
+              // ✅ Uppercase + length check
+              hexValue = hexValue.toUpperCase();
+              if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
+                console.warn("Skipping invalid color:", hexValue);
+                return null;
+              }
 
-                return hexValue;
-              })
-              .filter(Boolean)
+              return hexValue;
+            })
+            .filter(Boolean)
           : [];
 
       // ✅ Call the helper function directly (no more /api call)
@@ -225,7 +226,7 @@ const OutfitFilterPage = () => {
         wantedBrands: tempFilters.brands,
         removedBrands: tempFilters.avoid,
       });
-setShowFilters(false)
+      setShowFilters(false)
       if (data.error) {
         throw new Error(data.error);
       }
@@ -289,9 +290,8 @@ setShowFilters(false)
             <h5 className="font-bold">{section.title}</h5>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${
-                openSection === section.id ? "rotate-180" : "rotate-0"
-              }`}
+              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"
+                }`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -306,124 +306,121 @@ setShowFilters(false)
           </div>
 
           <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden ${
-              openSection === section.id
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${openSection === section.id
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
-            }`}
+              }`}
           >
-      {section.id === "color" &&
-  section.data.map((c, i) => {
-    const adjusted = adjustColor(c.hex, colorIntensity[i]);
-    const isOn = colorIntensity[i] > 0;
+            {section.id === "color" &&
+              section.data.map((c, i) => {
+                const adjusted = adjustColor(c.hex, colorIntensity[i]);
+                const isOn = colorIntensity[i] > 0;
 
-    return (
-      <div key={i} className="mb-[4%]">
-        {/* LABEL + TOGGLE */}
-        <div className="flex justify-between items-center mb-2">
-          <p className={`font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
-            Intensité de la couleur
-          </p>
+                return (
+                  <div key={i} className="mb-[4%]">
+                    {/* LABEL + TOGGLE */}
+                    <div className="flex justify-between items-center mb-2">
+                      <p className={`font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
+                        Intensité de la couleur
+                      </p>
 
-          {/* iPhone style toggle */}
-          <label className="relative inline-flex items-center cursor-pointer shrink-0">
-            <input
-              type="checkbox"
-              checked={isOn}
-              onChange={(e) => {
-                const enable = e.target.checked;
-                const newVal = enable ? 50 : 0;
+                      {/* iPhone style toggle */}
+                      <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                        <input
+                          type="checkbox"
+                          checked={isOn}
+                          onChange={(e) => {
+                            const enable = e.target.checked;
+                            const newVal = enable ? 50 : 0;
 
-                setColorIntensity((prev) =>
-                  prev.map((v, idx) => (idx === i ? newVal : v))
-                );
+                            setColorIntensity((prev) =>
+                              prev.map((v, idx) => (idx === i ? newVal : v))
+                            );
 
-                handleCheckbox("colors", c.hex, enable);
-              }}
-              className="sr-only peer"
-            />
+                            handleCheckbox("colors", c.hex, enable);
+                          }}
+                          className="sr-only peer"
+                        />
 
-            {/* Toggle track */}
-            <div
-              className="
+                        {/* Toggle track */}
+                        <div
+                          className="
                 w-12 h-6 bg-gray-300 rounded-full
                 transition-all duration-300 ease-out
                 peer-checked:bg-[#F16935] relative
               "
-            >
-              {/* Toggle circle */}
-           <div
-  className={`
+                        >
+                          {/* Toggle circle */}
+                          <div
+                            className={`
     absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow
     transition-transform duration-300 ease-in-out
     ${isOn ? "translate-x-6" : "translate-x-0"}
   `}
-/>
+                          />
 
-            </div>
-          </label>
-        </div>
+                        </div>
+                      </label>
+                    </div>
 
-        {/* COLOR DOT + SLIDER */}
-        <div className="flex gap-3">
-          {/* Dot + HEX */}
-          <div className="flex flex-col items-center w-12 select-none">
-            <div
-              className={`w-5 h-5 rounded-full border shadow-sm mb-1 transition-all ${
-                !isOn ? "opacity-30" : ""
-              }`}
-              style={{ backgroundColor: adjusted }}
-            ></div>
+                    {/* COLOR DOT + SLIDER */}
+                    <div className="flex gap-3">
+                      {/* Dot + HEX */}
+                      <div className="flex flex-col items-center w-12 select-none">
+                        <div
+                          className={`w-5 h-5 rounded-full border shadow-sm mb-1 transition-all ${!isOn ? "opacity-30" : ""
+                            }`}
+                          style={{ backgroundColor: adjusted }}
+                        ></div>
 
-            <span className={`text-[10px] font-medium ${!isOn ? "opacity-30" : ""}`}>
-              {rgbToHex(adjusted)}
-            </span>
-          </div>
+                        <span className={`text-[10px] font-medium ${!isOn ? "opacity-30" : ""}`}>
+                          {rgbToHex(adjusted)}
+                        </span>
+                      </div>
 
-          {/* Slider */}
-          <Slider.Root
-            className={`relative flex items-center w-full h-8 ${
-              !isOn ? "opacity-30 pointer-events-none" : ""
-            }`}
-            min={0}
-            max={100}
-            step={1}
-            value={[isOn ? colorIntensity[i] : 0]} // 🔥 ensures thumb stays LEFT on OFF
-            onValueChange={(values) => {
-              const v = values[0];
+                      {/* Slider */}
+                      <Slider.Root
+                        className={`relative flex items-center w-full h-8 ${!isOn ? "opacity-30 pointer-events-none" : ""
+                          }`}
+                        min={0}
+                        max={100}
+                        step={1}
+                        value={[isOn ? colorIntensity[i] : 0]} // 🔥 ensures thumb stays LEFT on OFF
+                        onValueChange={(values) => {
+                          const v = values[0];
 
-              setColorIntensity((prev) =>
-                prev.map((x, idx) => (idx === i ? v : x))
-              );
+                          setColorIntensity((prev) =>
+                            prev.map((x, idx) => (idx === i ? v : x))
+                          );
 
-              if (!tempFilters.colors.includes(c.hex)) {
-                handleCheckbox("colors", c.hex, true);
-              }
-            }}
-          >
-            <Slider.Track
-              className="relative grow rounded-full h-[10px]"
-              style={{
-                background: `linear-gradient(to right, ${c.hex} 0%, ${adjusted} 100%)`,
-              }}
-            >
-              <Slider.Range className="absolute bg-[#F16935] h-full rounded-full" />
-            </Slider.Track>
+                          if (!tempFilters.colors.includes(c.hex)) {
+                            handleCheckbox("colors", c.hex, true);
+                          }
+                        }}
+                      >
+                        <Slider.Track
+                          className="relative grow rounded-full h-[10px]"
+                          style={{
+                            background: `linear-gradient(to right, ${c.hex} 0%, ${adjusted} 100%)`,
+                          }}
+                        >
+                          <Slider.Range className="absolute bg-[#F16935] h-full rounded-full" />
+                        </Slider.Track>
 
-            <Slider.Thumb
-              className="
+                        <Slider.Thumb
+                          className="
                 block w-6 h-6 bg-[#F16935] 
                 outline outline-white outline-2 
                 rounded-full shadow-lg 
                 cursor-pointer hover:scale-125 
                 transition-all
               "
-            />
-          </Slider.Root>
-        </div>
-      </div>
-    );
-  })}
+                        />
+                      </Slider.Root>
+                    </div>
+                  </div>
+                );
+              })}
 
 
             {section.id === "category" &&
@@ -446,9 +443,8 @@ setShowFilters(false)
                       }));
                     }}
                     className={`w-4 h-4 cursor-pointer transition-all duration-200
-    ${
-      tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"
-    }
+    ${tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"
+                      }
   `}
                   />
 
@@ -587,17 +583,16 @@ setShowFilters(false)
       <button
         disabled={!tempFilters.category || filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${
-          !tempFilters.category || filtersApplied || loading
+        className={`w-full ${!tempFilters.category || filtersApplied || loading
             ? "btn-blue opacity-80 !cursor-not-allowed "
             : "btn-blue"
-        } `}
+          } `}
       >
         {loading
           ? "Chargement..."
           : filtersApplied
-          ? "Déjà appliqué "
-          : "RECHERCHER"}
+            ? "Déjà appliqué "
+            : "RECHERCHER"}
       </button>
 
       <button
@@ -608,15 +603,16 @@ setShowFilters(false)
       </button>
     </>
   );
-const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
-  return (
-    categoryData &&
-    Object.values(categoryData).some(
-      (arr) => Array.isArray(arr) && arr.length > 0
-    )
-  );
-});
+  const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
+    return (
+      categoryData &&
+      Object.values(categoryData).some(
+        (arr) => Array.isArray(arr) && arr.length > 0
+      )
+    );
+  });
 
+console.log("filteredData",filteredData);
 
   return (
     <motion.div
@@ -625,167 +621,160 @@ const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="bg-[#faf5e7] min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] lg:pb-[2%]"
     >
-        <div className="container-global py-0 flex flex-col items-start md:flex-row gap-x-[4%] 2xl:gap-x-[4%] relative">
-          <button
-            className="lg:hidden flex justify-end mb-4 "
-            onClick={() => setShowFilters(true)}
-          >
-            <SlidersHorizontal size={30} />
-          </button>
+      <div className="container-global py-0 flex flex-col items-start md:flex-row gap-x-[4%] 2xl:gap-x-[4%] relative">
+        <button
+          className="lg:hidden flex justify-end mb-4 "
+          onClick={() => setShowFilters(true)}
+        >
+          <SlidersHorizontal size={30} />
+        </button>
 
-          <aside className="hidden lg:block md:w-[30%] 2xl:w-[20%] sticky top-30 mt-[2%]">
-            <h4 className="mb-[2%] ">Filtres</h4>
-            {renderFilterSections()}
-          </aside>
-          <div
-            className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
-              showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+        <aside className="hidden lg:block md:w-[30%] 2xl:w-[20%] sticky top-30 mt-[2%]">
+          <h4 className="mb-[2%] ">Filtres</h4>
+          {renderFilterSections()}
+        </aside>
+        <div
+          className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${showFilters ? "opacity-100 visible" : "opacity-0 invisible"
             }`}
+        >
+          {/* Backdrop */}
+          <div
+            className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${showFilters ? "opacity-100" : "opacity-0"
+              }`}
+            onClick={() => setShowFilters(false)}
+          ></div>
+
+          {/* Drawer Panel */}
+          <div
+            className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${showFilters ? "translate-x-0" : "translate-x-full"
+              }`}
           >
-            {/* Backdrop */}
-            <div
-              className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
-                showFilters ? "opacity-100" : "opacity-0"
-              }`}
+            <button
               onClick={() => setShowFilters(false)}
-            ></div>
-
-            {/* Drawer Panel */}
-            <div
-              className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
-                showFilters ? "translate-x-0" : "translate-x-full"
-              }`}
+              className="absolute top-4 right-4 text-gray-600 hover:text-[#F16935] transition-colors "
             >
-              <button
-                onClick={() => setShowFilters(false)}
-                className="absolute top-4 right-4 text-gray-600 hover:text-[#F16935] transition-colors "
-              >
-                <X size={28} />
-              </button>
-              <div className="mt-[2rem]">{renderFilterSections()}</div>
-            </div>
+              <X size={28} />
+            </button>
+            <div className="mt-[2rem]">{renderFilterSections()}</div>
           </div>
-          {/* ✅ Outfit Cards */}
-          {apiOutfitData?.recommendations?.length > 0 ? (
-            (() => {
-              const grouped = {};
-              apiOutfitData.recommendations.forEach((item) => {
-                const cat = item["Catégorie produit"];
-                if (!grouped[cat]) grouped[cat] = [];
-                grouped[cat].push(item);
-              });
-                const categories = Object.keys(grouped);
-    const catCount = categories.length;
+        </div>
+        {/* ✅ Outfit Cards */}
+        {apiOutfitData?.recommendations?.length > 0 ? (
+          (() => {
+            const grouped = {};
+            apiOutfitData.recommendations.forEach((item) => {
+              const cat = item["Catégorie produit"];
+              if (!grouped[cat]) grouped[cat] = [];
+              grouped[cat].push(item);
+            });
+            const categories = Object.keys(grouped);
+            const catCount = categories.length;
 
-    // 🔥 width logic
-    const cycle = catCount % 3;
-    console.log("cy",cycle);
-    
-   
+            // 🔥 width logic
+            const cycle = catCount % 3;
+            console.log("cy", cycle);
 
-              return (
-                <div className="flex flex-wrap w-full gap-[2%]">
-                  {Object.keys(grouped).map((cat) => {
-                    const first = grouped[cat][0];
-                    return (
-                      <div
-                        key={cat}
-                        onClick={() =>
-                          router.push(
-                            `/articles-assortis?id=${encodeURIComponent(cat)}`
-                          )
-                        }
-                        className={`cursor-pointer mt-[2%]  py-[1rem] lg:py-0 w-full  md:w-[48%]    bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all`}
-                      >
-                        <div className="relative w-full h-72 lg:h-[11vw] ">
-                          <Image
-                            src={first["Photo produit 1"]}
-                            alt={cat}
-                            fill
-                            className="object-contain"
-                          />
-                        </div>
-                        <div className="p-5 bg-[#F16935]/10">
-                          <h4 className="flex items-center justify-between gap-2">
-                            {cat}
-                            {/* 👉 show arrow only on mobile */}
-                            <ArrowRight
-                              size={25}
-                              className="text-[#F16935] block md:hidden"
-                            />
-                          </h4>
-                          <p className="mb-[1rem] lg:my-[2%]">
-                            {grouped[cat].length} produits
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })()
-          ) : (
-            <div className={`w-full flex flex-wrap gap-x-[2%] `} >
-              {filteredData
-                .map(([key, categoryData]) => {
-                    const cycle = filteredData.length % 3;
-  // const cardWidth =
-  //   cycle === 2 ? "2xl:w-[48%]" : cycle === 1 ? "2xl:w-[23.5%]" :cycle === 0?"2xl:w-[32%]": "2xl:w-[23.5%]";
 
-                  const firstProduct = Object.values(categoryData)
-                    .flat()
-                    .find((item) => item?.["Photo produit 1"]);
 
+            return (
+              <div className="flex flex-wrap w-full gap-[2%]">
+                {Object.keys(grouped).map((cat) => {
+                  const first = grouped[cat][0];
                   return (
                     <div
-                      key={key}
-                      onClick={() => {
-                        if (firstProduct) {
-                          router.push(
-                            `/articles-assortis?id=${encodeURIComponent(key)}`
-                          );
-                        } else {
-                          toast.warning(
-                            "Aucune donnée disponible pour cette catégorie."
-                          );
-                        }
-                      }}
-                      className={`${
-                        !firstProduct ? "cursor-default" : "cursor-pointer"
-                      } py-[1rem] mt-[2%] lg:p-0  w-full  md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
-                        !firstProduct ? "opacity-60 cursor-not-allowed" : ""
-                      }`}
+                      key={cat}
+                      onClick={() =>
+                        router.push(
+                          `/articles-assortis?id=${encodeURIComponent(cat)}`
+                        )
+                      }
+                      className={`cursor-pointer mt-[2%]  py-[1rem] lg:py-0 w-full  md:w-[48%]    bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all`}
                     >
-                      <div className="relative w-full h-[25rem]  lg:h-[11vw]">
+                      <div className="relative w-full h-72 lg:h-[11vw] ">
                         <Image
-                          src={
-                            firstProduct?.["Photo produit 1"] ||
-                            "/color-fact.png"
-                          }
-                          alt={key}
+                          src={first["Photo produit 1"]}
+                          alt={cat}
                           fill
-                          className={`object-contain transition-all duration-300 ${
-                            !firstProduct ? "grayscale opacity-80" : ""
-                          }`}
+                          className="object-contain"
                         />
                       </div>
                       <div className="p-5 bg-[#F16935]/10">
                         <h4 className="flex items-center justify-between gap-2">
-                          {key}
+                          {cat}
+                          {/* 👉 show arrow only on mobile */}
                           <ArrowRight
                             size={25}
-                            className={`${
-                              !firstProduct ? "text-gray-400" : "text-[#F16935]"
-                            } block md:hidden`}
+                            className="text-[#F16935] block md:hidden"
                           />
                         </h4>
+                        <p className="mb-[1rem] lg:my-[2%]">
+                          {grouped[cat].length} produits
+                        </p>
                       </div>
                     </div>
                   );
                 })}
-            </div>
-          )}
-        </div>
+              </div>
+            );
+          })()
+        ) : (
+          <div className={`w-full flex flex-wrap gap-x-[2%] `} >
+            {filteredData
+              .map(([key, categoryData]) => {
+                const cycle = filteredData.length % 3;
+                // const cardWidth =
+                //   cycle === 2 ? "2xl:w-[48%]" : cycle === 1 ? "2xl:w-[23.5%]" :cycle === 0?"2xl:w-[32%]": "2xl:w-[23.5%]";
+
+                const firstProduct = Object.values(categoryData)
+                  .flat()
+                  .find((item) => item?.["Photo produit 1"]);
+
+                return (
+                  <div
+                    key={key}
+                    onClick={() => {
+                      if (firstProduct) {
+                        router.push(
+                          `/articles-assortis?id=${encodeURIComponent(key)}`
+                        );
+                      } else {
+                        toast.warning(
+                          "Aucune donnée disponible pour cette catégorie."
+                        );
+                      }
+                    }}
+                    className={`${!firstProduct ? "cursor-default" : "cursor-pointer"
+                      } py-[1rem] mt-[2%] lg:p-0  w-full  md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${!firstProduct ? "opacity-60 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    <div className="relative w-full h-[25rem]  lg:h-[11vw]">
+                      <Image
+                        src={
+                          firstProduct?.["Photo produit 1"] ||
+                          "/color-fact.png"
+                        }
+                        alt={key}
+                        fill
+                        className={`object-contain transition-all duration-300 ${!firstProduct ? "grayscale opacity-80" : ""
+                          }`}
+                      />
+                    </div>
+                    <div className="p-5 bg-[#F16935]/10">
+                      <h4 className="flex items-center justify-between gap-2">
+                        {key}
+                        <ArrowRight
+                          size={25}
+                          className={`${!firstProduct ? "text-gray-400" : "text-[#F16935]"
+                            } block md:hidden`}
+                        />
+                      </h4>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 };
