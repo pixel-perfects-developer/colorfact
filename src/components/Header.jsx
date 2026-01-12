@@ -7,7 +7,6 @@ import { Upload, Palette } from "lucide-react";
 const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-
   return (
     <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] py-[1.5rem] lg:py-[0.5%] shadow-sm">
       <div className="flex items-center justify-between w-full px-[5%] relative">

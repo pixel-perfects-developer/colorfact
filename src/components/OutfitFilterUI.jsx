@@ -102,7 +102,7 @@ const adjustColor = (hex, percent = 50) => {
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
-  
+ 
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {}
   );
@@ -280,7 +280,7 @@ const OutfitFilterPage = () => {
         //   title: "Marques à éviter",
         //   data: [{ name: "Gucci" }, { name: "Balenciaga" }],
         // },
-        { id: "price", title: "Prix", data: [] },
+        { id: "price", title: "price", data: [] },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%] select-none">
           <div
@@ -612,7 +612,6 @@ const OutfitFilterPage = () => {
     );
   });
 
-console.log("filteredData",filteredData);
 
   return (
     <motion.div
@@ -670,12 +669,8 @@ console.log("filteredData",filteredData);
             const categories = Object.keys(grouped);
             const catCount = categories.length;
 
-            // 🔥 width logic
             const cycle = catCount % 3;
-            console.log("cy", cycle);
-
-
-
+            
             return (
               <div className="flex flex-wrap w-full gap-[2%]">
                 {Object.keys(grouped).map((cat) => {
@@ -692,7 +687,7 @@ console.log("filteredData",filteredData);
                     >
                       <div className="relative w-full h-72 lg:h-[11vw] ">
                         <Image
-                          src={first["Photo produit 1"]}
+                          src={first["image_url_1"]}
                           alt={cat}
                           fill
                           className="object-contain"
@@ -727,7 +722,7 @@ console.log("filteredData",filteredData);
 
                 const firstProduct = Object.values(categoryData)
                   .flat()
-                  .find((item) => item?.["Photo produit 1"]);
+                  .find((item) => item?.["image_url_1"]);
 
                 return (
                   <div
@@ -750,7 +745,7 @@ console.log("filteredData",filteredData);
                     <div className="relative w-full h-[25rem]  lg:h-[11vw]">
                       <Image
                         src={
-                          firstProduct?.["Photo produit 1"] ||
+                          firstProduct?.["image_url_1"] ||
                           "/color-fact.png"
                         }
                         alt={key}

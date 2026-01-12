@@ -34,7 +34,6 @@ export default function RootLayout({ children }) {
         <meta name="google" content="notranslate" />
       </head>
       <body className="font-sans scroll-smooth ">
-        {/* ✅ All client logic is wrapped inside ReduxProvider */}
         <ReduxProvider>
           <Header />
           {children}
