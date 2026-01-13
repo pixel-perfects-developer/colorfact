@@ -55,7 +55,7 @@ const ProductPage = ({ id }) => {
         const allProducts = validSubcategories
           .map((key) => currentCategory[key])
           .flat()
-          .filter((item) => item?.["Photo produit 1"] || item?.product_id);
+          .filter((item) => item?.["image_url_1"] || item?.product_id);
 
         setProducts(allProducts);
         setIsFromOutfitData(true);
@@ -86,11 +86,11 @@ const ProductPage = ({ id }) => {
         .filter((c) => c !== "All")
         .map((key) => currentCategory[key])
         .flat()
-        .filter((item) => item?.["Photo produit 1"] || item?.product_id);
+        .filter((item) => item?.["image_url_1"] || item?.product_id);
       setProducts(allProducts);
     } else {
       const filtered = currentCategory[activeCategory] || [];
-      setProducts(filtered.filter((item) => item?.["Photo produit 1"] || item?.product_id));
+      setProducts(filtered.filter((item) => item?.["image_url_1"] || item?.product_id));
     }
   }, [activeCategory, decodedSlug, outfitData, isFromOutfitData]);
 
@@ -186,7 +186,7 @@ const ProductPage = ({ id }) => {
                           <div className="relative w-full h-[25rem] 2xl:h-[10vw] xl:h-[20vw] lg:h-[20vw] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
                             <Image
                               src={
-                                item["Photo produit 1"] ||
+                                item["image_url_1"] ||
                                 item.product_id
                               }
                               alt={item["Nom produit"] || item.name || "Product"}
