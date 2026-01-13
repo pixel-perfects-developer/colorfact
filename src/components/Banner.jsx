@@ -10,7 +10,8 @@ const Banner = () => {
       {/* Background Video */}
       <div className="absolute inset-0 ">
         <video
-          className="hidden md:block w-full h-[85vh]  object-cover object-center"
+          className="hidden md:block  h-[100vh] object-cover w-full object-center"
+
           src="/BannerDesktop.mp4"
           autoPlay
           loop

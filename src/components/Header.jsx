@@ -130,25 +130,6 @@ const Header = () => {
               Tendances
             </Link>
 
-            {/* 🧡 Mobile CTA Buttons */}
-            <div className="flex  flex-col gap-3 mt-6">
-              <Link
-                href="/image-search"
-                className="btn-orange flex items-center justify-center gap-2 !py-2"
-                onClick={() => setDrawerOpen(false)}
-              >
-                <Upload className="w-4 h-4" />
-                Importer un Article
-              </Link>
-              <Link
-                href="/color-search"
-                className="btn-orange flex items-center justify-center gap-2 !py-2"
-                onClick={() => setDrawerOpen(false)}
-              >
-                <Palette className="w-4 h-4" />
-                Choisir une Couleur
-              </Link>
-            </div>
           </nav>
         </div>
       </div>
