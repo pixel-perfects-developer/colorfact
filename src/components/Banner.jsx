@@ -26,10 +26,9 @@ const Banner = () => {
           muted
           playsInline
         />
-      </div>
-
-      {/* White Gradient */}
+      </div>   {/* White Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-transparent"></div>
+
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center">
@@ -39,7 +38,7 @@ const Banner = () => {
     href={"/image-search"}
     className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
   >
-    <Upload className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+    <Upload className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
     Importer un Article
   </Link>
 
@@ -47,7 +46,7 @@ const Banner = () => {
     href={"/color-search"}
     className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
   >
-    <Palette className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+    <Palette className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
     Choisir une Couleur
   </Link>
 </div>

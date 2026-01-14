@@ -48,15 +48,15 @@ const Header = () => {
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
             href="/image-search"
-            className="btn-orange  flex items-center gap-1 whitespace-nowrap"
+            className="btn-orange  flex items-center gap-x-3 whitespace-nowrap"
           >
-            <Upload className="size-5 lg:size-[0.85vw] 2xl:size-[0.85rem]" />
+            <Upload className="size-5 lg:size-[1vw] 2xl:size-[1rem]" />
             Importer
           </Link>
 
           <Link
             href="/color-search"
-            className="btn-orange  flex items-center gap-1 whitespace-nowrap"
+            className="btn-orange  flex items-center gap-x-3 whitespace-nowrap"
           >
             <Palette className="size-5 lg:size-[0.85vw] 2xl:size-[0.85rem]"/>
             Couleur
