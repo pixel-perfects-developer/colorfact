@@ -269,3 +269,11 @@ div[class*="license"] {
 .ProseMirror {
   padding-top: 0.5rem;
 }
+video::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(30px);
+  transform: scale(1.2);
+}

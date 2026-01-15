@@ -29,7 +29,7 @@ const ProductPage = ({ id }) => {
       // ✅ Case 1: Recommendation data
       const filtered = apiOutfitData.recommendations.filter(
         (item) =>
-          item["Catégorie produit"]?.toLowerCase().replace(/\s+/g, "-") ===
+          item["category"]?.toLowerCase().replace(/\s+/g, "-") ===
           decodedSlug.toLowerCase().replace(/\s+/g, "-")
       );
       setProducts(filtered);
@@ -93,6 +93,7 @@ const ProductPage = ({ id }) => {
       setProducts(filtered.filter((item) => item?.["image_url_1"] || item?.product_id));
     }
   }, [activeCategory, decodedSlug, outfitData, isFromOutfitData]);
+console.log("prod",products);
 
   // 📏 Responsive arrows
   const [arrowThreshold, setArrowThreshold] = useState(4);
@@ -216,7 +217,7 @@ const ProductPage = ({ id }) => {
                             </div>
 
                             <Link
-                              href={item["Lien achat"] || "#"}
+                              href={item["buy_url"] || "#"}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="btn-black text-center"

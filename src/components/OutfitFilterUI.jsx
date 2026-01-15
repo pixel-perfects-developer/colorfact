@@ -102,11 +102,15 @@ const adjustColor = (hex, percent = 50) => {
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
+ console.log("outf",outfitData);
  
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {}
   );
   const outfitKeys = Object.keys(outfitData);
+  console.log("ou",outfitKeys 
+  );
+  
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -612,6 +616,7 @@ const OutfitFilterPage = () => {
     );
   });
 
+console.log("fil",filteredData);
 
   return (
     <motion.div
@@ -662,7 +667,7 @@ const OutfitFilterPage = () => {
           (() => {
             const grouped = {};
             apiOutfitData.recommendations.forEach((item) => {
-              const cat = item["Catégorie produit"];
+              const cat = item["category"];
               if (!grouped[cat]) grouped[cat] = [];
               grouped[cat].push(item);
             });

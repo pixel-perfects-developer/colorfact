@@ -77,7 +77,7 @@ const handleAnalyze = async () => {
     }
 
     // ✅ CASE 2: Outfits found → proceed normally
-    dispatch(setImageDetails(response));
+    dispatch(setImageDetails(response.outfits));
     router.push("/articles-assortis");
 
   } catch (err) {

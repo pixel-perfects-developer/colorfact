@@ -19,37 +19,35 @@ const Banner = () => {
           playsInline
         />
         <video
-          className="block md:hidden w-full  h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)]  object-cover"
+          className="block md:hidden w-full  h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)]  object-fit: cover"
           src="/BannerMobile.mp4"
           autoPlay
           loop
           muted
           playsInline
         />
-      </div>   {/* White Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-transparent"></div>
-
+      </div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center">
 
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">
-  <Link
-    href={"/image-search"}
-    className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
-  >
-    <Upload className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
-    Importer un Article
-  </Link>
+          <Link
+            href={"/image-search"}
+            className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
+          >
+            <Upload className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+            Importer un Article
+          </Link>
 
-  <Link
-    href={"/color-search"}
-    className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
-  >
-    <Palette className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
-    Choisir une Couleur
-  </Link>
-</div>
+          <Link
+            href={"/color-search"}
+            className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
+          >
+            <Palette className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+            Choisir une Couleur
+          </Link>
+        </div>
 
       </div>
     </section>
