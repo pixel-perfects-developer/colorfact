@@ -34,17 +34,17 @@ const Banner = () => {
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">
           <Link
             href={"/image-search"}
-            className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
+            className="btn-orange flex items-center gap-x-[4%]   rounded-xl text-[1vw] px-[5%] py-[3%] justify-center whitespace-nowrap"
           >
-            <Upload className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+            <Upload className="size-[1.5rem] lg:size-[2vw] " />
             Importer un Article
           </Link>
 
           <Link
             href={"/color-search"}
-            className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
+            className="btn-orange flex items-center gap-x-[4%] rounded-xl text-[1vw] px-[5%]  py-[3%] justify-center whitespace-nowrap"
           >
-            <Palette className="size-[1.5rem] lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+            <Palette className="size-[1.5rem]  lg:size-[2vw] " />
             Choisir une Couleur
           </Link>
         </div>

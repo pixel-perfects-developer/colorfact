@@ -7,6 +7,7 @@ import { Upload, Palette } from "lucide-react";
 const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
+
   return (
     <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] py-[1.5rem] lg:py-[0.5%] shadow-sm">
       <div className="flex items-center justify-between w-full px-[5%] relative">
@@ -48,15 +49,15 @@ const Header = () => {
           {/* 🧡 CTA Buttons (from Banner) */}
           <Link
             href="/image-search"
-            className="btn-orange  flex items-center gap-x-3 whitespace-nowrap"
+            className="btn-orange  flex items-center gap-1 whitespace-nowrap"
           >
-            <Upload className="size-5 lg:size-[1vw] 2xl:size-[1rem]" />
+            <Upload className="size-5 lg:size-[0.85vw] 2xl:size-[0.85rem]" />
             Importer
           </Link>
 
           <Link
             href="/color-search"
-            className="btn-orange  flex items-center gap-x-3 whitespace-nowrap"
+            className="btn-orange  flex items-center gap-1 whitespace-nowrap"
           >
             <Palette className="size-5 lg:size-[0.85vw] 2xl:size-[0.85rem]"/>
             Couleur
@@ -129,6 +130,25 @@ const Header = () => {
               Tendances
             </Link>
 
+            {/* 🧡 Mobile CTA Buttons */}
+            <div className="flex  flex-col gap-3 mt-6">
+              <Link
+                href="/image-search"
+                className="btn-orange flex items-center justify-center gap-2 !py-2"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <Upload className="w-4 h-4" />
+                Importer un Article
+              </Link>
+              <Link
+                href="/color-search"
+                className="btn-orange flex items-center justify-center gap-2 !py-2"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <Palette className="w-4 h-4" />
+                Choisir une Couleur
+              </Link>
+            </div>
           </nav>
         </div>
       </div>
