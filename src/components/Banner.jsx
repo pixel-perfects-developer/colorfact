@@ -10,7 +10,16 @@ const Banner = () => {
       {/* Background Video */}
       <div className="absolute inset-0 ">
         <video
-          className="hidden md:block  h-[100vh] object-cover w-full object-center"
+          className="hidden lg:block h-[85vh]  w-full object-fill"
+
+          src="/0115 (1).mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+           <video
+          className="hidden md:block lg:hidden h-[85vh]  w-full object-center object-cover"
 
           src="/BannerDesktop.mp4"
           autoPlay
@@ -19,7 +28,7 @@ const Banner = () => {
           playsInline
         />
         <video
-          className="block md:hidden w-full  h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)]  object-fit: cover"
+          className="block md:hidden w-full  h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)]  object-cover"
           src="/BannerMobile.mp4"
           autoPlay
           loop
@@ -29,12 +38,12 @@ const Banner = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center">
+      <div className="relative z-10 hidden md:flex flex-col items-center text-center">
 
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">
           <Link
             href={"/image-search"}
-            className="btn-orange flex items-center gap-x-[4%]   rounded-xl text-[1vw] px-[5%] py-[3%] justify-center whitespace-nowrap"
+            className="btn-orange flex items-center gap-x-[4%]   rounded-xl text-[1rem] lg:text-[1vw] px-[5%] py-[3%] justify-center whitespace-nowrap"
           >
             <Upload className="size-[1.5rem] lg:size-[2vw] " />
             Importer un Article
@@ -42,7 +51,7 @@ const Banner = () => {
 
           <Link
             href={"/color-search"}
-            className="btn-orange flex items-center gap-x-[4%] rounded-xl text-[1vw] px-[5%]  py-[3%] justify-center whitespace-nowrap"
+            className="btn-orange flex items-center gap-x-[4%] rounded-xl text-[1rem] lg:text-[1vw] px-[5%]  py-[3%] justify-center whitespace-nowrap"
           >
             <Palette className="size-[1.5rem]  lg:size-[2vw] " />
             Choisir une Couleur

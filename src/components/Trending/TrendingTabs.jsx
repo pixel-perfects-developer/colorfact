@@ -92,10 +92,13 @@ const TrendingTabs = () => {
 
             {/* CONTENT */}
             <div className="flex flex-col h-full relative lg:p-[4%]">
-              <h4 className="mb-[1%]">{item.title}</h4>
+              <h4 className="mb-[1%] h-auto md:h-[4.5rem] lg:h-auto">{item.title}</h4>
 
-              <p className="md:h-[5rem] lg:h-[4.5vw] 2xl:h-[6.5rem]">
-                {item.subtitle?.slice(0, 160)}
+              <p className="md:h-[8rem] lg:h-[7.5vw] 2xl:h-[8.5rem] block md:hidden lg:block">
+                {item.subtitle?.slice(0, 160)}...
+              </p>
+              <p className="md:h-[4.5rem] hidden md:block lg:hidden">
+                {item.subtitle?.slice(0, 70)}...
               </p>
               <div className="flex justify-between">
                  <div>
