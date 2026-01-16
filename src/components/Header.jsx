@@ -9,7 +9,7 @@ const Header = () => {
 
 
   return (
-    <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] py-[1.5rem] lg:py-[0.5%] shadow-sm">
+    <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] flex flex-col justify-center items-center h-[5rem] lg:h-[10vh] shadow-sm">
       <div className="flex items-center justify-between w-full px-[5%] relative">
         {/* 🟣 Left (Logo) */}
         <div className="flex items-center justify-start w-1/3">

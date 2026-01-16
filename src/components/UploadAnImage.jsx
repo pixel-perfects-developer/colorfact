@@ -157,7 +157,7 @@ const UploadAnImage = () => {
       encType="multipart/form-data"
     >
 
-      <div className="container-global lg:w-[60%]  min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col items-center justify-center">
+      <div className="container-global lg:w-[60%]  min-h-[calc(100vh-17rem)]  lg:min-h-[calc(100vh-18vh)] flex flex-col items-center justify-center">
         {/* 🖼 Upload Area */}
         <div
           className={`border-2 border-dashed rounded-[1vw] py-[3%] mb-[2%] w-full cursor-pointer transition-colors ${loading
@@ -183,7 +183,7 @@ const UploadAnImage = () => {
                   src="/draganddrop.svg"
                   alt="téléversement d’image"
                   fill
-                  className="object-contain opacity-70"
+                  className="object-contain"
                 />
               )}
             </div>
