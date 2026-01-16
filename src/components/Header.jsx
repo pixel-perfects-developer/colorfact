@@ -30,15 +30,15 @@ const Header = () => {
           <Link
             href={"#"}
           >
-         <h6 className="hover:text-[#F16935] transition-colors whitespace-nowrap"> Notre Histoire</h6>
+         <h5 className="hover:text-[#F16935] transition-colors whitespace-nowrap"> Notre Histoire</h5>
           </Link>
           <Link
             href={"/tendencias"} 
 
           >
-           <h6 
+           <h5 
             className="hover:text-[#F16935] transition-colors whitespace-nowrap"
-           > Tendances</h6>
+           > Tendances</h5>
           </Link>
         </nav>
 
