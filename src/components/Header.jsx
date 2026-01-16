@@ -31,14 +31,14 @@ const Header = () => {
             href={"#"}
             className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-           <p> Notre Histoire</p>
+          Notre Histoire
           </Link>
           <Link
             href={"/tendencias"}
 
             className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-            <p> Tendances</p>
+         Tendances
           </Link>
         </nav>
 
