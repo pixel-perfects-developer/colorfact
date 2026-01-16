@@ -29,16 +29,16 @@ const Header = () => {
         <nav className="hidden lg:flex items-center justify-center gap-x-8 font-medium text-[#333] w-1/3">
           <Link
             href={"#"}
-            className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-          Notre Histoire
+         <h6 className="hover:text-[#F16935] transition-colors whitespace-nowrap"> Notre Histoire</h6>
           </Link>
           <Link
-            href={"/tendencias"}
+            href={"/tendencias"} 
 
-            className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-         Tendances
+           <h6 
+            className="hover:text-[#F16935] transition-colors whitespace-nowrap"
+           > Tendances</h6>
           </Link>
         </nav>
 
