@@ -274,17 +274,17 @@ const OutfitFilterPage = () => {
           title: "Catégorie",
           data: outfitKeys.map((key) => ({ name: key })),
         },
-        // {
-        //   id: "brands",
-        //   title: "Marques",
-        //   data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
-        // },
+        {
+          id: "brands",
+          title: "Marques",
+          data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
+        },
         // {
         //   id: "avoid",
         //   title: "Marques à éviter",
         //   data: [{ name: "Gucci" }, { name: "Balenciaga" }],
         // },
-        { id: "price", title: "price", data: [] },
+        { id: "price", title: "Prix", data: [] },
       ].map((section) => (
         <div key={section.id} className="border-b border-gray-200 py-[4%] select-none">
           <div
