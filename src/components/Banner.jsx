@@ -2,11 +2,8 @@ import { Upload, Palette } from "lucide-react"; // 🆕 icons
 import Link from "next/link";
 
 const Banner = () => {
-
   return (
-    <section
-      className="relative w-full min-h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]"
-    >
+    <section className="relative w-full min-h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]">
       {/* Background Video */}
       <div className="absolute inset-0 ">
         <video
@@ -32,28 +29,25 @@ const Banner = () => {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center">
-
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">
-  <Link
-    href={"/image-search"}
-    className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
-  >
-    <Upload className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
-    Importer un Article
-  </Link>
+          <Link
+            href={"/image-search"}
+            className="btn-orange flex items-center gap-x-[4%]  justify-center whitespace-nowrap"
+          >
+            <Upload className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+            Importer un Article
+          </Link>
 
-  <Link
-    href={"/color-search"}
-    className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
-  >
-    <Palette className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
-    Choisir une Couleur
-  </Link>
-</div>
-
+          <Link
+            href={"/color-search"}
+            className="btn-orange flex items-center gap-x-[4%] justify-center whitespace-nowrap"
+          >
+            <Palette className="size-5 lg:size-[1.5vw] 2xl:size-[1.5rem] " />
+            Choisir une Couleur
+          </Link>
+        </div>
       </div>
     </section>
-
   );
 };
 

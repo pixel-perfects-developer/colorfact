@@ -77,7 +77,7 @@ const TrendingTabs = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
         {filteredArticles.map((item) => (
           <Link
-            href={`/tendencias/${slugify(item.title, item.id)}`}
+            href={`/tendances/${slugify(item.title, item.id)}`}
             key={item.id}
             className="lg:mt-[4%] flex flex-row items-start gap-x-[1rem] p-[0.5rem] lg:p-0 lg:flex-col lg:rounded-lg overflow-hidden border-b lg:border-gray-300 lg:border lg:border-gray-200 lg:bg-white lg:shadow-sm hover:shadow-lg transition cursor-pointer"
           >

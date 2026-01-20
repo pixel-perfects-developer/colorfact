@@ -25,7 +25,7 @@ function MostRead({ mostRead }) {
 
       <div className="mt-[2%] border-t border-black  h-[25rem] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overflow-y-auto">
         {mostRead.map((item,index) => (
-          <Link key={index} href={`/tendencias/${slugify(item.title)}`}>
+          <Link key={index} href={`/tendances/${slugify(item.title)}`}>
             <div className="py-6 border-b border-gray-300 flex gap-4 cursor-pointer">
               <Image
                 src={item.mainImage}

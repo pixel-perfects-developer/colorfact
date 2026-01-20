@@ -3,49 +3,59 @@ import React from "react";
 import { Instagram, Linkedin, Facebook } from "lucide-react";
 
 const Footer = () => {
-  const iconClass =
-  "size-4 lg:size-[1vw] 2xl:size-[1.2rem]";
+  const iconClass = "size-4 lg:size-[1vw] 2xl:size-[1.2rem]";
   return (
     <footer className="w-full bg-[#F5F5F5] border-t border-[#E0E0E0] py-4 lg:py-[1.5%]">
       <div className="container-global  flex flex-col lg:flex-row justify-between items-center gap-6 text-center lg:text-left animate-fadeInUp py-0 px-0">
-        
         {/* 🔹 Left: Copyright */}
-        <p className="text-[#666]">
-          © 2025 ColorFact — Tous droits réservés.
-        </p>
+        <p className="text-[#666]">© 2025 ColorFact — Tous droits réservés.</p>
 
         {/* 🔹 Center: Footer Links */}
         <nav className="flex flex-wrap justify-center items-center gap-6 text-[#666] text-[0.8rem] lg:text-sm font-medium">
           <FooterLink
-          //  href="/politique-de-confidentialite"
+            //  href="/politique-de-confidentialite"
             href={"#"}
-
->
+          >
             Politique de confidentialité
           </FooterLink>
-          <FooterLink 
-          // href="/conditions-d-utilisation"
+          <FooterLink
+            // href="/conditions-d-utilisation"
             href={"#"}
           >
             Conditions d’utilisation
           </FooterLink>
           <FooterLink
-          //  href="/aide-et-contact"
+            //  href="/aide-et-contact"
             href={"#"}
-          >Aide & Contact</FooterLink>
+          >
+            Aide & Contact
+          </FooterLink>
         </nav>
 
         {/* 🔹 Right: Social Icons (Lucide) */}
         <div className="flex justify-center items-center gap-4 text-[#333]">
-          <SocialIcon href="#" label="Instagram">
-            <Instagram className={iconClass}   />
+          <SocialIcon
+            href="https://www.instagram.com/colorfact_"
+            label="Instagram"
+          >
+            <Instagram className={iconClass} />
           </SocialIcon>
-          <SocialIcon href="#" label="LinkedIn">
-            <Linkedin className={iconClass}  />
+          <SocialIcon
+            href="https://www.linkedin.com/company/colorfact/"
+            label="LinkedIn"
+          >
+            <Linkedin className={iconClass} />
           </SocialIcon>
-          <SocialIcon href="#" label="Facebook">
+          {/* <SocialIcon
+            href="https://www.tiktok.com/company/colorfact/"
+            label="TikTok"
+            
+          >
+            <Tiktok className={iconClass} />
+          </SocialIcon> */}
+          {/* <SocialIcon href="#" label="Facebook">
             <Facebook className={iconClass}  />
-          </SocialIcon>
+          </SocialIcon> */}
         </div>
       </div>
     </footer>
@@ -68,9 +78,10 @@ const SocialIcon = ({ href, label, children }) => (
   <Link
     href={href}
     aria-label={label}
+    target="_blank"
     className="hover:text-black transition-all duration-300 transform hover:-translate-y-[2px]"
   >
-     {children}
+    {children}
   </Link>
 );
 
