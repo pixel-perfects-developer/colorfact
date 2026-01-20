@@ -104,12 +104,39 @@ const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
  console.log("outf",outfitData);
  
-  const apiOutfitData = useSelector(
-    (state) => state.outfitRecommendation.outfits || {}
-  );
+const apiOutfitData = useSelector(
+  (state) => state.outfitRecommendation.outfits || {}
+);
   const outfitKeys = Object.keys(outfitData);
-  console.log("ou",outfitKeys 
-  );
+
+const recommendations = apiOutfitData?.recommendations || [];
+
+const hasRecommendations =
+  Array.isArray(recommendations) && recommendations.length > 0;
+
+const categoriesFromRecommendations = Array.from(
+  new Set(
+    recommendations
+      .map((item) => item.category)
+      .filter(Boolean)
+  )
+).map((cat) => ({ name: cat }));
+
+const brandsFromRecommendations = Array.from(
+  new Set(
+    recommendations
+      .map((item) => item.brand)
+      .filter(Boolean)
+  )
+).map((b) => ({ name: b }));
+
+const fallbackCategories = outfitKeys.map((key) => ({ name: key }));
+
+const categoryFilterData = hasRecommendations
+  ? categoriesFromRecommendations
+  : fallbackCategories;
+
+  console.log("ou",outfitKeys);
   
   const dispatch = useDispatch();
   const router = useRouter();
@@ -137,7 +164,6 @@ const OutfitFilterPage = () => {
     maxPrice: 1000,
   });
 
-  // Disable body scroll when filter drawer is open
   useEffect(() => {
     document.body.style.overflow = showFilters ? "hidden" : "auto";
   }, [showFilters]);
@@ -177,12 +203,12 @@ const OutfitFilterPage = () => {
 
   const applyFilters = async () => {
     try {
-      if (!tempFilters.category) {
-        toast.error("Veuillez sélectionner au moins une catégorie.", {
-          position: "top-center",
-        });
-        return;
-      }
+      // if (!tempFilters.category) {
+      //   toast.error("Veuillez sélectionner au moins une catégorie.", {
+      //     position: "top-center",
+      //   });
+      //   return;
+      // }
 
       setLoading(true);
 
@@ -272,13 +298,17 @@ const OutfitFilterPage = () => {
         {
           id: "category",
           title: "Catégorie",
-          data: outfitKeys.map((key) => ({ name: key })),
+  data: categoryFilterData,
         },
+    ...(brandsFromRecommendations.length > 0
+    ? [
         {
           id: "brands",
           title: "Marques",
-          data: [{ name: "Nike" }, { name: "Adidas" }, { name: "Under Armour" }],
+          data: brandsFromRecommendations,
         },
+      ]
+    : []),
         // {
         //   id: "avoid",
         //   title: "Marques à éviter",
@@ -289,12 +319,12 @@ const OutfitFilterPage = () => {
         <div key={section.id} className="border-b border-gray-200 py-[4%] select-none">
           <div
             onClick={() => toggleSection(section.id)}
-            className="flex items-center justify-between cursor-pointer mb-[2%]"
+            className={`flex items-center justify-between cursor-pointer mb-[2%]`}
           >
             <h5 className="font-bold">{section.title}</h5>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"
+              className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"}
                 }`}
               fill="none"
               viewBox="0 0 24 24"
@@ -455,8 +485,8 @@ const OutfitFilterPage = () => {
                   <h6 className={tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"}>{cat.name}</h6>
                 </label>
               ))}
-
-            {section.id === "brands" &&
+              {brandsFromRecommendations.length>0 && (
+                   section.id === "brands" &&
               section.data.map((b, i) => (
                 <label
                   key={i}
@@ -472,7 +502,9 @@ const OutfitFilterPage = () => {
                   />
                   <h5>{b.name}</h5>
                 </label>
-              ))}
+              ))
+              )}
+         
 
             {section.id === "avoid" &&
               section.data.map((b, i) => (
@@ -585,9 +617,9 @@ const OutfitFilterPage = () => {
       ))}
 
       <button
-        disabled={!tempFilters.category || filtersApplied || loading}
+        disabled={ filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${!tempFilters.category || filtersApplied || loading
+        className={`w-full ${ filtersApplied || loading
             ? "btn-blue opacity-80 !cursor-not-allowed "
             : "btn-blue"
           } `}
