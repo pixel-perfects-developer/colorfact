@@ -51,7 +51,7 @@ const Footer = () => {
     </footer>
   );
 };
-
+// 
 /* ✅ Reusable FooterLink Component (underline animation) */
 const FooterLink = ({ href, children }) => (
   <Link

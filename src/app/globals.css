@@ -55,6 +55,7 @@ body {
 /* ----------------------------- */
 /* ✅ Components & Layout */
 /* ----------------------------- */
+/*  */
 @layer components {
   .container-global {
     @apply w-[92%] lg:w-[90%] max-w-full lg:max-w-[2000px] m-auto py-[1rem] lg:py-[2%];

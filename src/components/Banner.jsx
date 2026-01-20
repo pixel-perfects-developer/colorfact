@@ -27,7 +27,7 @@ const Banner = () => {
           playsInline
         />
       </div>
-
+{/*  */}
       {/* Content */}
       <div className="relative z-10 hidden md:flex flex-col items-center text-center">
 

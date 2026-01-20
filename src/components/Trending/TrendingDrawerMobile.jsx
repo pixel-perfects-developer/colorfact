@@ -67,6 +67,7 @@ const TrendingDrawerMobile = ({ mostRead }) => {
               </svg>
             </button>
           </div>
+          {/*  */}
     <div>
            <h3 className="text-lg font-semibold">Most Read</h3>
 

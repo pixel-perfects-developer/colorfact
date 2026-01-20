@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 import * as Slider from "@radix-ui/react-slider";
-
+// 
 const adjustColor = (hex, percent = 50) => {
   if (typeof hex === "object" && hex?.hex) {
     hex = hex.hex; // extract #abc123
