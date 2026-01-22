@@ -6,8 +6,9 @@ const Banner = () => {
     <section className="relative w-full min-h-[calc(100vh-272px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col justify-center items-center overflow-hidden bg-[#FFFFFF]">
       {/* Background Video */}
       <div className="absolute inset-0 ">
-        <video
-          className="hidden md:block w-full h-[85vh]  object-cover object-center"
+       <video
+          className="hidden md:block  h-[85vh] object-cover w-full object-center"
+
           src="/BannerDesktop.mp4"
           autoPlay
           loop
@@ -23,10 +24,7 @@ const Banner = () => {
           playsInline
         />
       </div>
-
-      {/* White Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-transparent"></div>
-
+{/*  */}
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center">
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">

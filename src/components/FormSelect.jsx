@@ -25,9 +25,9 @@ const FormSelect = forwardRef(
  } bg-white
                        transition-all duration-200 focus:outline-none flex items-center justify-between`}
           >
-            <h6 className=" font-medium ">
+            <h5 className=" font-medium ">
               {selectedCategory || selectedLabel}
-            </h6>
+            </h5>
 
             {/* Arrow Icon */}
             <svg

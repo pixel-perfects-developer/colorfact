@@ -77,7 +77,7 @@ const handleAnalyze = async () => {
     }
 
     // ✅ CASE 2: Outfits found → proceed normally
-    dispatch(setImageDetails(response));
+    dispatch(setImageDetails(response.outfits));
     router.push("/articles-assortis");
 
   } catch (err) {
@@ -92,7 +92,7 @@ const handleAnalyze = async () => {
 
   return (
     <div className="bg-[#F9F3E9]">
-      <div className="container-global lg:w-[70%] mx-auto min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] flex flex-col items-center justify-center select-none">
+      <div className="container-global  lg:w-[70%] mx-auto min-h-[calc(100vh-17rem)]  lg:min-h-[calc(100vh-18vh)] flex flex-col items-center justify-center select-none">
         {/* 🎨 Color Picker */}
         <div className="mb-6" ref={colorPickerRef} />
 

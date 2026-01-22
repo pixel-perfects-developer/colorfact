@@ -55,6 +55,7 @@ body {
 /* ----------------------------- */
 /* ✅ Components & Layout */
 /* ----------------------------- */
+/*  */
 @layer components {
   .container-global {
     @apply w-[92%] lg:w-[90%] max-w-full lg:max-w-[2000px] m-auto py-[1rem] lg:py-[2%];
@@ -123,7 +124,7 @@ body {
 
   p,
   .text-body1 {
-    @apply  text-black  text-[0.75rem] lg:text-[0.7vw] 2xl:text-[0.9rem];
+    @apply  text-[#666666] text-[0.9rem] lg:text-[0.9vw] 2xl:text-[1.2rem];
   }
 }
 

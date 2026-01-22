@@ -29,7 +29,7 @@ const ProductPage = ({ id }) => {
       // ✅ Case 1: Recommendation data
       const filtered = apiOutfitData.recommendations.filter(
         (item) =>
-          item["Catégorie produit"]?.toLowerCase().replace(/\s+/g, "-") ===
+          item["category"]?.toLowerCase().replace(/\s+/g, "-") ===
           decodedSlug.toLowerCase().replace(/\s+/g, "-")
       );
       setProducts(filtered);
@@ -55,7 +55,7 @@ const ProductPage = ({ id }) => {
         const allProducts = validSubcategories
           .map((key) => currentCategory[key])
           .flat()
-          .filter((item) => item?.["Photo produit 1"] || item?.product_id);
+          .filter((item) => item?.["image_url_1"] || item?.product_id);
 
         setProducts(allProducts);
         setIsFromOutfitData(true);
@@ -86,13 +86,14 @@ const ProductPage = ({ id }) => {
         .filter((c) => c !== "All")
         .map((key) => currentCategory[key])
         .flat()
-        .filter((item) => item?.["Photo produit 1"] || item?.product_id);
+        .filter((item) => item?.["image_url_1"] || item?.product_id);
       setProducts(allProducts);
     } else {
       const filtered = currentCategory[activeCategory] || [];
-      setProducts(filtered.filter((item) => item?.["Photo produit 1"] || item?.product_id));
+      setProducts(filtered.filter((item) => item?.["image_url_1"] || item?.product_id));
     }
   }, [activeCategory, decodedSlug, outfitData, isFromOutfitData]);
+console.log("prod",products);
 
   // 📏 Responsive arrows
   const [arrowThreshold, setArrowThreshold] = useState(4);
@@ -119,7 +120,7 @@ const ProductPage = ({ id }) => {
   }
 
   return (
-    <div className="bg-[#faf5e7] min-h-[calc(100vh-280px)] md:min-h-[calc(100vh-237.27px)] lg:min-h-[calc(100vh-19vh)] xl:min-h-[calc(100vh-18.5vh)]  2xl:min-h-[calc(100vh-19vh)] py-10">      <div className="container-global">
+    <div className="bg-[#faf5e7] min-h-[calc(100vh-17rem)]  lg:min-h-[calc(100vh-18vh)] py-10">      <div className="container-global">
         <div className="relative w-full mb-6">
           <button
             onClick={() => router.back()}
@@ -186,7 +187,7 @@ const ProductPage = ({ id }) => {
                           <div className="relative w-full h-[25rem] 2xl:h-[10vw] xl:h-[20vw] lg:h-[20vw] rounded-t-md overflow-hidden bg-gray-100 flex items-center justify-center">
                             <Image
                               src={
-                                item["Photo produit 1"] ||
+                                item["image_url_1"] ||
                                 item.product_id
                               }
                               alt={item["Nom produit"] || item.name || "Product"}
@@ -216,7 +217,7 @@ const ProductPage = ({ id }) => {
                             </div>
 
                             <Link
-                              href={item["Lien achat"] || "#"}
+                              href={item["buy_url"] || "#"}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="btn-black text-center"

@@ -1,7 +1,5 @@
 "use client";
 import React, { useMemo, useState } from "react";
-import DashboardHeader from "../Header";
-
 import {
   Pencil,
   Search,
@@ -13,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { recentArticles } from "./DummyArticles";
+import DashboardHeader from "../Header";
 
 const ITEMS_PER_PAGE = 10;
 const slugify = (text) =>
@@ -26,24 +25,24 @@ const AllTrends = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-const [selectedIds, setSelectedIds] = useState([]);
-const isSelected = (id) => selectedIds.includes(id);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const isSelected = (id) => selectedIds.includes(id);
 
-const toggleSelect = (id) => {
-  setSelectedIds((prev) =>
-    prev.includes(id)
-      ? prev.filter((i) => i !== id)
-      : [...prev, id]
-  );
-};
+  const toggleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((i) => i !== id)
+        : [...prev, id]
+    );
+  };
 
-const toggleSelectAll = (checked) => {
-  if (checked) {
-    setSelectedIds(paginatedArticles.map((item) => item.id));
-  } else {
-    setSelectedIds([]);
-  }
-};
+  const toggleSelectAll = (checked) => {
+    if (checked) {
+      setSelectedIds(paginatedArticles.map((item) => item.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
   /* ================= STATUS COLORS ================= */
   const getStatusClasses = (status) => {
     switch (status) {
@@ -163,29 +162,29 @@ const toggleSelectAll = (checked) => {
         <Link href="/dashboard/trends/create" className="btn-pink lg:block hidden">
           + Add Articles
         </Link>
-                <Link href="/dashboard/trends/create" className="btn-pink block lg:hidden">
-          + 
+        <Link href="/dashboard/trends/create" className="btn-pink block lg:hidden">
+          +
         </Link>
       </div>
 
       {/* ================= DESKTOP TABLE ================= */}
-<div className="xl3:min-h-[62vh]  hidden lg:block 2xl:min-h-[36rem]">
+      <div className="xl3:min-h-[62vh]  hidden lg:block 2xl:min-h-[36rem]">
         <div className="bg-white  rounded-xl shadow p-[1%]  ">
           <table className="w-full ">
-      <thead>
-  <tr className="text-left border-b border-[#D0D0D0]">
-    {/* CHECKBOX HEADER */}
-    <th className="w-[3%] py-[1%]">
-      <input
-        type="checkbox"
-        checked={
-          paginatedArticles.length > 0 &&
-          paginatedArticles.every((item) =>
-            selectedIds.includes(item.id)
-          )
-        }
-        onChange={(e) => toggleSelectAll(e.target.checked)}
-        className="
+            <thead>
+              <tr className="text-left border-b border-[#D0D0D0]">
+                {/* CHECKBOX HEADER */}
+                <th className="w-[3%] py-[1%]">
+                  <input
+                    type="checkbox"
+                    checked={
+                      paginatedArticles.length > 0 &&
+                      paginatedArticles.every((item) =>
+                        selectedIds.includes(item.id)
+                      )
+                    }
+                    onChange={(e) => toggleSelectAll(e.target.checked)}
+                    className="
     lg:size-[1vw] 2xl:size-5
     appearance-none
     border-2
@@ -202,36 +201,36 @@ const toggleSelectAll = (checked) => {
     checked:before:items-center
     checked:before:justify-center
   "
-      />
-    </th>
+                  />
+                </th>
 
-    {["Title", "Category", "Author", "Date", "Status", "Actions"].map(
-      (item) => (
-        <th
-          key={item}
-          className="py-[1rem] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]"
-        >
-          {item}
-        </th>
-      )
-    )}
-  </tr>
-</thead>
+                {["Title", "Category", "Author", "Date", "Status", "Actions"].map(
+                  (item) => (
+                    <th
+                      key={item}
+                      className="py-[1rem] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]"
+                    >
+                      {item}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
 
 
             <tbody>
               {paginatedArticles.map((item, index) => (
-                
+
                 <tr
                   key={index}
                   className="border-b border-[#D0D0D0] lg:text-[0.6vw] 2xl:text-[0.85rem]"
                 >
                   <td className="w-[3%]">
-<input
-  type="checkbox"
-  checked={isSelected(item.id)}
-  onChange={() => toggleSelect(item.id)}
-  className="
+                    <input
+                      type="checkbox"
+                      checked={isSelected(item.id)}
+                      onChange={() => toggleSelect(item.id)}
+                      className="
         lg:size-[1vw] 2xl:size-5
     appearance-none
     border-2
@@ -248,13 +247,13 @@ const toggleSelectAll = (checked) => {
     checked:before:items-center
     checked:before:justify-center
   "
-/>
+                    />
 
 
 
 
-</td>
-                  <td className="font-[600] py-[1%] w-[20%]"><Link href={`/dashboard/trends/${slugify(item.title)}` } className="hover:underline">{item.title}</Link></td>
+                  </td>
+                  <td className="font-[600] py-[1%] w-[20%]"><Link href={`/dashboard/trends/${slugify(item.title)}`} className="hover:underline">{item.title}</Link></td>
                   <td className="w-[15%]">{item.category}</td>
                   <td className="w-[20%]">{item.author.name}</td>
                   <td className="w-[20%]">{item.date}</td>
@@ -287,7 +286,7 @@ const toggleSelectAll = (checked) => {
           </table>
         </div>
       </div>
-
+{/*  */}
       {/* ================= MOBILE CARDS ================= */}
       <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         {paginatedArticles.map((item, index) => (
@@ -307,7 +306,7 @@ const toggleSelectAll = (checked) => {
                   <Link href={`/tendances/${slugify(item.title)}` } >  <EyeIcon size={16} /></Link>
                   <Trash2 size={16} />
                   <Pencil size={16} />
-                 <Link href={`/dashboard/trends/${slugify(item.title)}` } > <ArrowRight size={16} /></Link>
+                  <Link href={`/dashboard/trends/${slugify(item.title)}`} > <ArrowRight size={16} /></Link>
                 </div>
               }
             />
@@ -323,11 +322,10 @@ const toggleSelectAll = (checked) => {
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
             className={`size-9 lg:size-[2vw] 2xl:size-9 flex items-center justify-center rounded-full border 
-        ${
-          currentPage === 1
-            ? "text-[#F16935] border-[#F16935] opacity-60 !cursor-not-allowed"
-            : "text-[#F16935] border-[#F16935] hover:bg-[#F16935] hover:text-white"
-        }
+        ${currentPage === 1
+                ? "text-[#F16935] border-[#F16935] opacity-60 !cursor-not-allowed"
+                : "text-[#F16935] border-[#F16935] hover:bg-[#F16935] hover:text-white"
+              }
       `}
           >
             <ChevronLeft className="size-5 lg:size-[1vw] 2xl:size-5" />
@@ -347,11 +345,10 @@ const toggleSelectAll = (checked) => {
                 key={index}
                 onClick={() => setCurrentPage(page)}
                 className={`size-9 lg:size-[2vw] 2xl:size-9 flex items-center justify-center rounded-full border text-sm font-medium
-            ${
-              page === currentPage
-                ? " border-[#F16935] bg-[#F16935] text-white"
-                : "text-[#F16935] border-[#F16935] hover:bg-[#F16935] hover:text-white"
-            }
+            ${page === currentPage
+                    ? " border-[#F16935] bg-[#F16935] text-white"
+                    : "text-[#F16935] border-[#F16935] hover:bg-[#F16935] hover:text-white"
+                  }
           `}
               >
                 {page}
@@ -364,11 +361,10 @@ const toggleSelectAll = (checked) => {
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
             className={` size-9 lg:size-[2vw] 2xl:size-9 flex items-center justify-center rounded-full border !disabled:cursor-not-allowed
-        ${
-          currentPage === totalPages
-            ? "text-[#F16935] border-[#F16935] opacity-60 !cursor-not-allowed"
-            : "text-[#F16935] border-[#F16935] hover:bg-[#F16935] hover:text-white"
-        }
+        ${currentPage === totalPages
+                ? "text-[#F16935] border-[#F16935] opacity-60 !cursor-not-allowed"
+                : "text-[#F16935] border-[#F16935] hover:bg-[#F16935] hover:text-white"
+              }
       `}
           >
             <ChevronRight className="size-5 lg:size-[1vw] 2xl:size-5" />

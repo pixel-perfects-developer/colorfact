@@ -9,7 +9,7 @@ const Header = () => {
 
 
   return (
-    <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] py-[1.5rem] lg:py-[0.5%] shadow-sm">
+    <header className="sticky top-0 bg-[#FAFAFA] w-full z-[3000] flex flex-col justify-center items-center h-[5rem] lg:h-[10vh] shadow-sm">
       <div className="flex items-center justify-between w-full px-[5%] relative">
         {/* 🟣 Left (Logo) */}
         <div className="flex items-center justify-start w-1/3">
@@ -29,16 +29,16 @@ const Header = () => {
         <nav className="hidden lg:flex items-center justify-center gap-x-8 font-medium text-[#333] w-1/3">
           <Link
             href={"#"}
-            className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-           <p> Notre Histoire</p>
+         <h5 className="hover:text-[#F16935] transition-colors whitespace-nowrap"> Notre Histoire</h5>
           </Link>
           <Link
             href={"/tendances"}
 
-            className="hover:text-[#F16935] transition-colors whitespace-nowrap"
           >
-            <p> Tendances</p>
+           <h5 
+            className="hover:text-[#F16935] transition-colors whitespace-nowrap"
+           > Tendances</h5>
           </Link>
         </nav>
 
@@ -120,7 +120,7 @@ const Header = () => {
               </svg>
             </button>
           </div>
-
+{/*  */}
           {/* Drawer Links */}
           <nav className="flex flex-col gap-5 text-[#333] text-[1.1rem] font-medium">
             <Link href="/our-story" onClick={() => setDrawerOpen(false)}>

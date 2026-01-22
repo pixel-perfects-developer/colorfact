@@ -140,92 +140,92 @@ export default function ManageTrends() {
           <div>
             <h6 className=" mb-[0.5rem] lg:mb-[0.5%]">Article Content</h6>
             <div className="rounded-md overflow-hidden">
-            <RichTextEditorComponent
-            ref={editorRef}
-            height={450}
-            toolbarSettings={toolbarSettings}
-          >
-            <Inject services={[Toolbar, Image, Link, HtmlEditor, QuickToolbar]} />
-          </RichTextEditorComponent>
+              <RichTextEditorComponent
+                ref={editorRef}
+                height={450}
+                toolbarSettings={toolbarSettings}
+              >
+                <Inject services={[Toolbar, Image, Link, HtmlEditor, QuickToolbar]} />
+              </RichTextEditorComponent>
 
             </div>
           </div>
-       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-          {/* CATEGORY */}
-          <div ref={dropdownRef}>
-            <h6 className=" mb-[0.5rem] lg:mb-[0.8%]">Category</h6>
-            <FormSelect
-              open={open}
-              setOpen={setOpen}
-              selectedLabel="Select Category"
-              MainService={options.map((cat, i) => ({
-                id: i,
-                name: cat,
-              }))}
-              handleSelectChange={(v) => {
-                setSelected(v);
-                setOpen(false);
-              }}
-              selectedCategory={selected}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+            {/* CATEGORY */}
+            <div ref={dropdownRef}>
+              <h6 className=" mb-[0.5rem] lg:mb-[0.8%]">Category</h6>
+              <FormSelect
+                open={open}
+                setOpen={setOpen}
+                selectedLabel="Select Category"
+                MainService={options.map((cat, i) => ({
+                  id: i,
+                  name: cat,
+                }))}
+                handleSelectChange={(v) => {
+                  setSelected(v);
+                  setOpen(false);
+                }}
+                selectedCategory={selected}
+              />
+            </div>
+            <div>
+              <h6 className="mb-[0.5rem] lg:mb-[1%]">Tags</h6>
+              <input className="w-full  px-[0.8rem] py-[0.9rem] lg:px-[1%] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem] lg:py-[1.6%] transition-all duration-300 bg-white rounded-md ring-2 ring-gray-300 focus:ring-[#F16935] outline-none" />
+            </div>
           </div>
-          <div>
-            <h6 className="mb-[0.5rem] lg:mb-[1%]">Tags</h6>
-            <input className="w-full  px-[0.8rem] py-[0.9rem] lg:px-[1%] text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem] lg:py-[1.6%] transition-all duration-300 bg-white rounded-md ring-2 ring-gray-300 focus:ring-[#F16935] outline-none" />
-          </div>
-       </div>
-       <div className="grid grid-cols-5 lg:grid-cols-2   gap-x-6 items-center">
-          <div className=" col-span-4 lg:col-span-1">
-            <h6 className="mb-[0.5rem] lg:mb-[1%]">Image</h6>
- <div className="w-full flex items-center  bg-white rounded-md ring-2 ring-gray-300  transition-all duration-300">
+          <div className="grid grid-cols-5 lg:grid-cols-2   gap-x-6 items-center">
+            <div className=" col-span-4 lg:col-span-1">
+              <h6 className="mb-[0.5rem] lg:mb-[1%]">Image</h6>
+              <div className="w-full flex items-center  bg-white rounded-md ring-2 ring-gray-300  transition-all duration-300">
 
-      {/* READ-ONLY INPUT (shows filename) */}
-      <input
-        type="text"
-        placeholder="Upload image"
-        value={fileName}
-        readOnly
-        className="flex-1 text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]  px-[0.5rem] py-[0.7rem] lg:px-[1%] lg:py-[0.5%] bg-transparent outline-none "
-      />
+                {/* READ-ONLY INPUT (shows filename) */}
+                <input
+                  type="text"
+                  placeholder="Upload image"
+                  value={fileName}
+                  readOnly
+                  className="flex-1 text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]  px-[0.5rem] py-[0.7rem] lg:px-[1%] lg:py-[0.5%] bg-transparent outline-none "
+                />
 
-      {/* HIDDEN FILE INPUT */}
-      <input
-        ref={fileRef}
-        type="file"
-        accept="image/*"
-        hidden className="text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]"
-        onChange={handleFileChange}
-      />
+                {/* HIDDEN FILE INPUT */}
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  hidden className="text-[0.7rem] lg:text-[0.6vw] 2xl:text-[0.85rem]"
+                  onChange={handleFileChange}
+                />
 
-      {/* BROWSE BUTTON */}
-      <button
-        type="button"
-        onClick={() => fileRef.current.click()}
-        className="btn-gray"
-      >
-        Browse
-      </button>
-    </div>
+                {/* BROWSE BUTTON */}
+                <button
+                  type="button"
+                  onClick={() => fileRef.current.click()}
+                  className="btn-gray"
+                >
+                  Browse
+                </button>
               </div>
-          {/* PUBLISH */}
-          <div >
-            <h6 className="mb-[0.5rem] lg:mb-[1%]">Publish</h6>
-           <div
-  onClick={() => setIsOn((p) => !p)}
-  className={`relative w-14 h-7 rounded-full cursor-pointer
+            </div>
+            {/* PUBLISH */}
+            <div >
+              <h6 className="mb-[0.5rem] lg:mb-[1%]">Publish</h6>
+              <div
+                onClick={() => setIsOn((p) => !p)}
+                className={`relative w-14 h-7 rounded-full cursor-pointer
     transition-colors duration-300 ease-in-out
     ${isOn ? "bg-[#446dbc]" : "bg-gray-300"}
   `}
->
-  <div
-    className={`absolute top-0.5 left-0.5 h-6 w-6 bg-white rounded-full shadow-md
+              >
+                <div
+                  className={`absolute top-0.5 left-0.5 h-6 w-6 bg-white rounded-full shadow-md
       transform transition-transform duration-300 ease-in-out
       ${isOn ? "translate-x-7" : "translate-x-0"}
     `}
-  />
-</div>
+                />
+              </div>
 
-          </div>
+            </div>
           </div>
         </form>
       </section>

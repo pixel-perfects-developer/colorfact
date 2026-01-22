@@ -5,13 +5,13 @@ import { Instagram, Linkedin, Facebook } from "lucide-react";
 const Footer = () => {
   const iconClass = "size-4 lg:size-[1vw] 2xl:size-[1.2rem]";
   return (
-    <footer className="w-full bg-[#F5F5F5] border-t border-[#E0E0E0] py-4 lg:py-[1.5%]">
+    <footer className="w-full bg-[#F5F5F5] border-t border-[#E0E0E0] h-[12rem] lg:h-[8vh] flex flex-col justify-center items-center">
       <div className="container-global  flex flex-col lg:flex-row justify-between items-center gap-6 text-center lg:text-left animate-fadeInUp py-0 px-0">
         {/* 🔹 Left: Copyright */}
         <p className="text-[#666]">© 2025 ColorFact — Tous droits réservés.</p>
 
         {/* 🔹 Center: Footer Links */}
-        <nav className="flex flex-wrap justify-center items-center gap-6 text-[#666] text-[0.8rem] lg:text-sm font-medium">
+        <nav className="flex flex-wrap justify-center items-center gap-6  text-[0.8rem] lg:text-sm font-medium">
           <FooterLink
             //  href="/politique-de-confidentialite"
             href={"#"}
@@ -61,7 +61,7 @@ const Footer = () => {
     </footer>
   );
 };
-
+// 
 /* ✅ Reusable FooterLink Component (underline animation) */
 const FooterLink = ({ href, children }) => (
   <Link
