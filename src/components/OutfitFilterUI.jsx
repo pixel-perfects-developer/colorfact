@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { getOutfitRecommendation } from "@/api/outfit_recommendation";
 import * as Slider from "@radix-ui/react-slider";
-// 
+//
 const adjustColor = (hex, percent = 50) => {
   if (typeof hex === "object" && hex?.hex) {
     hex = hex.hex; // extract #abc123
@@ -96,48 +96,35 @@ const adjustColor = (hex, percent = 50) => {
   b = hue2rgb(p, q, h - 1 / 3);
 
   return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(
-    b * 255
+    b * 255,
   )})`;
 };
 
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
- console.log("outf",outfitData);
- 
-const apiOutfitData = useSelector(
-  (state) => state.outfitRecommendation.outfits || {}
-);
+
+  const apiOutfitData = useSelector(
+    (state) => state.outfitRecommendation.outfits || {},
+  );
   const outfitKeys = Object.keys(outfitData);
 
-const recommendations = apiOutfitData?.recommendations || [];
+  const recommendations = apiOutfitData?.recommendations || [];
 
-const hasRecommendations =
-  Array.isArray(recommendations) && recommendations.length > 0;
+  const hasRecommendations =
+    Array.isArray(recommendations) && recommendations.length > 0;
 
-const categoriesFromRecommendations = Array.from(
-  new Set(
-    recommendations
-      .map((item) => item.category)
-      .filter(Boolean)
-  )
-).map((cat) => ({ name: cat }));
+  const categoriesFromRecommendations = Array.from(
+    new Set(recommendations.map((item) => item.category).filter(Boolean)),
+  ).map((cat) => ({ name: cat }));
 
-const brandsFromRecommendations = Array.from(
-  new Set(
-    recommendations
-      .map((item) => item.brand)
-      .filter(Boolean)
-  )
-).map((b) => ({ name: b }));
+  const brandsFromRecommendations = Array.from(
+    new Set(recommendations.map((item) => item.brand).filter(Boolean)),
+  ).map((b) => ({ name: b }));
 
-const fallbackCategories = outfitKeys.map((key) => ({ name: key }));
+  const fallbackCategories = outfitKeys.map((key) => ({ name: key }));
 
-const categoryFilterData = hasRecommendations
-  ? categoriesFromRecommendations
-  : fallbackCategories;
 
-  console.log("ou",outfitKeys);
-  
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -158,6 +145,7 @@ const categoryFilterData = hasRecommendations
   const [tempFilters, setTempFilters] = useState({
     colors: [],
     category: "",
+    outfits: "",
     brands: [],
     avoid: [],
     minPrice: 0,
@@ -189,6 +177,7 @@ const categoryFilterData = hasRecommendations
     setTempFilters({
       colors: [],
       category: "",
+      outfits: "",
       brands: [],
       avoid: [],
       minPrice: 0,
@@ -216,35 +205,35 @@ const categoryFilterData = hasRecommendations
       const adjustedColors =
         Array.isArray(colorData) && colorData.length
           ? colorData
-            .map((c, i) => {
-              let hexValue = typeof c === "object" && c.hex ? c.hex : c;
+              .map((c, i) => {
+                let hexValue = typeof c === "object" && c.hex ? c.hex : c;
 
-              // ✅ Ensure starts with #
-              if (!hexValue.startsWith("#")) {
-                hexValue = "#" + hexValue.replace(/^#*/, "");
-              }
+                // ✅ Ensure starts with #
+                if (!hexValue.startsWith("#")) {
+                  hexValue = "#" + hexValue.replace(/^#*/, "");
+                }
 
-              // ✅ Normalize shorthand (#ABC → #AABBCC)
-              if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
-                hexValue =
-                  "#" +
-                  hexValue
-                    .slice(1)
-                    .split("")
-                    .map((ch) => ch + ch)
-                    .join("");
-              }
+                // ✅ Normalize shorthand (#ABC → #AABBCC)
+                if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
+                  hexValue =
+                    "#" +
+                    hexValue
+                      .slice(1)
+                      .split("")
+                      .map((ch) => ch + ch)
+                      .join("");
+                }
 
-              // ✅ Uppercase + length check
-              hexValue = hexValue.toUpperCase();
-              if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
-                console.warn("Skipping invalid color:", hexValue);
-                return null;
-              }
+                // ✅ Uppercase + length check
+                hexValue = hexValue.toUpperCase();
+                if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
+                  console.warn("Skipping invalid color:", hexValue);
+                  return null;
+                }
 
-              return hexValue;
-            })
-            .filter(Boolean)
+                return hexValue;
+              })
+              .filter(Boolean)
           : [];
 
       // ✅ Call the helper function directly (no more /api call)
@@ -256,7 +245,7 @@ const categoryFilterData = hasRecommendations
         wantedBrands: tempFilters.brands,
         removedBrands: tempFilters.avoid,
       });
-      setShowFilters(false)
+      setShowFilters(false);
       if (data.error) {
         throw new Error(data.error);
       }
@@ -291,6 +280,7 @@ const categoryFilterData = hasRecommendations
     );
   };
 
+
   const renderFilterSections = () => (
     <>
       {[
@@ -298,17 +288,26 @@ const categoryFilterData = hasRecommendations
         {
           id: "category",
           title: "Catégorie",
-  data: categoryFilterData,
+          data: fallbackCategories,
         },
-    ...(brandsFromRecommendations.length > 0
-    ? [
-        {
-          id: "brands",
-          title: "Marques",
-          data: brandsFromRecommendations,
-        },
-      ]
-    : []),
+        ...(hasRecommendations
+          ? [
+              {
+                id: "outfits",
+                title: "Outfits",
+                data: categoriesFromRecommendations,
+              },
+            ]
+          : []),
+        ...(brandsFromRecommendations.length > 0
+          ? [
+              {
+                id: "brands",
+                title: "Marques",
+                data: brandsFromRecommendations,
+              },
+            ]
+          : []),
         // {
         //   id: "avoid",
         //   title: "Marques à éviter",
@@ -316,7 +315,10 @@ const categoryFilterData = hasRecommendations
         // },
         { id: "price", title: "Prix", data: [] },
       ].map((section) => (
-        <div key={section.id} className="border-b border-gray-200 py-[4%] select-none">
+        <div
+          key={section.id}
+          className="border-b border-gray-200 py-[4%] select-none"
+        >
           <div
             onClick={() => toggleSection(section.id)}
             className={`flex items-center justify-between cursor-pointer mb-[2%]`}
@@ -340,10 +342,11 @@ const categoryFilterData = hasRecommendations
           </div>
 
           <div
-            className={`transition-all duration-500 ease-in-out overflow-hidden ${openSection === section.id
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${
+              openSection === section.id
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
-              }`}
+            }`}
           >
             {section.id === "color" &&
               section.data.map((c, i) => {
@@ -354,7 +357,9 @@ const categoryFilterData = hasRecommendations
                   <div key={i} className="mb-[4%]">
                     {/* LABEL + TOGGLE */}
                     <div className="flex justify-between items-center mb-2">
-                      <p className={`font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}>
+                      <p
+                        className={`font-medium ${!isOn ? "opacity-40" : "text-gray-800"}`}
+                      >
                         Intensité de la couleur
                       </p>
 
@@ -368,7 +373,7 @@ const categoryFilterData = hasRecommendations
                             const newVal = enable ? 50 : 0;
 
                             setColorIntensity((prev) =>
-                              prev.map((v, idx) => (idx === i ? newVal : v))
+                              prev.map((v, idx) => (idx === i ? newVal : v)),
                             );
 
                             handleCheckbox("colors", c.hex, enable);
@@ -392,7 +397,6 @@ const categoryFilterData = hasRecommendations
     ${isOn ? "translate-x-6" : "translate-x-0"}
   `}
                           />
-
                         </div>
                       </label>
                     </div>
@@ -402,20 +406,24 @@ const categoryFilterData = hasRecommendations
                       {/* Dot + HEX */}
                       <div className="flex flex-col items-center w-12 select-none">
                         <div
-                          className={`w-5 h-5 rounded-full border shadow-sm mb-1 transition-all ${!isOn ? "opacity-30" : ""
-                            }`}
+                          className={`w-5 h-5 rounded-full border shadow-sm mb-1 transition-all ${
+                            !isOn ? "opacity-30" : ""
+                          }`}
                           style={{ backgroundColor: adjusted }}
                         ></div>
 
-                        <span className={`text-[10px] font-medium ${!isOn ? "opacity-30" : ""}`}>
+                        <span
+                          className={`text-[10px] font-medium ${!isOn ? "opacity-30" : ""}`}
+                        >
                           {rgbToHex(adjusted)}
                         </span>
                       </div>
 
                       {/* Slider */}
                       <Slider.Root
-                        className={`relative flex items-center w-full h-8 ${!isOn ? "opacity-30 pointer-events-none" : ""
-                          }`}
+                        className={`relative flex items-center w-full h-8 ${
+                          !isOn ? "opacity-30 pointer-events-none" : ""
+                        }`}
                         min={0}
                         max={100}
                         step={1}
@@ -424,7 +432,7 @@ const categoryFilterData = hasRecommendations
                           const v = values[0];
 
                           setColorIntensity((prev) =>
-                            prev.map((x, idx) => (idx === i ? v : x))
+                            prev.map((x, idx) => (idx === i ? v : x)),
                           );
 
                           if (!tempFilters.colors.includes(c.hex)) {
@@ -456,6 +464,42 @@ const categoryFilterData = hasRecommendations
                 );
               })}
 
+            {section.id === "outfits" &&
+              section.data.map((cat, i) => (
+                <label
+                  key={i}
+                  className={`flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors`}
+                >
+                  <input
+                    type="radio"
+                    name="category"
+                    value={tempFilters.category === cat.name}
+                    onChange={() => {
+                      setTempFilters((prev) => ({
+                        ...prev,
+                        category: prev.category === cat.name ? "" : cat.name,
+                      }));
+                    }}
+                    className={`w-4 h-4 cursor-pointer transition-all duration-200
+    ${
+      tempFilters.category === cat.name
+        ? "accent-[#F16935] font-bold"
+        : "accent-gray-400 font-normal"
+    }
+  `}
+                  />
+
+                  <h6
+                    className={
+                      tempFilters.category === cat.name
+                        ? "accent-[#F16935] font-bold"
+                        : "accent-gray-400 font-normal"
+                    }
+                  >
+                    {cat.name}
+                  </h6>
+                </label>
+              ))}
 
             {section.id === "category" &&
               section.data.map((cat, i) => (
@@ -470,23 +514,31 @@ const categoryFilterData = hasRecommendations
                     onChange={() => {
                       setTempFilters((prev) => ({
                         ...prev,
-                        category:
-                          prev.category === cat.name
-                            ? ""
-                            : cat.name,
+                        category: prev.category === cat.name ? "" : cat.name,
                       }));
                     }}
                     className={`w-4 h-4 cursor-pointer transition-all duration-200
-    ${tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"
-                      }
+    ${
+      tempFilters.category === cat.name
+        ? "accent-[#F16935] font-bold"
+        : "accent-gray-400 font-normal"
+    }
   `}
                   />
 
-                  <h6 className={tempFilters.category === cat.name ? "accent-[#F16935] font-bold" : "accent-gray-400 font-normal"}>{cat.name}</h6>
+                  <h6
+                    className={
+                      tempFilters.category === cat.name
+                        ? "accent-[#F16935] font-bold"
+                        : "accent-gray-400 font-normal"
+                    }
+                  >
+                    {cat.name}
+                  </h6>
                 </label>
               ))}
-              {brandsFromRecommendations.length>0 && (
-                   section.id === "brands" &&
+            {brandsFromRecommendations.length > 0 &&
+              section.id === "brands" &&
               section.data.map((b, i) => (
                 <label
                   key={i}
@@ -502,9 +554,7 @@ const categoryFilterData = hasRecommendations
                   />
                   <h5>{b.name}</h5>
                 </label>
-              ))
-              )}
-         
+              ))}
 
             {section.id === "avoid" &&
               section.data.map((b, i) => (
@@ -541,7 +591,7 @@ const categoryFilterData = hasRecommendations
                             ...prev,
                             minPrice: Math.max(
                               0,
-                              Math.min(1000, Number(e.target.value))
+                              Math.min(1000, Number(e.target.value)),
                             ),
                           }));
                         }}
@@ -566,7 +616,7 @@ const categoryFilterData = hasRecommendations
                             ...prev,
                             maxPrice: Math.max(
                               0,
-                              Math.min(1000, Number(e.target.value))
+                              Math.min(1000, Number(e.target.value)),
                             ),
                           }));
                         }}
@@ -617,12 +667,13 @@ const categoryFilterData = hasRecommendations
       ))}
 
       <button
-        disabled={ filtersApplied || loading}
+        disabled={filtersApplied || loading}
         onClick={applyFilters}
-        className={`w-full ${ filtersApplied || loading
+        className={`w-full ${
+          filtersApplied || loading
             ? "btn-blue opacity-80 !cursor-not-allowed "
             : "btn-blue"
-          } `}
+        } `}
       >
         {loading
           ? "Chargement..."
@@ -639,16 +690,18 @@ const categoryFilterData = hasRecommendations
       </button>
     </>
   );
-  const filteredData = Object.entries(outfitData).filter(([_, categoryData]) => {
-    return (
-      categoryData &&
-      Object.values(categoryData).some(
-        (arr) => Array.isArray(arr) && arr.length > 0
-      )
-    );
-  });
+  const filteredData = Object.entries(outfitData).filter(
+    ([_, categoryData]) => {
+      return (
+        categoryData &&
+        Object.values(categoryData).some(
+          (arr) => Array.isArray(arr) && arr.length > 0,
+        )
+      );
+    },
+  );
 
-console.log("fil",filteredData);
+  console.log("fil", filteredData);
 
   return (
     <motion.div
@@ -670,20 +723,23 @@ console.log("fil",filteredData);
           {renderFilterSections()}
         </aside>
         <div
-          className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${showFilters ? "opacity-100 visible" : "opacity-0 invisible"
-            }`}
+          className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
+            showFilters ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
         >
           {/* Backdrop */}
           <div
-            className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${showFilters ? "opacity-100" : "opacity-0"
-              }`}
+            className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ease-in-out ${
+              showFilters ? "opacity-100" : "opacity-0"
+            }`}
             onClick={() => setShowFilters(false)}
           ></div>
 
           {/* Drawer Panel */}
           <div
-            className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${showFilters ? "translate-x-0" : "translate-x-full"
-              }`}
+            className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
+              showFilters ? "translate-x-0" : "translate-x-full"
+            }`}
           >
             <button
               onClick={() => setShowFilters(false)}
@@ -707,7 +763,7 @@ console.log("fil",filteredData);
             const catCount = categories.length;
 
             const cycle = catCount % 3;
-            
+
             return (
               <div className="flex flex-wrap w-full gap-[2%]">
                 {Object.keys(grouped).map((cat) => {
@@ -717,7 +773,7 @@ console.log("fil",filteredData);
                       key={cat}
                       onClick={() =>
                         router.push(
-                          `/articles-assortis?id=${encodeURIComponent(cat)}`
+                          `/articles-assortis?id=${encodeURIComponent(cat)}`,
                         )
                       }
                       className={`cursor-pointer mt-[2%]  py-[1rem] lg:py-0 w-full  md:w-[48%]    bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all`}
@@ -750,60 +806,60 @@ console.log("fil",filteredData);
             );
           })()
         ) : (
-          <div className={`w-full flex flex-wrap gap-x-[2%] `} >
-            {filteredData
-              .map(([key, categoryData]) => {
-                const cycle = filteredData.length % 3;
-                // const cardWidth =
-                //   cycle === 2 ? "2xl:w-[48%]" : cycle === 1 ? "2xl:w-[23.5%]" :cycle === 0?"2xl:w-[32%]": "2xl:w-[23.5%]";
+          <div className={`w-full flex flex-wrap gap-x-[2%] `}>
+            {filteredData.map(([key, categoryData]) => {
+              const cycle = filteredData.length % 3;
+              // const cardWidth =
+              //   cycle === 2 ? "2xl:w-[48%]" : cycle === 1 ? "2xl:w-[23.5%]" :cycle === 0?"2xl:w-[32%]": "2xl:w-[23.5%]";
 
-                const firstProduct = Object.values(categoryData)
-                  .flat()
-                  .find((item) => item?.["image_url_1"]);
+              const firstProduct = Object.values(categoryData)
+                .flat()
+                .find((item) => item?.["image_url_1"]);
 
-                return (
-                  <div
-                    key={key}
-                    onClick={() => {
-                      if (firstProduct) {
-                        router.push(
-                          `/articles-assortis?id=${encodeURIComponent(key)}`
-                        );
-                      } else {
-                        toast.warning(
-                          "Aucune donnée disponible pour cette catégorie."
-                        );
-                      }
-                    }}
-                    className={`${!firstProduct ? "cursor-default" : "cursor-pointer"
-                      } py-[1rem] mt-[2%] lg:p-0  w-full  md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${!firstProduct ? "opacity-60 cursor-not-allowed" : ""
+              return (
+                <div
+                  key={key}
+                  onClick={() => {
+                    if (firstProduct) {
+                      router.push(
+                        `/articles-assortis?id=${encodeURIComponent(key)}`,
+                      );
+                    } else {
+                      toast.warning(
+                        "Aucune donnée disponible pour cette catégorie.",
+                      );
+                    }
+                  }}
+                  className={`${
+                    !firstProduct ? "cursor-default" : "cursor-pointer"
+                  } py-[1rem] mt-[2%] lg:p-0  w-full  md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
+                    !firstProduct ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
+                >
+                  <div className="relative w-full h-[25rem]  lg:h-[11vw]">
+                    <Image
+                      src={firstProduct?.["image_url_1"] || "/color-fact.png"}
+                      alt={key}
+                      fill
+                      className={`object-contain transition-all duration-300 ${
+                        !firstProduct ? "grayscale opacity-80" : ""
                       }`}
-                  >
-                    <div className="relative w-full h-[25rem]  lg:h-[11vw]">
-                      <Image
-                        src={
-                          firstProduct?.["image_url_1"] ||
-                          "/color-fact.png"
-                        }
-                        alt={key}
-                        fill
-                        className={`object-contain transition-all duration-300 ${!firstProduct ? "grayscale opacity-80" : ""
-                          }`}
-                      />
-                    </div>
-                    <div className="p-5 bg-[#F16935]/10">
-                      <h4 className="flex items-center justify-between gap-2">
-                        {key}
-                        <ArrowRight
-                          size={25}
-                          className={`${!firstProduct ? "text-gray-400" : "text-[#F16935]"
-                            } block md:hidden`}
-                        />
-                      </h4>
-                    </div>
+                    />
                   </div>
-                );
-              })}
+                  <div className="p-5 bg-[#F16935]/10">
+                    <h4 className="flex items-center justify-between gap-2">
+                      {key}
+                      <ArrowRight
+                        size={25}
+                        className={`${
+                          !firstProduct ? "text-gray-400" : "text-[#F16935]"
+                        } block md:hidden`}
+                      />
+                    </h4>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

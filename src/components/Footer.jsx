@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { Instagram, Linkedin, Facebook } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   const iconClass = "size-4 lg:size-[1vw] 2xl:size-[1.2rem]";
@@ -40,28 +41,29 @@ const Footer = () => {
           >
             <Instagram className={iconClass} />
           </SocialIcon>
+
           <SocialIcon
             href="https://www.linkedin.com/company/colorfact/"
             label="LinkedIn"
           >
             <Linkedin className={iconClass} />
           </SocialIcon>
-          {/* <SocialIcon
-            href="https://www.tiktok.com/company/colorfact/"
-            label="TikTok"
-            
-          >
-            <Tiktok className={iconClass} />
-          </SocialIcon> */}
-          {/* <SocialIcon href="#" label="Facebook">
-            <Facebook className={iconClass}  />
-          </SocialIcon> */}
+
+          <SocialIcon href="https://www.tiktok.com/@colorfact" label="TikTok">
+            <Image
+            width={100}
+            height={100} 
+              src="/tiktok-outline-svgrepo-com.svg"
+              alt="TikTok"
+              className={iconClass}
+            />
+          </SocialIcon>
         </div>
       </div>
     </footer>
   );
 };
-// 
+//
 /* ✅ Reusable FooterLink Component (underline animation) */
 const FooterLink = ({ href, children }) => (
   <Link
