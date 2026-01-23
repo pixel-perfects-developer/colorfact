@@ -134,7 +134,7 @@ const OutfitFilterPage = () => {
       ? [{ hex: colorData }]
       : [];
 
-  const [openSection, setOpenSection] = useState("color");
+  const [openSection, setOpenSection] = useState("category");
   const [showFilters, setShowFilters] = useState(false);
   const [colorIntensity, setColorIntensity] = useState(colors.map(() => 50));
   const [loading, setLoading] = useState(false);
@@ -317,7 +317,9 @@ const OutfitFilterPage = () => {
           className="border-b border-gray-200 py-[4%] select-none"
         >
           <div
-            onClick={() => toggleSection(section.id)}
+onClick={() => {
+  if (section.id !== "outfits") toggleSection(section.id);
+}}
             className={`flex items-center justify-between cursor-pointer mb-[2%]`}
           >
             <h5 className="font-bold">{section.title}</h5>
@@ -340,7 +342,7 @@ const OutfitFilterPage = () => {
 
           <div
             className={`transition-all duration-500 ease-in-out overflow-hidden ${
-              openSection === section.id
+openSection === section.id || section.id === "outfits"
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
