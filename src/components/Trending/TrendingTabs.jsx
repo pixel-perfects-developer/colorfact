@@ -16,10 +16,10 @@ const TrendingTabs = () => {
 
   const filteredArticles = useMemo(
     () => trends.filter((item) => item.category === activeTab),
-    [trends, activeTab]
+    [trends, activeTab],
   );
 
-   const slugify = (text) =>
+  const slugify = (text) =>
     text
       ?.toLowerCase()
       .replace(/ /g, "-")
@@ -44,7 +44,7 @@ const TrendingTabs = () => {
 
   return (
     <div>
-      {/* 🔹 DESKTOP TABS */}
+      🔹 DESKTOP TABS
       <div className="hidden lg:flex flex-wrap gap-4 justify-center items-center sticky top-[8%] bg-[#F9F3E9] py-[2%]">
         {categories.map((cat) => (
           <button
@@ -56,12 +56,15 @@ const TrendingTabs = () => {
           </button>
         ))}
       </div>
-
       {/* 🔹 MOBILE DROPDOWN */}
-      <div className="block lg:hidden mt-[1rem] w-full sticky z-20 top-24 " ref={openDropdownRef}>
+      <div
+        className="block lg:hidden mt-[1rem] w-full sticky z-20 top-24 "
+        ref={openDropdownRef}
+      >
         <FormSelect
           isBlueDropdown={true}
-          open={open} ref={openDropdownRef}
+          open={open}
+          ref={openDropdownRef}
           setOpen={setOpen}
           selectedLabel="Sélectionner le type de vêtement"
           MainService={categories.map((cat, i) => ({
@@ -72,7 +75,7 @@ const TrendingTabs = () => {
           selectedCategory={activeTab}
         />
       </div>
-{/*  */}
+      {/*  */}
       {/* 🔹 ARTICLES GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
         {filteredArticles.map((item) => (
@@ -94,34 +97,30 @@ const TrendingTabs = () => {
             <div className="flex flex-col h-full relative lg:p-[4%]">
               <h4 className="mb-[1%]">{item.title}</h4>
 
-              <p className="md:h-[5rem] lg:h-[4.5vw] 2xl:h-[6.5rem]">
-                {item.subtitle?.slice(0, 160)}
+              <p className="md:h-[4rem] lg:h-[5.5vw] 2xl:h-[6.5rem]">
+                {item.subtitle?.slice(0, 80)}
               </p>
               <div className="flex justify-between">
-                 <div>
-                  
-              <h6 className="my-[0.5rem] lg:my-[2%]">
-                BY{" "}
-                <span style={{ color: "#F16935" }}>
-                  {item.authorName}
-                </span>
-              </h6>
+                <div>
+                  <h6 className="my-[0.5rem] lg:my-[2%]">
+                    BY{" "}
+                    <span style={{ color: "#F16935" }}>{item.authorName}</span>
+                  </h6>
 
-              <p>
-                {new Date(item.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-                 </div>
+                  <p>
+                    {new Date(item.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
 
-              {/* 🔹 ARROW FIXED (NO FONT CHANGE) */}
-              <div className="mt-auto flex lg:hidden justify-end pt-[0.5rem]">
-                <ArrowRightIcon className="size-4 text-black" />
+                {/* 🔹 ARROW FIXED (NO FONT CHANGE) */}
+                <div className="mt-auto flex lg:hidden justify-end pt-[0.5rem]">
+                  <ArrowRightIcon className="size-4 text-black" />
+                </div>
               </div>
-              </div>
-
             </div>
           </Link>
         ))}
