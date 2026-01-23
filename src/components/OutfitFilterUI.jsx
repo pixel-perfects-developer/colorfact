@@ -123,8 +123,6 @@ const OutfitFilterPage = () => {
 
   const fallbackCategories = outfitKeys.map((key) => ({ name: key }));
 
-
-
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -279,7 +277,6 @@ const OutfitFilterPage = () => {
         .toUpperCase()
     );
   };
-
 
   const renderFilterSections = () => (
     <>
@@ -475,6 +472,7 @@ const OutfitFilterPage = () => {
                     name="category"
                     value={tempFilters.category === cat.name}
                     onChange={() => {
+                      setFiltersApplied(false);
                       setTempFilters((prev) => ({
                         ...prev,
                         category: prev.category === cat.name ? "" : cat.name,
@@ -512,6 +510,7 @@ const OutfitFilterPage = () => {
                     name="category"
                     value={tempFilters.category === cat.name}
                     onChange={() => {
+                      setFiltersApplied(false);
                       setTempFilters((prev) => ({
                         ...prev,
                         category: prev.category === cat.name ? "" : cat.name,
@@ -751,7 +750,14 @@ const OutfitFilterPage = () => {
           </div>
         </div>
         {/* ✅ Outfit Cards */}
-        {apiOutfitData?.recommendations?.length > 0 ? (
+        {Array.isArray(apiOutfitData?.recommendations) && 
+        apiOutfitData.recommendations.length === 0 ? (
+          <div className="w-full flex justify-center items-center py-20">
+            <p className="text-gray-500 text-lg font-medium">
+              Données introuvables, veuillez réinitialiser.
+            </p>
+          </div>
+        ) : apiOutfitData?.recommendations?.length >0 ? (
           (() => {
             const grouped = {};
             apiOutfitData.recommendations.forEach((item) => {
@@ -759,9 +765,9 @@ const OutfitFilterPage = () => {
               if (!grouped[cat]) grouped[cat] = [];
               grouped[cat].push(item);
             });
+
             const categories = Object.keys(grouped);
             const catCount = categories.length;
-
             const cycle = catCount % 3;
 
             return (
@@ -776,9 +782,9 @@ const OutfitFilterPage = () => {
                           `/articles-assortis?id=${encodeURIComponent(cat)}`,
                         )
                       }
-                      className={`cursor-pointer mt-[2%]  py-[1rem] lg:py-0 w-full  md:w-[48%]    bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all`}
+                      className="cursor-pointer mt-[2%] py-[1rem] lg:py-0 w-full md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all"
                     >
-                      <div className="relative w-full h-72 lg:h-[11vw] ">
+                      <div className="relative w-full h-72 lg:h-[11vw]">
                         <Image
                           src={first["image_url_1"]}
                           alt={cat}
@@ -786,10 +792,10 @@ const OutfitFilterPage = () => {
                           className="object-contain"
                         />
                       </div>
+
                       <div className="p-5 bg-[#F16935]/10">
                         <h4 className="flex items-center justify-between gap-2">
                           {cat}
-                          {/* 👉 show arrow only on mobile */}
                           <ArrowRight
                             size={25}
                             className="text-[#F16935] block md:hidden"
@@ -806,12 +812,8 @@ const OutfitFilterPage = () => {
             );
           })()
         ) : (
-          <div className={`w-full flex flex-wrap gap-x-[2%] `}>
+          <div className="w-full flex flex-wrap gap-x-[2%]">
             {filteredData.map(([key, categoryData]) => {
-              const cycle = filteredData.length % 3;
-              // const cardWidth =
-              //   cycle === 2 ? "2xl:w-[48%]" : cycle === 1 ? "2xl:w-[23.5%]" :cycle === 0?"2xl:w-[32%]": "2xl:w-[23.5%]";
-
               const firstProduct = Object.values(categoryData)
                 .flat()
                 .find((item) => item?.["image_url_1"]);
@@ -832,11 +834,11 @@ const OutfitFilterPage = () => {
                   }}
                   className={`${
                     !firstProduct ? "cursor-default" : "cursor-pointer"
-                  } py-[1rem] mt-[2%] lg:p-0  w-full  md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
+                  } py-[1rem] mt-[2%] lg:p-0 w-full md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
                     !firstProduct ? "opacity-60 cursor-not-allowed" : ""
                   }`}
                 >
-                  <div className="relative w-full h-[25rem]  lg:h-[11vw]">
+                  <div className="relative w-full h-[25rem] lg:h-[11vw]">
                     <Image
                       src={firstProduct?.["image_url_1"] || "/color-fact.png"}
                       alt={key}
@@ -846,6 +848,7 @@ const OutfitFilterPage = () => {
                       }`}
                     />
                   </div>
+
                   <div className="p-5 bg-[#F16935]/10">
                     <h4 className="flex items-center justify-between gap-2">
                       {key}

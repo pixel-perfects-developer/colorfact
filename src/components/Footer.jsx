@@ -49,11 +49,11 @@ const Footer = () => {
             <Linkedin className={iconClass} />
           </SocialIcon>
 
-          <SocialIcon href="https://www.tiktok.com/@colorfact" label="TikTok">
+          <SocialIcon href="#" label="TikTok">
             <Image
             width={100}
             height={100} 
-              src="/tiktok-outline-svgrepo-com.svg"
+              src="/tiktok.svg" 
               alt="TikTok"
               className={iconClass}
             />
