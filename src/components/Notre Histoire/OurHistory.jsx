@@ -2,11 +2,11 @@ const OurHistory = ({ data }) => {
   return (
     <section className="w-full bg-[#FAF5E78C]">
       <div className="container-global pt-0">
-        <div className="bg-[#F9F9F9] shadow-md py-[2rem] lg:py-[4%] rounded-b-lg lg:rounded-b-[0.5vw] 2xl:rounded-b-lg">
-          <h1 className="text-[#ff96c5] text-center">{data?.title}</h1>
+        <div className=" py-[2rem] lg:py-[2.5%] rounded-b-lg lg:rounded-b-[0.5vw] 2xl:rounded-b-lg">
+          <h1 className="text-black text-center">{data?.title}</h1>
         </div>
 
-        <div className="bg-[#F9F9F9] mt-[1rem] lg:mt-[2%] py-[1rem] lg:py-[4%] px-[1.2rem] lg:px-[2%] shadow-md rounded-lg lg:rounded-[0.5vw] 2xl:rounded-lg">
+        <div className="bg-[#F9F9F9]  py-[1rem] lg:py-[4%] px-[1.2rem] lg:px-[2%] shadow-md rounded-lg lg:rounded-[0.5vw] 2xl:rounded-lg">
           <div className="space-y-10 [&_a]:text-[#FFB703] [&_a]:underline">
             {data?.content.map((item, index) => (
               <div key={index}>
