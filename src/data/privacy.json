@@ -1,18 +1,18 @@
 {
   "privacy_policy": {
-    "title": "Privacy Policy",
+    "title": " Politique de confidentialité",
     "content": [
       {
         "heading": "Mentions Légales du site",
-        "description": "En vertu de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site WWW.COLORFACT.FR l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi :"
+        "description": "En vertu de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site <a href=\"https://www.colorfact.fr\" target=\"_blank\" rel=\"noopener noreferrer\"> www.colorfact.fr</a> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi :"
       },
       {
         "heading": "Créateur et Propriétaire",
-        "description": "Capital de 1.000 euros dont le siège social est situé au 108 route de Saint Fortunat – 69450 – SAINT CYR AU MONT D’OR, immatriculée au registre du commerce et des sociétés de Lyon sous le numéro 941 692 824 – numéro de TVA intracommunautaire : FR44941692824. Le site WWW.COLORFACT.FR relève de la législation française et internationale sur le droit d’auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques. Il constitue une œuvre originale protégée par le droit de la propriété intellectuelle. En application du code de la propriété intellectuelle, chacun des éléments qui le compose, en ce compris tout texte, illustration, photographie, logo, graphisme, documentation, plan, dessin, animation, vidéo, son, ne peut être utilisé, représenté ou reproduit sur un quelconque support sans l’obtention préalable de l’autorisation de la société COLORFACT."
+        "description": "Capital de 1.000 euros dont le siège social est situé au 108 route de Saint Fortunat – 69450 – SAINT CYR AU MONT D’OR, immatriculée au registre du commerce et des sociétés de Lyon sous le numéro 941 692 824 – numéro de TVA intracommunautaire : FR44941692824. Le site <a href=\"https://www.colorfact.fr\" target=\"_blank\" rel=\"noopener noreferrer\">colorfact</a>  relève de la législation française et internationale sur le droit d’auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques. Il constitue une œuvre originale protégée par le droit de la propriété intellectuelle. En application du code de la propriété intellectuelle, chacun des éléments qui le compose, en ce compris tout texte, illustration, photographie, logo, graphisme, documentation, plan, dessin, animation, vidéo, son, ne peut être utilisé, représenté ou reproduit sur un quelconque support sans l’obtention préalable de l’autorisation de la société COLORFACT."
       },
       {
         "heading": "Liens hypertextes",
-        "description": "L’établissement de liens vers une ou plusieurs pages du site internet de https://www.colorfact.fr ne peut être autorisé que par la société COLORFACT (contact@colorfact.fr). Toute demande d’établissement de liens devra transmise à cette dernière. Dans le cas où un lien serait autorisé, il devra être accompagné d’une mention explicite de sa source, et la page pointée par celui-ci ne devra pas être ouverte à l’intérieur de la page d’un autre site internet mais à l’extérieur de celui-ci (nouvelle fenêtre, nouvel onglet, etc.), afin d’éviter tout risque de confusion de contenu.Les liens vers d’autres sites internet ne sont communiqués qu’à titre indicatif.Politique de protection des données personnelles"
+"description": "L’établissement de liens vers une ou plusieurs pages du site internet de <a href=\"https://www.colorfact.fr\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.colorfact.fr</a> ne peut être autorisé que par la société COLORFACT <a href=\"https://mail.google.com/mail/?view=cm&fs=1&to=contact@colorfact.fr\" target=\"_blank\" rel=\"noopener noreferrer\">contact@colorfact.fr</a>. Toute demande d’établissement de liens doit être transmise à cette dernière. Dans le cas où un lien serait autorisé, il devra être accompagné d’une mention explicite de sa source, et la page pointée par celui-ci ne devra pas s’ouvrir à l’intérieur de la page d’un autre site internet, mais dans une nouvelle fenêtre ou un nouvel onglet, afin d’éviter tout risque de confusion de contenu. Les liens vers d’autres sites internet sont communiqués à titre indicatif uniquement. Politique de protection des données personnelles."
       },
       {
         "contact": [
@@ -31,7 +31,7 @@
       {
         "heading": "Liens hypertextes:",
         "description": [
-          "L’établissement de liens vers une ou plusieurs pages du site internet de https://www.colorfact.fr ne peut être autorisé que par la société COLORFACT (contact@colorfact.fr). Toute demande d’établissement de liens devra transmise à cette dernière. Dans le cas où un lien serait autorisé, il devra être accompagné d’une mention explicite de sa source, et la page pointée par celui-ci ne devra pas être ouverte à l’intérieur de la page d’un autre site internet mais à l’extérieur de celui-ci (nouvelle fenêtre, nouvel onglet, etc.), afin d’éviter tout risque de confusion de contenu.",
+          "L’établissement de liens vers une ou plusieurs pages du site internet de <a href=\"https://www.colorfact.fr\"  target=\"_blank\" rel=\"noopener noreferrer\">colorfact</a> ne peut être autorisé que par la société COLORFACT (contact@colorfact.fr). Toute demande d’établissement de liens devra transmise à cette dernière. Dans le cas où un lien serait autorisé, il devra être accompagné d’une mention explicite de sa source, et la page pointée par celui-ci ne devra pas être ouverte à l’intérieur de la page d’un autre site internet mais à l’extérieur de celui-ci (nouvelle fenêtre, nouvel onglet, etc.), afin d’éviter tout risque de confusion de contenu.",
           "Les liens vers d’autres sites internet ne sont communiqués qu’à titre indicatif.",
           "Politique de protection des données personnelles"
         ],
@@ -39,40 +39,170 @@
           {
             "heading": "1 - Champ d'application",
             "description": [
-              "Ce document a pour objectif de vous expliquer la manière dont la société COLORFACT (ci-après « la Société ») utilise vos données à caractère personnel (ci-après les « Données ») collectées en ligne notamment sur le site https://www.colorfact.fr (le « Site »). En effet, pour assurer le fonctionnement du Site, la société est amenée à collecter un certain nombre de Données.",
+              "Ce document a pour objectif de vous expliquer la manière dont la société COLORFACT (ci-après « la Société ») utilise vos données à caractère personnel (ci-après les « Données ») collectées en ligne notamment sur le site <a href=\"https://www.colorfact.fr\"  target=\"_blank\" rel=\"noopener noreferrer\"> https://www.colorfact.fr</a>  (le « Site »). En effet, pour assurer le fonctionnement du Site, la société est amenée à collecter un certain nombre de Données.",
               "Cette politique vous informe sur vos droits concernant les traitements des Données que la Société effectue, notamment votre droit d’opposition."
             ]
           },
-       
-  {
-      "heading": "2- Principes de collecte des données à caractère personnel",
-      "description": [
-        "Définition",
-        "Une donnée à caractère personnel est une information relative à une personne physique susceptible d'être identifiée, directement ou indirectement (Source : cnil.fr/fr/cnil-direct/question/une-donnee-caractere-personnel-cest-quoi).",
-        "Par exemple : un nom, une photo, une adresse postale, une adresse mail, un numéro de téléphone, une adresse IP, un identifiant de connexion, un enregistrement vocal, etc.",
-        "La Société collecte les Données des personnes physiques majeures. Par conséquent, la responsabilité de la Société ne saurait être engagée et la Société se réserve le droit (i) de procéder à tout contrôle concernant l’âge de la personne concernée et (ii) le cas échéant, de supprimer immédiatement tout accès au Site et aux Services proposés si les conditions susvisées n’étaient pas remplies.",
-        "Lors de votre utilisation du site la Société collecte notamment les Données suivantes :"
-      ],
-      "list": [
-        "Nom, prénom",
-        "Adresse e-mail et numéro de téléphone (mais uniquement si transmis volontairement via le formulaire de contact)",
-        "Message ou informations renseignées dans les éventuels formulaires du Site"
-      ],
-      "footerText": [
-        " La Société ne collecte pas de données relevant de « catégories particulières » au sens RGPD (données relatives à la santé, préférences sexuelles, opinions politiques, croyances religieuses ...).",
-        "Collecte :",
-        "La Société collecte des Données pour :",
-        "Finalités – Base légale",
-        "Répondre à votre demande de contact via le formulaire de contact – Consentement",
-        "Gérer les prospects – Consentement",
-        "Communication – Consentement",
-        "Nous procédons au traitement de vos Données collectées via les cookies dont le dépôt et l’installation sont soumis à consentement, et pour les finalités qui sont indiquées dans le bandeau d’information, présent dès la première navigation sur notre Site.",
-        "Certaines Données sont obligatoires, d’autres sont facultatives conformément à ce qui vous est indiqué au moment de la collecte des Données.",
-        "Des données de connexions (date, heure, protocole de l’ordinateur du visiteur, pages consultées) sont également collectée à des fins statistiques.",
-        "La Société collecte également les informations en lien avec le terminal utilisé aux fins de se connecter au Site Internet (le type de terminal, le système d’exploitation, le navigateur, le fournisseur d’accès, l’adresse IP du terminal, les données de géolocalisation du terminal)."
-      ]
-    }
 
+          {
+            "heading": "2- Principes de collecte des données à caractère personnel",
+            "description": [
+              "Définition",
+              "Une donnée à caractère personnel est une information relative à une personne physique susceptible d'être identifiée, directement ou indirectement (Source : cnil.fr/fr/cnil-direct/question/une-donnee-caractere-personnel-cest-quoi).",
+              "Par exemple : un nom, une photo, une adresse postale, une adresse mail, un numéro de téléphone, une adresse IP, un identifiant de connexion, un enregistrement vocal, etc.",
+              "La Société collecte les Données des personnes physiques majeures. Par conséquent, la responsabilité de la Société ne saurait être engagée et la Société se réserve le droit (i) de procéder à tout contrôle concernant l’âge de la personne concernée et (ii) le cas échéant, de supprimer immédiatement tout accès au Site et aux Services proposés si les conditions susvisées n’étaient pas remplies.",
+              "Lors de votre utilisation du site la Société collecte notamment les Données suivantes :"
+            ],
+
+            "lists": [
+              {
+                "items": [
+                  "Nom, prénom",
+                  "Adresse e-mail et numéro de téléphone (mais uniquement si transmis volontairement via le formulaire de contact)",
+                  "Message ou informations renseignées dans les éventuels formulaires du Site"
+                ]
+              },
+              {
+                "description": [
+                  " La Société ne collecte pas de données relevant de « catégories particulières » au sens RGPD (données relatives à la santé, préférences sexuelles, opinions politiques, croyances religieuses ...).",
+
+                  "La Société ne réalise pas elle-même de traitement avec prise de décision automatisé tel que défini par le RGPD.",
+                  "Vos Données ont uniquement vocation à être utilisées par la Société.Elles pront cependant être communiqués :"
+                ]
+              },
+              {
+                "description": [
+                  "Vous êtes informés que la Société peut être amenée à donner à ces prestataires un accès restreint et sécurisé de vos Données qui sont indispensables à la réalisation de leur mission. Pour l'ensemble des transferts de Données, la Société prendra les mesures nécessaires pour garantir leur confidentialité et intégrité par un encadrement juridique adapté.",
+                  "Collecte :",
+                  "La Société collecte des Données pour :",
+                  "Finalités – Base légale",
+                  "Répondre à votre demande de contact via le formulaire de contact – Consentement",
+                  "Communication – Consentement",
+                  "Nous procédons au traitement de vos Données collectées via les cookies dont le dépôt et l’installation sont soumis à consentement, et pour les finalités qui sont indiquées dans le bandeau d’information, présent dès la première navigation sur notre Site.",
+                  "Certaines Données sont obligatoires, d’autres sont facultatives conformément à ce qui vous est indiqué au moment de la collecte des Données.",
+                  "Des données de connexions (date, heure, protocole de l’ordinateur du visiteur, pages consultées) sont également collectée à des fins statistiques.",
+                  "La Société collecte également les informations en lien avec le terminal utilisé aux fins de se connecter au Site Internet (le type de terminal, le système d’exploitation, le navigateur, le fournisseur d’accès, l’adresse IP du terminal, les données de géolocalisation du terminal)."
+                ]
+              }
+            ]
+          },
+          {
+            "heading": "3- Principes de traitement des données",
+            "description": [
+              "La plupart des Données que vous communiquez à la Société sont tout d’abord nécessaires à l’utilisation des services proposés, mais aussi aux fins d’assurer la relation commerciale.",
+              "La Société traite vos données pour un usage licite et légitime. Il est justifié :"
+            ],
+            "lists": [
+              {
+                "items": [
+                  "par l'exécution d'un contrat",
+                  "par le consentement de la personne",
+                  "par le respect d'une ou plusieurs obligations légales",
+                  "par l’intérêt légitime de la Société ou celui d'un tiers"
+                ]
+              },
+              {
+                "description": [
+                  "Dans tous les cas, vous disposez de la possibilité de retirer votre consentement à la prospection commerciale.",
+                  "La Société ne réalise pas elle-même de traitement avec prise de décision automatisé tel que défini par le RGPD.",
+                  "Vos Données ont uniquement vocation à être utilisées par la Société.Elles pront cependant être communiqués :"
+                ],
+                "items": [
+                  "   à des prestataires pour les seuls besoins liés à la réalisation de leur mission pour lesquels la Société exige qu’ils respectent la législation en vigueur et ses instructions concernant le respect du RGPD ;",
+                  "à toute autorité administrative ou judiciaire habilité par la loi qui en ferait la demande ;",
+                  "à tout tiers qui aurait fait l’acquisition des actifs de la Société"
+                ]
+              },
+              {
+                "description": [
+                  "Vous êtes informés que la Société peut être amenée à donner à ces prestataires un accès restreint et sécurisé de vos Données qui sont indispensables à la réalisation de leur mission. Pour l'ensemble des transferts de Données, la Société prendra les mesures nécessaires pour garantir leur confidentialité et intégrité par un encadrement juridique adapté."
+                ]
+              }
+            ]
+          },
+          {
+            "heading": "4- Le temps de conservation des Données",
+            "description": [
+              "La Société ne conservera pas les Données plus longtemps que nécessaire, conformément aux besoins des services concernés, aux besoins des contrats souscrits et aux exigences d'archivage légal (en cas de contentieux ou pour obligations fiscales ou légales par exemple), à savoir ",
+              "Finalités",
+              "Durée de conservation",
+              "Répondre à une demande de contact via le formulaire contact",
+              "2 ans après le premier contact ou, le cas échéant, après la fin de la relation contractuelle",
+              "Gérer les prospects",
+              " 2 ans après le premier contact ou, le cas échéant, après la fin de la relation contractuelle",
+              "Communication",
+              "2 ans après le retrait du consentement",
+              "Au terme des durées de conservation de vos Données, celles-ci sont effacées."
+            ]
+          },
+          {
+            "heading": "5- La protection des Données",
+            "description": [
+              "La société vous assure que vos Données sont traitées de manière à garantir un niveau approprié de sécurité."
+            ]
+          },
+          {
+            "heading": "6- La politique de gestion de cookies",
+            "description": [
+              "Les cookies sont de petits fichiers textes enregistrés sur votre disque dur par le serveur de la Société ou éventuellement par un serveur tiers. Toujours actifs, les cookies sont nécessaires au bon fonctionnement du Site Internet. Ils permettent à la Société notamment de reconnaître un internaute d’une visite à l’autre grâce à un identifiant unique. Au sein de votre ordinateur, les cookies sont administrés par votre navigateur Internet. Les cookies sont utilisés pour améliorer votre expérience de navigation",
+              "Concrètement, cela signifie qu’ils sont utilisés pour mémoriser vos préférences.",
+              "Seul l'émetteur d'un cookie ou traceur est susceptible de lire ou de modifier les informations contenues dans ce cookie ou ce traceur.",
+              "Vous avez la possibilité de consentir ou de refuser les cookies et traceurs par le biais de notre plateforme de gestion des cookies accessible directement depuis n’importe quelle page du site https:// www.colorfact.fr dans le bandeau du pied de page. Ainsi, même lorsque vous avez précédemment consenti aux cookies et autres traceurs, vous pouvez à tout moment retirer votre consentement."
+            ]
+          },
+          {
+            "heading": " 7- Description des droits",
+
+            "lists": [
+              {
+                "items": [
+                  "Nom, prénom",
+                  "Adresse e-mail et numéro de téléphone (mais uniquement si transmis volontairement via le formulaire de contact)",
+                  "Message ou informations renseignées dans les éventuels formulaires du Site"
+                ]
+              },
+              {
+                "description": [
+                  " Conformément au Règlement Européen sur la protection des données vos droits sur les Données sur les suivants :"
+                ],
+                "items": [
+                  " Le droit d'accéder à vos Données ;",
+                  "Le droit de rectifier vos Données si celles-ci sont erronées ;",
+                  " Le droit de s'opposer à un traitement, sans avoir à vous justifier lorsque vous vous opposez à des opérations de prospection commerciale, et sur justification d'un motif lié à votre situation particulière lorsque le traitement repose sur les intérêts commerciaux légitimes de la Société ;"
+                ]
+              },
+              {
+                
+                "items": [
+                  " Le droit de s'opposer au profilage ;",
+                  "Le droit à l'effacement (aussi appelé droit à l'oubli ou suppression) dans les seuls cas prévus par la règlementation, et ce, sous réserve que les données ne soient plus indispensables (par exemple pour respecter les obligations ou assurer la défense des droits en justice de la Société);",
+                  "  Le droit à la portabilité des Données transmises, en ce qui concerne les seuls traitements reposant sur votre consentement ou sur l'exécution d'un contrat ; ",
+                  "Le droit à la limitation du traitement ;",
+                  "  Le droit de définir des directives relatives à la conservation, l'effacement et la communication des Données après votre mort, qui seront exercées par la personne que vous aurez désignée de votre vivant ;",
+                  "Le droit d'introduire une réclamation auprès d'une autorité de contrôle (en France, la CNIL) dans l'hypothèse où la Société ne parvient pas à répondre convenablement aux demandes ;",
+                  " Le droit de s'inscrire sur la liste d'opposition au démarchage téléphonique.Ces droits peuvent être exercés à tout moment"
+                  
+                ]
+              },
+              {
+                "description": [
+                  "Vous pouvez exercer vos droits par courrier ou par email à :"
+                ],
+                "items": [
+                  "  COLORFACT– 108 route de Saint Fortunat – 69450 – SAINT CYR AU MONT D’OR",
+                " Mail : ( <a href=\"https://mail.google.com/mail/?view=cm&fs=1&to=contact@colorfact.fr\" target=\"_blank\" rel=\"noopener noreferrer\">contact@colorfact.fr</a>)."
+                ]
+              },
+              {
+                "description": [
+                  " Modification et mises à jou"
+                ],
+                "items": [
+                "La présente politique de confidentialité et de gestion des cookies pourra être amené à évoluer en fonction du contexte légal et réglementaireEn cas de modification ou de mise à jour, la politique de Protection des Données Personnelles et gestion des cookies révisée sera mise en ligne sur le site internet <a href=\"https://www.colorfact.fr\" target=\"_blank\" rel=\"noopener noreferrer\"> www.colorfact.fr</a> avec mention de la dernière date de mise à jour."
+                ]
+              }
+            ]
+          }
         ]
       }
     ]

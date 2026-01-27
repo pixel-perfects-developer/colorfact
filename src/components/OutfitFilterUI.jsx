@@ -758,6 +758,7 @@ const OutfitFilterPage = () => {
             <p className="text-gray-500 text-lg font-medium">
               Données introuvables, veuillez réinitialiser.
             </p>
+            <a href=""></a>
           </div>
         ) : apiOutfitData?.recommendations?.length > 0 ? (
           (() => {
