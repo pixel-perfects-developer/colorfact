@@ -317,9 +317,9 @@ const OutfitFilterPage = () => {
           className="border-b border-gray-200 py-[4%] select-none"
         >
           <div
-onClick={() => {
-  if (section.id !== "outfits") toggleSection(section.id);
-}}
+            onClick={() => {
+              if (section.id !== "outfits") toggleSection(section.id);
+            }}
             className={`flex items-center justify-between cursor-pointer mb-[2%]`}
           >
             <h5 className="font-bold">{section.title}</h5>
@@ -342,7 +342,7 @@ onClick={() => {
 
           <div
             className={`transition-all duration-500 ease-in-out overflow-hidden ${
-openSection === section.id || section.id === "outfits"
+              openSection === section.id || section.id === "outfits"
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
@@ -712,8 +712,8 @@ openSection === section.id || section.id === "outfits"
       className="bg-[#faf5e7] min-h-[calc(100vh-17rem)]  lg:min-h-[calc(100vh-18vh)] lg:pb-[2%]"
     >
       <div className="container-global py-0 flex flex-col items-start md:flex-row gap-x-[4%] 2xl:gap-x-[4%] relative">
-        <button
-          className="lg:hidden flex justify-end mb-4 "
+         <button
+          className="lg:hidden flex sticky top-[10%] left-2 justify-end mb-4 "
           onClick={() => setShowFilters(true)}
         >
           <SlidersHorizontal size={30} />
@@ -752,14 +752,14 @@ openSection === section.id || section.id === "outfits"
           </div>
         </div>
         {/* ✅ Outfit Cards */}
-        {Array.isArray(apiOutfitData?.recommendations) && 
+        {Array.isArray(apiOutfitData?.recommendations) &&
         apiOutfitData.recommendations.length === 0 ? (
           <div className="w-full flex justify-center items-center py-20">
             <p className="text-gray-500 text-lg font-medium">
               Données introuvables, veuillez réinitialiser.
             </p>
           </div>
-        ) : apiOutfitData?.recommendations?.length >0 ? (
+        ) : apiOutfitData?.recommendations?.length > 0 ? (
           (() => {
             const grouped = {};
             apiOutfitData.recommendations.forEach((item) => {
@@ -773,7 +773,7 @@ openSection === section.id || section.id === "outfits"
             const cycle = catCount % 3;
 
             return (
-              <div className="flex flex-wrap w-full gap-[2%]">
+              <div className="flex flex-wrap w-full gap-[2%] mb-[2rem]">
                 {Object.keys(grouped).map((cat) => {
                   const first = grouped[cat][0];
                   return (

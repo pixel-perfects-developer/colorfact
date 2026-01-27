@@ -1,0 +1,80 @@
+{
+  "privacy_policy": {
+    "title": "Privacy Policy",
+    "content": [
+      {
+        "heading": "Mentions Légales du site",
+        "description": "En vertu de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site WWW.COLORFACT.FR l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi :"
+      },
+      {
+        "heading": "Créateur et Propriétaire",
+        "description": "Capital de 1.000 euros dont le siège social est situé au 108 route de Saint Fortunat – 69450 – SAINT CYR AU MONT D’OR, immatriculée au registre du commerce et des sociétés de Lyon sous le numéro 941 692 824 – numéro de TVA intracommunautaire : FR44941692824. Le site WWW.COLORFACT.FR relève de la législation française et internationale sur le droit d’auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques. Il constitue une œuvre originale protégée par le droit de la propriété intellectuelle. En application du code de la propriété intellectuelle, chacun des éléments qui le compose, en ce compris tout texte, illustration, photographie, logo, graphisme, documentation, plan, dessin, animation, vidéo, son, ne peut être utilisé, représenté ou reproduit sur un quelconque support sans l’obtention préalable de l’autorisation de la société COLORFACT."
+      },
+      {
+        "heading": "Liens hypertextes",
+        "description": "L’établissement de liens vers une ou plusieurs pages du site internet de https://www.colorfact.fr ne peut être autorisé que par la société COLORFACT (contact@colorfact.fr). Toute demande d’établissement de liens devra transmise à cette dernière. Dans le cas où un lien serait autorisé, il devra être accompagné d’une mention explicite de sa source, et la page pointée par celui-ci ne devra pas être ouverte à l’intérieur de la page d’un autre site internet mais à l’extérieur de celui-ci (nouvelle fenêtre, nouvel onglet, etc.), afin d’éviter tout risque de confusion de contenu.Les liens vers d’autres sites internet ne sont communiqués qu’à titre indicatif.Politique de protection des données personnelles"
+      },
+      {
+        "contact": [
+          {
+            "heading": "Responsable de publication",
+            "name": "Antoine Massonnat",
+            "phone": "+33 (0)6 79 89 71 91"
+          },
+          {
+            "heading": "Hébergeur",
+            "address": "OVH – 2 rue Kellermann – 59100 Roubaix – France",
+            "phone": "+33 (0)9 72 10 10 07"
+          }
+        ]
+      },
+      {
+        "heading": "Liens hypertextes:",
+        "description": [
+          "L’établissement de liens vers une ou plusieurs pages du site internet de https://www.colorfact.fr ne peut être autorisé que par la société COLORFACT (contact@colorfact.fr). Toute demande d’établissement de liens devra transmise à cette dernière. Dans le cas où un lien serait autorisé, il devra être accompagné d’une mention explicite de sa source, et la page pointée par celui-ci ne devra pas être ouverte à l’intérieur de la page d’un autre site internet mais à l’extérieur de celui-ci (nouvelle fenêtre, nouvel onglet, etc.), afin d’éviter tout risque de confusion de contenu.",
+          "Les liens vers d’autres sites internet ne sont communiqués qu’à titre indicatif.",
+          "Politique de protection des données personnelles"
+        ],
+        "list": [
+          {
+            "heading": "1 - Champ d'application",
+            "description": [
+              "Ce document a pour objectif de vous expliquer la manière dont la société COLORFACT (ci-après « la Société ») utilise vos données à caractère personnel (ci-après les « Données ») collectées en ligne notamment sur le site https://www.colorfact.fr (le « Site »). En effet, pour assurer le fonctionnement du Site, la société est amenée à collecter un certain nombre de Données.",
+              "Cette politique vous informe sur vos droits concernant les traitements des Données que la Société effectue, notamment votre droit d’opposition."
+            ]
+          },
+       
+  {
+      "heading": "2- Principes de collecte des données à caractère personnel",
+      "description": [
+        "Définition",
+        "Une donnée à caractère personnel est une information relative à une personne physique susceptible d'être identifiée, directement ou indirectement (Source : cnil.fr/fr/cnil-direct/question/une-donnee-caractere-personnel-cest-quoi).",
+        "Par exemple : un nom, une photo, une adresse postale, une adresse mail, un numéro de téléphone, une adresse IP, un identifiant de connexion, un enregistrement vocal, etc.",
+        "La Société collecte les Données des personnes physiques majeures. Par conséquent, la responsabilité de la Société ne saurait être engagée et la Société se réserve le droit (i) de procéder à tout contrôle concernant l’âge de la personne concernée et (ii) le cas échéant, de supprimer immédiatement tout accès au Site et aux Services proposés si les conditions susvisées n’étaient pas remplies.",
+        "Lors de votre utilisation du site la Société collecte notamment les Données suivantes :"
+      ],
+      "list": [
+        "Nom, prénom",
+        "Adresse e-mail et numéro de téléphone (mais uniquement si transmis volontairement via le formulaire de contact)",
+        "Message ou informations renseignées dans les éventuels formulaires du Site"
+      ],
+      "footerText": [
+        " La Société ne collecte pas de données relevant de « catégories particulières » au sens RGPD (données relatives à la santé, préférences sexuelles, opinions politiques, croyances religieuses ...).",
+        "Collecte :",
+        "La Société collecte des Données pour :",
+        "Finalités – Base légale",
+        "Répondre à votre demande de contact via le formulaire de contact – Consentement",
+        "Gérer les prospects – Consentement",
+        "Communication – Consentement",
+        "Nous procédons au traitement de vos Données collectées via les cookies dont le dépôt et l’installation sont soumis à consentement, et pour les finalités qui sont indiquées dans le bandeau d’information, présent dès la première navigation sur notre Site.",
+        "Certaines Données sont obligatoires, d’autres sont facultatives conformément à ce qui vous est indiqué au moment de la collecte des Données.",
+        "Des données de connexions (date, heure, protocole de l’ordinateur du visiteur, pages consultées) sont également collectée à des fins statistiques.",
+        "La Société collecte également les informations en lien avec le terminal utilisé aux fins de se connecter au Site Internet (le type de terminal, le système d’exploitation, le navigateur, le fournisseur d’accès, l’adresse IP du terminal, les données de géolocalisation du terminal)."
+      ]
+    }
+
+        ]
+      }
+    ]
+  }
+}

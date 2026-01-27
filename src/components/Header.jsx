@@ -28,7 +28,7 @@ const Header = () => {
         {/* 🟢 Center (Navigation Menu) */}
         <nav className="hidden lg:flex items-center justify-center gap-x-8 font-medium text-[#333] w-1/3">
           <Link
-            href={"#"}
+            href={"/notre-histoire"}
           >
          <h5 className="hover:text-[#F16935] transition-colors whitespace-nowrap"> Notre Histoire</h5>
           </Link>
@@ -123,7 +123,7 @@ const Header = () => {
 {/*  */}
           {/* Drawer Links */}
           <nav className="flex flex-col gap-5 text-[#333] text-[1.1rem] font-medium">
-            <Link href="/our-story" onClick={() => setDrawerOpen(false)}>
+            <Link href="/notre-histoire" onClick={() => setDrawerOpen(false)}>
               Notre Histoire
             </Link>
             <Link href={"/tendances"} onClick={() => setDrawerOpen(false)}>

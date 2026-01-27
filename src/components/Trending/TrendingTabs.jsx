@@ -44,7 +44,7 @@ const TrendingTabs = () => {
 
   return (
     <div>
-      🔹 DESKTOP TABS
+      
       <div className="hidden lg:flex flex-wrap gap-4 justify-center items-center sticky top-[8%] bg-[#F9F3E9] py-[2%]">
         {categories.map((cat) => (
           <button

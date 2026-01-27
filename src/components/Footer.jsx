@@ -15,7 +15,7 @@ const Footer = () => {
         <nav className="flex flex-wrap justify-center items-center gap-6  text-[0.8rem] lg:text-sm font-medium">
           <FooterLink
             //  href="/politique-de-confidentialite"
-            href={"#"}
+            href={"/politique-de-confidentialite"}
           >
             Politique de confidentialité
           </FooterLink>
@@ -26,6 +26,12 @@ const Footer = () => {
             Conditions d’utilisation
           </FooterLink>
           <FooterLink
+            //  href="/aide-et-contact"
+            href={"#"}
+          >
+            Aide & Contact
+          </FooterLink>
+           <FooterLink
             //  href="/aide-et-contact"
             href={"#"}
           >

@@ -26,7 +26,7 @@ const Banner = () => {
       </div>
 {/*  */}
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center">
+      <div className="relative z-10  flex-col hidden lg:flex items-center text-center">
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center w-full">
           <Link
             href={"/image-search"}
