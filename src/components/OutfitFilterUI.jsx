@@ -108,6 +108,7 @@ const OutfitFilterPage = () => {
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {},
   );
+
   console.log("apo",apiOutfitData);
   
   const outfitKeys = Object.keys(outfitData);
@@ -119,6 +120,8 @@ const clothingTypes = Array.from(
       .flatMap(([_, categoryObj]) => Object.keys(categoryObj))
   )
 );
+console.log("clot",clothingTypes);
+
 const Brands = Array.from(
   new Set(
     Object.entries(outfitData)
@@ -136,6 +139,8 @@ console.log("All Clothing Types:", Brands);
 
 
   const recommendations = apiOutfitData?.recommendations || [];
+   const hasRecommendations =
+    Array.isArray(recommendations) && recommendations.length > 0;
 
 
 
@@ -226,39 +231,38 @@ console.log("All Clothing Types:", Brands);
       setLoading(true);
 
       // Adjust colors with intensity
-      const adjustedColors =
-        Array.isArray(colorData) && colorData.length
-          ? colorData
-              .map((c, i) => {
-                let hexValue = typeof c === "object" && c.hex ? c.hex : c;
+const adjustedColors =
+  Array.isArray(colorData) && colorData.length
+    ? colorData
+        .map((c, i) => {
+          let hexValue = typeof c === "object" && c.hex ? c.hex : c;
 
-                // ✅ Ensure starts with #
-                if (!hexValue.startsWith("#")) {
-                  hexValue = "#" + hexValue.replace(/^#*/, "");
-                }
+          // ✅ Ensure starts with #
+          if (!hexValue.startsWith("#")) {
+            hexValue = "#" + hexValue.replace(/^#*/, "");
+          }
 
-                // ✅ Normalize shorthand (#ABC → #AABBCC)
-                if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
-                  hexValue =
-                    "#" +
-                    hexValue
-                      .slice(1)
-                      .split("")
-                      .map((ch) => ch + ch)
-                      .join("");
-                }
+          // ✅ Normalize shorthand (#ABC → #AABBCC)
+          if (/^#([A-Fa-f0-9]{3})$/.test(hexValue)) {
+            hexValue =
+              "#" +
+              hexValue
+                .slice(1)
+                .split("")
+                .map((ch) => ch + ch)
+                .join("");
+          }
 
-                // ✅ Uppercase + length check
-                hexValue = hexValue.toUpperCase();
-                if (!/^#[A-F0-9]{6}$/.test(hexValue)) {
-                  console.warn("Skipping invalid color:", hexValue);
-                  return null;
-                }
+          // ✅ APPLY INTENSITY HERE
+          const rgbAdjusted = adjustColor(hexValue, colorIntensity[i]);
 
-                return hexValue;
-              })
-              .filter(Boolean)
-          : [];
+          // ✅ Convert rgb back to hex for API
+          const finalHex = rgbToHex(rgbAdjusted);
+
+          return finalHex;
+        })
+        .filter(Boolean)
+    : [];
 
       // ✅ Call the helper function directly (no more /api call)
       const data = await getOutfitRecommendation({
@@ -315,15 +319,22 @@ data: fallbackCategories?.filter(
   (cat) => cat.name !== "selectedGender"
 ),
         },
-        ...(clothingTypes?.length > 0 || categoriesFromRecommendations?.length > 0
-  ? [
-    {
-                id: "outfits",
-                title: "Outfits",
-                data: categoriesFromRecommendations?categoriesFromRecommendations: clothingTypes?.map((type) => ({ name: type })),
-              },
-    ]
-  : []),
+   ...(
+  (hasRecommendations
+    ? categoriesFromRecommendations?.length > 0
+    : clothingTypes?.length > 0)
+    ? [
+        {
+          id: "outfits",
+          title: "Outfits",
+          data: hasRecommendations
+            ? categoriesFromRecommendations
+            : clothingTypes.map((type) => ({ name: type })),
+        },
+      ]
+    : []
+),
+
               
 ...(Brands?.length > 0 || brandsFromRecommendations.length > 0
   ? [
@@ -765,7 +776,7 @@ data: fallbackCategories?.filter(
           <SlidersHorizontal size={30} />
         </button>
 
-        <aside className="hidden lg:block md:w-[30%] 2xl:w-[20%] sticky top-30 mt-[2%]">
+        <aside className="hidden lg:block md:w-[30%] 2xl:w-[20%] sticky top-25 mt-[2%]">
           <h4 className="mb-[2%] ">Filtres</h4>
           {renderFilterSections()}
         </aside>
@@ -876,15 +887,15 @@ const GenderData=[
   },
     {
     name:"Casual hiver",
-    image:"/HommeImages/CasualEte.png",
+    image:"/HommeImages/CasualHiver.png",
   },
     {
     name:"Professionnel",
-    image:"/HommeImages/CasualEte.png",
+    image:"/HommeImages/Professional.png",
   },
     {
     name:"Sportswear",
-    image:"/HommeImages/CasualEte.png",
+    image:"/HommeImages/SportWear.png",
   }
     ]
   },
