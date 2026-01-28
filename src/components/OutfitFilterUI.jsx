@@ -103,15 +103,41 @@ const adjustColor = (hex, percent = 50) => {
 const OutfitFilterPage = () => {
   const outfitData = useSelector((state) => state.imageDetails.details || {});
 
+  console.log("outfitData",outfitData);
+  
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {},
   );
+  console.log("apo",apiOutfitData);
+  
   const outfitKeys = Object.keys(outfitData);
+
+const clothingTypes = Array.from(
+  new Set(
+    Object.entries(outfitData)
+      .filter(([key]) => key !== "selectedGender") // ✅ remove gender
+      .flatMap(([_, categoryObj]) => Object.keys(categoryObj))
+  )
+);
+const Brands = Array.from(
+  new Set(
+    Object.entries(outfitData)
+      .filter(([key]) => key !== "selectedGender")
+      .flatMap(([_, categoryObj]) =>
+        Object.values(categoryObj) // Jean, Bonnet, Sneakers arrays
+          .flat()
+          .map((item) => item.brand)
+          .filter(Boolean) // remove null / undefined / empty
+      )
+  )
+);
+
+console.log("All Clothing Types:", Brands);
+
 
   const recommendations = apiOutfitData?.recommendations || [];
 
-  const hasRecommendations =
-    Array.isArray(recommendations) && recommendations.length > 0;
+
 
   const categoriesFromRecommendations = Array.from(
     new Set(recommendations.map((item) => item.category).filter(Boolean)),
@@ -285,26 +311,33 @@ const OutfitFilterPage = () => {
         {
           id: "category",
           title: "Catégorie",
-          data: fallbackCategories,
+data: fallbackCategories?.filter(
+  (cat) => cat.name !== "selectedGender"
+),
         },
-        ...(hasRecommendations
-          ? [
-              {
+        ...(clothingTypes?.length > 0 || categoriesFromRecommendations?.length > 0
+  ? [
+    {
                 id: "outfits",
                 title: "Outfits",
-                data: categoriesFromRecommendations,
+                data: categoriesFromRecommendations?categoriesFromRecommendations: clothingTypes?.map((type) => ({ name: type })),
               },
-            ]
-          : []),
-        ...(brandsFromRecommendations.length > 0
-          ? [
-              {
-                id: "brands",
-                title: "Marques",
-                data: brandsFromRecommendations,
-              },
-            ]
-          : []),
+    ]
+  : []),
+              
+...(Brands?.length > 0 || brandsFromRecommendations.length > 0
+  ? [
+      {
+        id: "brands",
+        title: "Marques",
+        data:
+          Brands?.length > 0
+            ? Brands.map((b) => ({ name: b }))
+            : brandsFromRecommendations,
+      },
+    ]
+  : []),
+
         // {
         //   id: "avoid",
         //   title: "Marques à éviter",
@@ -318,11 +351,12 @@ const OutfitFilterPage = () => {
         >
           <div
             onClick={() => {
-              if (section.id !== "outfits") toggleSection(section.id);
+              toggleSection(section.id);
             }}
-            className={`flex items-center justify-between cursor-pointer mb-[2%]`}
+            className={`flex items-center justify-between ${section.id === "outfits" || section.id === "category"?"cursor-default":"cursor-pointer"}  mb-[2%]`}
           >
             <h5 className="font-bold">{section.title}</h5>
+            {section.id === "outfits" || section.id === "category" ? null : ( 
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"}
@@ -337,12 +371,12 @@ const OutfitFilterPage = () => {
                 strokeWidth={2}
                 d="M19 9l-7 7-7-7"
               />
-            </svg>
+            </svg>)}
           </div>
 
           <div
             className={`transition-all duration-500 ease-in-out overflow-hidden ${
-              openSection === section.id || section.id === "outfits"
+              openSection === section.id || section.id === "outfits" || section.id === "category"
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
@@ -463,43 +497,7 @@ const OutfitFilterPage = () => {
                 );
               })}
 
-            {section.id === "outfits" &&
-              section.data.map((cat, i) => (
-                <label
-                  key={i}
-                  className={`flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors`}
-                >
-                  <input
-                    type="radio"
-                    name="category"
-                    value={tempFilters.category === cat.name}
-                    onChange={() => {
-                      setFiltersApplied(false);
-                      setTempFilters((prev) => ({
-                        ...prev,
-                        category: prev.category === cat.name ? "" : cat.name,
-                      }));
-                    }}
-                    className={`w-4 h-4 cursor-pointer transition-all duration-200
-    ${
-      tempFilters.category === cat.name
-        ? "accent-[#F16935] font-bold"
-        : "accent-gray-400 font-normal"
-    }
-  `}
-                  />
-
-                  <h6
-                    className={
-                      tempFilters.category === cat.name
-                        ? "accent-[#F16935] font-bold"
-                        : "accent-gray-400 font-normal"
-                    }
-                  >
-                    {cat.name}
-                  </h6>
-                </label>
-              ))}
+   
 
             {section.id === "category" &&
               section.data.map((cat, i) => (
@@ -507,25 +505,28 @@ const OutfitFilterPage = () => {
                   key={i}
                   className={`flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors`}
                 >
-                  <input
-                    type="radio"
-                    name="category"
-                    value={tempFilters.category === cat.name}
-                    onChange={() => {
-                      setFiltersApplied(false);
-                      setTempFilters((prev) => ({
-                        ...prev,
-                        category: prev.category === cat.name ? "" : cat.name,
-                      }));
-                    }}
-                    className={`w-4 h-4 cursor-pointer transition-all duration-200
+               <input
+  type="checkbox"
+  name="category"
+  value={cat.name}
+  checked={tempFilters.category === cat.name}
+  onChange={() => {
+    setFiltersApplied(false);
+
+    setTempFilters((prev) => ({
+      ...prev,
+      category: prev.category === cat.name ? "" : cat.name,
+    }));
+  }}
+  className={`w-4 h-4 cursor-pointer transition-all duration-200
     ${
       tempFilters.category === cat.name
-        ? "accent-[#F16935] font-bold"
-        : "accent-gray-400 font-normal"
+        ? "accent-[#F16935]"
+        : "accent-gray-400"
     }
   `}
-                  />
+/>
+
 
                   <h6
                     className={
@@ -538,8 +539,46 @@ const OutfitFilterPage = () => {
                   </h6>
                 </label>
               ))}
-            {brandsFromRecommendations.length > 0 &&
-              section.id === "brands" &&
+                       {section.id === "outfits" &&
+              section.data.map((cat, i) => (
+                <label
+                  key={i}
+                  className={`flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors`}
+                >
+               <input
+  type="checkbox"
+  name="category"
+  value={cat.name}
+  checked={tempFilters.category === cat.name}
+  onChange={() => {
+    setFiltersApplied(false);
+
+    setTempFilters((prev) => ({
+      ...prev,
+      category: prev.category === cat.name ? "" : cat.name,
+    }));
+  }}
+  className={`w-4 h-4 cursor-pointer transition-all duration-200
+    ${
+      tempFilters.category === cat.name
+        ? "accent-[#F16935]"
+        : "accent-gray-400"
+    }
+  `}
+/>
+                  <h6
+                    className={
+                      tempFilters.category === cat.name
+                        ? "accent-[#F16935] font-bold"
+                        : "accent-gray-400 font-normal"
+                    }
+                  >
+                    {cat.name}
+                  </h6>
+                  
+                </label>
+              ))}
+              {section.id === "brands" &&
               section.data.map((b, i) => (
                 <label
                   key={i}
@@ -553,7 +592,15 @@ const OutfitFilterPage = () => {
                     }
                     className="accent-[#F16935]"
                   />
-                  <h5>{b.name}</h5>
+                 <h6
+                    className={
+                      tempFilters.brands.includes(b.name)
+                        ? "accent-[#F16935] font-bold"
+                        : "accent-gray-400 font-normal"
+                    }
+                  >
+                    {b.name}
+                  </h6>
                 </label>
               ))}
 
@@ -702,7 +749,6 @@ const OutfitFilterPage = () => {
     },
   );
 
-  console.log("fil", filteredData);
 
   return (
     <motion.div
@@ -768,11 +814,8 @@ const OutfitFilterPage = () => {
               if (!grouped[cat]) grouped[cat] = [];
               grouped[cat].push(item);
             });
-
             const categories = Object.keys(grouped);
             const catCount = categories.length;
-            const cycle = catCount % 3;
-
             return (
               <div className="flex flex-wrap w-full gap-[2%] mb-[2rem]">
                 {Object.keys(grouped).map((cat) => {
@@ -817,9 +860,94 @@ const OutfitFilterPage = () => {
         ) : (
           <div className="w-full flex flex-wrap gap-x-[2%]">
             {filteredData.map(([key, categoryData]) => {
+                const selectedGender = outfitData?.selectedGender;
+
               const firstProduct = Object.values(categoryData)
                 .flat()
                 .find((item) => item?.["image_url_1"]);
+const GenderData=[
+
+  {
+    gender:"Homme",
+    Images:[
+        {
+    name:"Casual été",
+    image:"/HommeImages/CasualEte.png",
+  },
+    {
+    name:"Casual hiver",
+    image:"/HommeImages/CasualEte.png",
+  },
+    {
+    name:"Professionnel",
+    image:"/HommeImages/CasualEte.png",
+  },
+    {
+    name:"Sportswear",
+    image:"/HommeImages/CasualEte.png",
+  }
+    ]
+  },
+  {
+    gender:"Femme",
+    Images:[
+        {
+    name:"Casual été",
+    image:"/FemmeImages/CasualEte.png",
+  },
+    {
+    name:"Casual hiver",
+    image:"/FemmeImages/CasualHiver.png",
+  },
+    {
+    name:"Professionnel",
+    image:"/FemmeImages/Professional.png",
+  },
+    {
+    name:"Sportswear",
+    image:"/FemmeImages/SportWear.png",
+  }
+    ]
+  },
+    {
+    gender:"Mixte",
+    Images:[
+            {
+    name:"Casual été",
+    image:"/HommeImages/CasualEte.png",
+  },
+    {
+    name:"Casual hiver",
+    image:"/HommeImages/CasualEte.png",
+  },
+    {
+    name:"Professionnel",
+    image:"/FemmeImages/Professional.png",
+  },
+    {
+    name:"Sportswear",
+    image:"/FemmeImages/SportWear.png",
+  }
+    ]
+  }
+
+
+
+
+];
+  const genderObj = GenderData.find(
+    (g) => g.gender === selectedGender
+  );
+  const matchedImage = genderObj?.Images?.find(
+    (img) => img.name === key
+  );
+    const bannerImage =
+    matchedImage?.image ||
+    Object.values(categoryData)
+      .flat()
+      .find((item) => item?.image_url_1)?.image_url_1;
+
+console.log("filteredData",filteredData);
 
               return (
                 <div
@@ -843,7 +971,7 @@ const OutfitFilterPage = () => {
                 >
                   <div className="relative w-full h-[25rem] lg:h-[11vw]">
                     <Image
-                      src={firstProduct?.["image_url_1"] || "/color-fact.png"}
+                      src={bannerImage}
                       alt={key}
                       fill
                       className={`object-contain transition-all duration-300 ${

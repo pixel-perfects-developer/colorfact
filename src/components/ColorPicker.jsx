@@ -75,9 +75,15 @@ const handleAnalyze = async () => {
       dispatch(setOutfits([]));       // clear previous outfits
       return;                         // do NOT redirect
     }
+console.log("res",response);
 
     // ✅ CASE 2: Outfits found → proceed normally
-    dispatch(setImageDetails(response.outfits));
+dispatch(
+  setImageDetails({
+    ...response.outfits,
+    selectedGender: gender,
+  })
+);
     router.push("/articles-assortis");
 
   } catch (err) {

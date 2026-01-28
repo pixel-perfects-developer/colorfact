@@ -25,13 +25,6 @@ const Footer = () => {
           >
             Conditions d’utilisation
           </FooterLink>
-          <FooterLink
-            //  href="/aide-et-contact"
-            href={"#"}
-          >
-            Aide & Contact
-          </FooterLink>
-          
         </nav>
 
         {/* 🔹 Right: Social Icons (Lucide) */}

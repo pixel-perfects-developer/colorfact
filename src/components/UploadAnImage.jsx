@@ -70,8 +70,8 @@ const UploadAnImage = () => {
           dispatch(setOutfits([]));
           return;
         }
-        dispatch(setImageDetails(outfitResponse.outfits));
-        dispatch(setOutfits(outfitResponse.outfits));
+        dispatch(setImageDetails(outfitResponse));
+        dispatch(setOutfits(outfitResponse));
 
         formik.resetForm();
         setImagePreview(null);
