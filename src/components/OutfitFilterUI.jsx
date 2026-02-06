@@ -364,10 +364,10 @@ data: fallbackCategories?.filter(
             onClick={() => {
               toggleSection(section.id);
             }}
-            className={`flex items-center justify-between ${section.id === "outfits" || section.id === "category"?"cursor-default":"cursor-pointer"}  mb-[2%]`}
+            className={`flex items-center justify-between ${ section.id === "category"?"cursor-default":"cursor-pointer"}  mb-[2%]`}
           >
             <h5 className="font-bold">{section.title}</h5>
-            {section.id === "outfits" || section.id === "category" ? null : ( 
+            {section.id === "category" ? null : ( 
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"}
@@ -387,7 +387,7 @@ data: fallbackCategories?.filter(
 
           <div
             className={`transition-all duration-500 ease-in-out overflow-hidden ${
-              openSection === section.id || section.id === "outfits" || section.id === "category"
+              openSection === section.id  || section.id === "category"
                 ? "max-h-[500px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
@@ -589,31 +589,35 @@ data: fallbackCategories?.filter(
                   
                 </label>
               ))}
-              {section.id === "brands" &&
-              section.data.map((b, i) => (
-                <label
-                  key={i}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={tempFilters.brands.includes(b.name)}
-                    onChange={(e) =>
-                      handleCheckbox("brands", b.name, e.target.checked)
-                    }
-                    className="accent-[#F16935]"
-                  />
-                 <h6
-                    className={
-                      tempFilters.brands.includes(b.name)
-                        ? "accent-[#F16935] font-bold"
-                        : "accent-gray-400 font-normal"
-                    }
-                  >
-                    {b.name}
-                  </h6>
-                </label>
-              ))}
+          {section.id === "brands" &&
+  [...section.data]   // ✅ copy array (important)
+    .sort((a, b) => a.name.localeCompare(b.name))   // ✅ alphabetical sort
+    .map((b, i) => (
+      <label
+        key={i}
+        className="flex items-center gap-2 cursor-pointer"
+      >
+        <input
+          type="checkbox"
+          checked={tempFilters.brands.includes(b.name)}
+          onChange={(e) =>
+            handleCheckbox("brands", b.name, e.target.checked)
+          }
+          className="accent-[#F16935]"
+        />
+
+        <h6
+          className={
+            tempFilters.brands.includes(b.name)
+              ? "accent-[#F16935] font-bold"
+              : "accent-gray-400 font-normal"
+          }
+        >
+          {b.name}
+        </h6>
+      </label>
+    ))}
+
 
             {section.id === "avoid" &&
               section.data.map((b, i) => (
@@ -768,20 +772,14 @@ data: fallbackCategories?.filter(
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="bg-[#faf5e7] min-h-[calc(100vh-17rem)]  lg:min-h-[calc(100vh-18vh)] lg:pb-[2%]"
     >
-      <div className="container-global py-0 flex flex-col items-start md:flex-row gap-x-[4%] 2xl:gap-x-[4%] relative">
-         <button
-          className="lg:hidden flex sticky top-[10%] left-2 justify-end mb-4 "
-          onClick={() => setShowFilters(true)}
-        >
-          <SlidersHorizontal size={30} />
-        </button>
-
+      <div className="container-global py-0 flex  items-start md:flex-row gap-x-[4%] 2xl:gap-x-[4%] relative mb-[1rem] lg:mb-0">
+ 
         <aside className="hidden lg:block md:w-[30%] 2xl:w-[20%] sticky top-25 mt-[2%]">
           <h4 className="mb-[2%] ">Filtres</h4>
           {renderFilterSections()}
         </aside>
         <div
-          className={`lg:hidden fixed inset-0 z-[3001] transition-all duration-500 ease-in-out ${
+          className={`lg:hidden fixed inset-0 z-[3001]  transition-all duration-500 ease-in-out ${
             showFilters ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
         >
@@ -795,7 +793,7 @@ data: fallbackCategories?.filter(
 
           {/* Drawer Panel */}
           <div
-            className={`absolute top-0 right-0 h-full w-[70%] md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
+            className={`absolute top-0 right-0 h-full w-[70%] overflow-y-auto  md:w-[50%] bg-white p-6 shadow-lg transform transition-transform duration-[600ms] ease-in-out ${
               showFilters ? "translate-x-0" : "translate-x-full"
             }`}
           >
@@ -805,7 +803,7 @@ data: fallbackCategories?.filter(
             >
               <X size={28} />
             </button>
-            <div className="mt-[2rem]">{renderFilterSections()}</div>
+            <div className="my-[2rem]">{renderFilterSections()}</div>
           </div>
         </div>
         {/* ✅ Outfit Cards */}
@@ -826,7 +824,6 @@ data: fallbackCategories?.filter(
               grouped[cat].push(item);
             });
             const categories = Object.keys(grouped);
-            const catCount = categories.length;
             return (
               <div className="flex flex-wrap w-full gap-[2%] mb-[2rem]">
                 {Object.keys(grouped).map((cat) => {
@@ -976,20 +973,21 @@ console.log("filteredData",filteredData);
                   }}
                   className={`${
                     !firstProduct ? "cursor-default" : "cursor-pointer"
-                  } py-[1rem] mt-[2%] lg:p-0 w-full md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
+                  }  mt-[1rem] lg:mt-[2%] lg:p-0 w-full md:w-[48%] bg-[#f6f6f6] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${
                     !firstProduct ? "opacity-60 cursor-not-allowed" : ""
                   }`}
                 >
-                  <div className="relative w-full h-[25rem] lg:h-[11vw]">
-                    <Image
-                      src={bannerImage}
-                      alt={key}
-                      fill
-                      className={`object-contain transition-all duration-300 ${
-                        !firstProduct ? "grayscale opacity-80" : ""
-                      }`}
-                    />
-                  </div>
+            <div className="relative w-[60%] mx-auto h-[32rem] lg:h-[22vw] ">
+  <Image
+    src={bannerImage}
+    alt={key}
+    fill
+    className={`object-cover object-top transition-all duration-300 ${
+      !firstProduct ? "grayscale opacity-80" : ""
+    }`}
+  />
+</div>
+
 
                   <div className="p-5 bg-[#F16935]/10">
                     <h4 className="flex items-center justify-between gap-2">
@@ -1007,6 +1005,13 @@ console.log("filteredData",filteredData);
             })}
           </div>
         )}
+                <button
+          className="lg:hidden flex sticky top-[10%]  left-2 justify-end mb-4 "
+          onClick={() => setShowFilters(true)}
+        >
+          <SlidersHorizontal size={30} />
+        </button>
+
       </div>
     </motion.div>
   );
