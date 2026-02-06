@@ -551,10 +551,13 @@ data: fallbackCategories?.filter(
                 </label>
               ))}
                        {section.id === "outfits" &&
-              section.data.map((cat, i) => (
+              <div className="lg:h-[15vw] overflow-y-auto">
+
+                    
+              {section.data.map((cat, i) => (
                 <label
                   key={i}
-                  className={`flex items-center gap-2 cursor-pointer p-1 rounded-md transition-colors`}
+                  className={`flex items-center gap-2 cursor-pointer p-1  rounded-md transition-colors`}
                 >
                <input
   type="checkbox"
@@ -589,6 +592,8 @@ data: fallbackCategories?.filter(
                   
                 </label>
               ))}
+               </div>  
+}
           {section.id === "brands" &&
   [...section.data]   // ✅ copy array (important)
     .sort((a, b) => a.name.localeCompare(b.name))   // ✅ alphabetical sort
