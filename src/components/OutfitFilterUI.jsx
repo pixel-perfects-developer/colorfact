@@ -265,21 +265,24 @@ const adjustedColors =
     : [];
 
       // ✅ Call the helper function directly (no more /api call)
-      const data = await getOutfitRecommendation({
-        inputColors: adjustedColors,
-        type: selectedType,
-        minPrice: tempFilters.minPrice,
-        maxPrice: tempFilters.maxPrice,
-        wantedBrands: tempFilters.brands,
-        removedBrands: tempFilters.avoid,
-      });
+const data = await getOutfitRecommendation({
+  inputColors: adjustedColors,
+  type: tempFilters.category,
+  minPrice: tempFilters.minPrice,
+  maxPrice: tempFilters.maxPrice,
+  wantedBrands: tempFilters.brands,
+  removedBrands: tempFilters.avoid,
+});
+
       setShowFilters(false);
       if (data.error) {
         throw new Error(data.error);
       }
 
       // ✅ Update Redux
-      dispatch(setOutfits(data));
+      // dispatch(setOutfits(data));
+
+      dispatch(setOutfits({ ...data }));
 
       setFiltersApplied(true);
       console.log("✅ Filtered outfit data:", data);
@@ -312,21 +315,21 @@ const adjustedColors =
     <>
       {[
         { id: "color", title: "Couleur", data: colors },
-        {
-          id: "category",
-          title: "Catégorie",
-data: fallbackCategories?.filter(
-  (cat) => cat.name !== "selectedGender"
-),
-        },
+//         {
+//           id: "category",
+//           title: "Catégorie",
+// data: fallbackCategories?.filter(
+//   (cat) => cat.name !== "selectedGender"
+// ),
+//         },
    ...(
   (hasRecommendations
     ? categoriesFromRecommendations?.length > 0
     : clothingTypes?.length > 0)
     ? [
         {
-          id: "outfits",
-          title: "Outfits",
+          id: "category",
+          title: "Categories",
           data: hasRecommendations
             ? categoriesFromRecommendations
             : clothingTypes.map((type) => ({ name: type })),
@@ -367,7 +370,6 @@ data: fallbackCategories?.filter(
             className={`flex items-center justify-between ${ section.id === "category"?"cursor-default":"cursor-pointer"}  mb-[2%]`}
           >
             <h5 className="font-bold">{section.title}</h5>
-            {section.id === "category" ? null : ( 
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={`w-4 h-4 ml-2 text-gray-600 transition-transform duration-300 ${openSection === section.id ? "rotate-180" : "rotate-0"}
@@ -382,7 +384,7 @@ data: fallbackCategories?.filter(
                 strokeWidth={2}
                 d="M19 9l-7 7-7-7"
               />
-            </svg>)}
+            </svg>
           </div>
 
           <div
@@ -510,7 +512,7 @@ data: fallbackCategories?.filter(
 
    
 
-            {section.id === "category" &&
+            {/* {section.id === "category" &&
               section.data.map((cat, i) => (
                 <label
                   key={i}
@@ -549,8 +551,8 @@ data: fallbackCategories?.filter(
                     {cat.name}
                   </h6>
                 </label>
-              ))}
-                       {section.id === "outfits" &&
+              ))} */}
+                       {section.id === "category" &&
               <div className="lg:h-[15vw] overflow-y-auto">
 
                     
@@ -768,6 +770,9 @@ data: fallbackCategories?.filter(
       );
     },
   );
+const hasApiData =
+  Array.isArray(apiOutfitData?.recommendations) &&
+  apiOutfitData.recommendations.length > 0;
 
 
   return (
@@ -812,15 +817,14 @@ data: fallbackCategories?.filter(
           </div>
         </div>
         {/* ✅ Outfit Cards */}
-        {Array.isArray(apiOutfitData?.recommendations) &&
-        apiOutfitData.recommendations.length === 0 ? (
+{filtersApplied && !hasApiData ? (
           <div className="w-full flex justify-center items-center py-20">
             <p className="text-gray-500 text-lg font-medium">
               Données introuvables, veuillez réinitialiser.
             </p>
             <a href=""></a>
           </div>
-        ) : apiOutfitData?.recommendations?.length > 0 ? (
+        ) : hasApiData ? (
           (() => {
             const grouped = {};
             apiOutfitData.recommendations.forEach((item) => {
@@ -982,7 +986,7 @@ console.log("filteredData",filteredData);
                     !firstProduct ? "opacity-60 cursor-not-allowed" : ""
                   }`}
                 >
-            <div className="relative w-[60%] mx-auto h-[32rem] lg:h-[22vw] ">
+            <div className="relative w-[60%] mx-auto h-[20rem] lg:h-[22vw] ">
   <Image
     src={bannerImage}
     alt={key}
@@ -1011,7 +1015,7 @@ console.log("filteredData",filteredData);
           </div>
         )}
                 <button
-          className="lg:hidden flex sticky top-[10%]  left-2 justify-end mb-4 "
+          className="lg:hidden flex sticky top-[6rem]  left-2 justify-end mb-4 "
           onClick={() => setShowFilters(true)}
         >
           <SlidersHorizontal size={30} />

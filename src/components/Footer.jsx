@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="w-full bg-[#F5F5F5] border-t border-[#E0E0E0] h-[12rem] lg:h-[8vh] flex flex-col justify-center items-center">
       <div className="container-global  flex flex-col lg:flex-row justify-between items-center gap-6 text-center lg:text-left animate-fadeInUp py-0 px-0">
         {/* 🔹 Left: Copyright */}
-        <p className="text-[#666]">© 2025 ColorFact — Tous droits réservés.</p>
+        <p className="text-[#666]">© 2025 ColorFact — Tous droits réservés. | Inspired by Jordan</p>
 
         {/* 🔹 Center: Footer Links */}
         <nav className="flex flex-wrap justify-center items-center gap-6  text-[0.8rem] lg:text-sm font-medium">
