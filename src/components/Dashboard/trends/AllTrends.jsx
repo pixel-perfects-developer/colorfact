@@ -273,7 +273,7 @@ const AllTrends = () => {
 
                   <td>
                     <div className="flex items-center gap-x-2">
-                      <Link href={`/tendances/${slugify(item.title)}` } ><EyeIcon className="size-[0.8vw] 2xl:size-4 hover:text-[#F16935]"/></Link>
+                      <Link href={`/tendances/detail?slug=${slugify(item.title)}` } ><EyeIcon className="size-[0.8vw] 2xl:size-4 hover:text-[#F16935]"/></Link>
                       <button className=""><Pencil className="size-[0.8vw] 2xl:size-4 hover:text-[#F16935]"/></button>
                       <button className=""><Trash2 className="size-[0.8vw] 2xl:size-4 hover:text-[#F16935]"/></button>
                         <Link href={`/dashboard/trends/${slugify(item.title)}` } ><ArrowRight className="size-[0.8vw] 2xl:size-4 hover:text-[#F16935]"/></Link>
@@ -303,7 +303,7 @@ const AllTrends = () => {
               label="Actions"
               value={
                 <div className="flex items-center gap-x-4 mt-[0.7rem]">
-                  <Link href={`/tendances/${slugify(item.title)}` } >  <EyeIcon size={16} /></Link>
+                  <Link href={`/tendances/detail?slug=${slugify(item.title)}` } >  <EyeIcon size={16} /></Link>
                   <Trash2 size={16} />
                   <Pencil size={16} />
                   <Link href={`/dashboard/trends/${slugify(item.title)}`} > <ArrowRight size={16} /></Link>

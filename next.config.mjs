@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: false,  // Keep this as false
-  output: "export",
   images: {
     unoptimized: true,
     remotePatterns: [

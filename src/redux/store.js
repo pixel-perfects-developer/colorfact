@@ -5,15 +5,17 @@ import { persistReducer, persistStore } from "redux-persist";
 import colorReducer from "./slices/colorSlice";
 import imageDetailsReducer from "./slices/imageDetailsSlice";
 import outfitRecommendationReducer from "./slices/outfitRecommendationSlice";
+import tendenciesReducer from "./slices/tendencies";
 
 const rootReducer = combineReducers({
   color: colorReducer,
   imageDetails: imageDetailsReducer,
   outfitRecommendation: outfitRecommendationReducer,
+  tendencies: tendenciesReducer, // ✅ already in your store
 });
 
 const persistConfig = {
-  key: "root",  
+  key: "root",
   storage,
 };
 
