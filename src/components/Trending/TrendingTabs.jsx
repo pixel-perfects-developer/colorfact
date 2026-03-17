@@ -92,9 +92,17 @@ const filteredTendencies = useMemo(
         document.addEventListener("pointerdown", handleClickOutside);
         return () => document.removeEventListener("pointerdown", handleClickOutside);
     }, []);
-
-
-
+if (isLoading) {
+  return (
+    <div className="w-full flex flex-col items-center justify-center py-20">
+      <div className="relative h-14 w-14">
+        <div className="absolute inset-0 rounded-full border-4 border-gray-200" />
+        <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#2F3E8F] animate-spin" />
+      </div>
+      <p className="mt-4 text-sm text-gray-500">Chargement des tendances...</p>
+    </div>
+  );
+}
     if (isError) {
         return (
             <div className="py-10 text-center text-gray-500">
