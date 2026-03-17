@@ -80,8 +80,8 @@ console.log("res",response);
     // ✅ CASE 2: Outfits found → proceed normally
 dispatch(
   setImageDetails({
-    ...response.outfits,
-    selectedGender: gender,
+    ...response,
+    gender: gender,
   })
 );
     router.push("/articles-assortis");

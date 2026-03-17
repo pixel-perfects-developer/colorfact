@@ -108,14 +108,13 @@ const OutfitFilterPage = () => {
   const apiOutfitData = useSelector(
     (state) => state.outfitRecommendation.outfits || {},
   );
-
-  console.log("apo",apiOutfitData);
+  console.log("api",apiOutfitData);
   
-  const outfitKeys = Object.keys(outfitData);
+  const outfitKeys = Object.keys(outfitData?.outfits);
 
 const clothingTypes = Array.from(
   new Set(
-    Object.entries(outfitData)
+    Object.entries(outfitData?.outfits)
       .filter(([key]) => key !== "selectedGender") // ✅ remove gender
       .flatMap(([_, categoryObj]) => Object.keys(categoryObj))
   )
@@ -124,7 +123,7 @@ console.log("clot",clothingTypes);
 
 const Brands = Array.from(
   new Set(
-    Object.entries(outfitData)
+    Object.entries(outfitData?.outfits)
       .filter(([key]) => key !== "selectedGender")
       .flatMap(([_, categoryObj]) =>
         Object.values(categoryObj) // Jean, Bonnet, Sneakers arrays
@@ -267,7 +266,7 @@ const adjustedColors =
       // ✅ Call the helper function directly (no more /api call)
 const data = await getOutfitRecommendation({
   inputColors: adjustedColors,
-  type: tempFilters.category,
+  type: tempFilters.category?.toLowerCase(),
   minPrice: tempFilters.minPrice,
   maxPrice: tempFilters.maxPrice,
   wantedBrands: tempFilters.brands,
@@ -597,12 +596,11 @@ const data = await getOutfitRecommendation({
                </div>  
 }
           {section.id === "brands" &&
-  [...section.data]   // ✅ copy array (important)
-    .sort((a, b) => a.name.localeCompare(b.name))   // ✅ alphabetical sort
-    .map((b, i) => (
+          <div className="lg:h-[15vw] overflow-y-auto">
+  {[...section.data] .sort((a, b) => a.name.localeCompare(b.name)).map((b, i) => (
       <label
         key={i}
-        className="flex items-center gap-2 cursor-pointer"
+        className="flex items-center gap-2 cursor-pointer p-1  rounded-md transition-colors"
       >
         <input
           type="checkbox"
@@ -624,6 +622,8 @@ const data = await getOutfitRecommendation({
         </h6>
       </label>
     ))}
+    </div>
+}
 
 
             {section.id === "avoid" &&
@@ -760,16 +760,17 @@ const data = await getOutfitRecommendation({
       </button>
     </>
   );
-  const filteredData = Object.entries(outfitData).filter(
-    ([_, categoryData]) => {
-      return (
-        categoryData &&
-        Object.values(categoryData).some(
-          (arr) => Array.isArray(arr) && arr.length > 0,
-        )
-      );
-    },
-  );
+ const actualData = outfitData?.outfits || {};
+
+const filteredData = Object.entries(actualData).filter(
+  ([key, categoryData]) => {
+    if (!categoryData || typeof categoryData !== "object") return false;
+
+    return Object.values(categoryData).some(
+      (arr) => Array.isArray(arr) && arr.length > 0
+    );
+  }
+);
 const hasApiData =
   Array.isArray(apiOutfitData?.recommendations) &&
   apiOutfitData.recommendations.length > 0;
@@ -822,7 +823,6 @@ const hasApiData =
             <p className="text-gray-500 text-lg font-medium">
               Données introuvables, veuillez réinitialiser.
             </p>
-            <a href=""></a>
           </div>
         ) : hasApiData ? (
           (() => {
@@ -836,7 +836,10 @@ const hasApiData =
             return (
               <div className="flex flex-wrap w-full gap-[2%] mb-[2rem]">
                 {Object.keys(grouped).map((cat) => {
-                  const first = grouped[cat][0];
+           const first =
+      grouped[cat].find(
+        (item) => item?.image_url_1 && item.image_url_1.trim() !== ""
+      ) || grouped[cat][0];
                   return (
                     <div
                       key={cat}
@@ -877,8 +880,7 @@ const hasApiData =
         ) : (
           <div className="w-full flex flex-wrap gap-x-[2%]">
             {filteredData.map(([key, categoryData]) => {
-                const selectedGender = outfitData?.selectedGender;
-
+                const selectedGender = outfitData?.gender;
               const firstProduct = Object.values(categoryData)
                 .flat()
                 .find((item) => item?.["image_url_1"]);

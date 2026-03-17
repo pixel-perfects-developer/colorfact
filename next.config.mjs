@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',   
   trailingSlash: false,  // Keep this as false
   images: {
     unoptimized: true,
@@ -9,6 +8,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "finessementality.com",
         pathname: "/cdn/**",
+      },
+            {
+        protocol: "https",
+        hostname: "www.sunspel.fr",
       },
       {
         protocol: "https",
@@ -30,6 +33,38 @@ const nextConfig = {
         protocol: "https",
         hostname: "colorfulstandard.com",
       },
+      {
+        protocol: "https",
+        hostname: "encore-atelier.com",
+      },
+      {
+        protocol: "https",
+        hostname: "media.street-one.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "circleessentials.s3.us-east-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "danyberd.com",
+      },
+      {
+        protocol: "https",
+        hostname: "media.cecile.com",
+      },
+      {
+        protocol: "https",
+        hostname: "harshandcruel.com",
+      },
+      {
+        protocol: "https",
+        hostname: "izzdu.com",
+      },
     ],
   },
   
@@ -37,6 +72,15 @@ const nextConfig = {
 
   async headers() {
     return [
+       {
+      source: '/(.*)',
+      headers: [
+        {
+          key: 'Content-Security-Policy',
+          value: 'upgrade-insecure-requests',
+        },
+      ],
+    },
       {
         source: '/api/:path*',
         headers: [

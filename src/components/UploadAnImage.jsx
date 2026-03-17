@@ -70,7 +70,11 @@ const UploadAnImage = () => {
           dispatch(setOutfits([]));
           return;
         }
-        dispatch(setImageDetails(outfitResponse));
+  dispatch(setImageDetails({
+  ...outfitResponse,
+  gender: values.gender,
+  subcategory: values.subcategory,
+}));
         dispatch(setOutfits(outfitResponse));
 
         formik.resetForm();

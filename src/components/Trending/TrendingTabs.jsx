@@ -31,7 +31,7 @@ const normalizeTendency = (item) => ({
 
 const TrendingTabs = () => {
     const dispatch = useDispatch();
-    const [activeTab, setActiveTab] = useState("");
+    const [activeTab, setActiveTab] = useState("All");
     const [open, setOpen] = useState(false);
     const [trends, setTrends] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -63,18 +63,14 @@ dispatch(setTendances(normalizedList));
     }, [dispatch]);
 
 const categories = useMemo(() => {
-  const allTags = trends.flatMap((item) => item.tags ?? []);
-
-  return [...new Set(allTags)];
+  const allCategories = trends.map((item) => item.category).filter(Boolean);
+  return ["All", ...new Set(allCategories)];
 }, [trends]);
-    useEffect(() => {
-        if (categories.length > 0 && !activeTab) {
-            setActiveTab(categories[0]);
-        }
-    }, [categories, activeTab]);
-
 const filteredTendencies = useMemo(
-  () => trends.filter((item) => item.tags?.includes(activeTab)),
+  () =>
+    activeTab === "All"
+      ? trends
+      : trends.filter((item) => item.category === activeTab),
   [trends, activeTab]
 );
 
