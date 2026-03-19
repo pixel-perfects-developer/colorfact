@@ -7,6 +7,7 @@ import { ArrowRightIcon } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { getAllTendencies } from "@/api/tendencies";
 import { setTendances, setSelectedTendance } from "@/redux/slices/tendencies";
+import { useRouter } from "next/navigation";
 
 const slugify = (text) =>
   text
@@ -37,7 +38,7 @@ const TrendingTabs = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const openDropdownRef = useRef(null);
-
+const router = useRouter();
     useEffect(() => {
         const fetchTendencies = async () => {
             try {
@@ -108,7 +109,7 @@ if (isLoading) {
     }
 
     return (
-        <div>
+        <>
             {/* DESKTOP TABS */}
             <div className="hidden lg:flex flex-wrap gap-4 justify-center items-center sticky top-[8%] bg-[#F9F3E9] py-[2%]">
                 {categories.map((cat,index) => (
@@ -140,20 +141,19 @@ if (isLoading) {
             </div>
 
             {/* TENDENCIES GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2  lg:flex lg:flex-wrap gap-6 w-full justify-center">
                 {filteredTendencies.length === 0 ? (
                     <div className="col-span-3 py-10 text-center text-gray-400">
                         <p>Aucune tendance disponible dans cette catégorie.</p>
                     </div>
                 ) : (
                     filteredTendencies.map((item) => (
-                        <Link
-                            href={`/tendances/${item.slug }`}
+                        <div
+                            onClick={()=>router.push(`/tendances/${item.slug }`)}
                             key={item.product_id}
-                            onClick={() => dispatch(setSelectedTendance(item))}
-                            className="lg:mt-[4%] flex flex-row items-start gap-x-[1rem] p-[0.5rem] lg:p-0 lg:flex-col lg:rounded-lg overflow-hidden border-b lg:border-gray-300 lg:border lg:border-gray-200 lg:bg-white lg:shadow-sm hover:shadow-lg transition cursor-pointer"
+                            className=" w-[100%] lg:w-[32%] flex flex-row  gap-x-[1rem] p-[0.5rem] lg:p-0 lg:flex-col lg:rounded-lg overflow-hidden border-b lg:border-gray-300 lg:border lg:border-gray-200 lg:bg-white lg:shadow-sm hover:shadow-lg transition cursor-pointer"
                         >
-                            <Image
+         <Image
                                 src={item.mainImage}
                                 alt={item.title}
                                 width={400}
@@ -186,11 +186,12 @@ if (isLoading) {
                                     </div>
                                 </div>
                             </div>
-                        </Link>
+                        </div>
+
                     ))
                 )}
             </div>
-        </div>
+        </>
     );
 };
 
